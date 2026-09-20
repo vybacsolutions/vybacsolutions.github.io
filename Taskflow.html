@@ -1,4 +1,2151 @@
 <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GRACIE Pro | Verified Task Marketplace</title>
+  <style>
+    :root {
+      --bg: #08111d;
+      --bg-soft: #111d2d;
+      --panel: rgba(15, 23, 35, 0.92);
+      --panel-strong: #132236;
+      --card: #0f1c2b;
+      --card-alt: #111f30;
+      --line: rgba(255, 255, 255, 0.08);
+      --text: #ecf4ff;
+      --muted: #9db2c9;
+      --gold: #f4c96d;
+      --gold-deep: #d79a1d;
+      --green: #32d296;
+      --green-deep: #1aa66d;
+      --blue: #60a5fa;
+      --red: #ff6b6b;
+      --shadow: 0 20px 50px rgba(0, 0, 0, 0.45);
+      --radius: 20px;
+      --radius-large: 30px;
+      --max: 1180px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      background:
+        radial-gradient(circle at top left, rgba(96, 165, 250, 0.18), transparent 28%),
+        radial-gradient(circle at bottom right, rgba(244, 201, 109, 0.12), transparent 26%),
+        var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+    img {
+      max-width: 100%;
+      display: block;
+    }
+    button,
+    input,
+    select,
+    textarea {
+      font: inherit;
+    }
+
+    .container {
+      width: min(var(--max), calc(100% - 24px));
+      margin: 0 auto;
+    }
+
+    .site-shell {
+      min-height: 100vh;
+      padding-bottom: 40px;
+    }
+
+    /* ---- TOPBAR ---- */
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 30;
+      backdrop-filter: blur(12px);
+      background: rgba(8, 17, 29, 0.72);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .topbar-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      min-height: 74px;
+      gap: 20px;
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 800;
+      letter-spacing: 0.02em;
+      font-size: 1.05rem;
+      cursor: pointer;
+    }
+
+    .brand-mark {
+      width: 38px;
+      height: 38px;
+      border-radius: 12px;
+      display: grid;
+      place-items: center;
+      background: linear-gradient(135deg, var(--gold), #ffda82);
+      color: #0d1724;
+      font-weight: 900;
+      box-shadow: 0 12px 25px rgba(244, 201, 109, 0.28);
+    }
+
+    .main-nav {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      color: var(--muted);
+      font-size: 0.94rem;
+    }
+
+    .main-nav a {
+      cursor: pointer;
+      transition: color 0.2s;
+    }
+    .main-nav a:hover {
+      color: var(--text);
+    }
+    .main-nav a.active {
+      color: var(--gold);
+    }
+
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    /* ---- BUTTONS ---- */
+    .btn {
+      border: 1px solid transparent;
+      border-radius: 999px;
+      padding: 12px 18px;
+      cursor: pointer;
+      transition: 0.2s ease;
+      font-weight: 700;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      white-space: nowrap;
+      background: rgba(255, 255, 255, 0.02);
+      color: var(--text);
+    }
+    .btn:hover {
+      transform: translateY(-1px);
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--gold), #ffcf5a);
+      color: #0b1522;
+      box-shadow: 0 12px 30px rgba(244, 201, 109, 0.25);
+    }
+    .btn-primary:hover {
+      box-shadow: 0 16px 40px rgba(244, 201, 109, 0.35);
+    }
+
+    .btn-secondary {
+      background: rgba(255, 255, 255, 0.02);
+      border-color: var(--line);
+      color: var(--text);
+    }
+    .btn-secondary:hover {
+      background: rgba(255, 255, 255, 0.06);
+    }
+
+    .btn-success {
+      background: var(--green);
+      color: #0b1522;
+    }
+    .btn-success:hover {
+      background: var(--green-deep);
+    }
+
+    .btn-danger {
+      background: var(--red);
+      color: #fff;
+    }
+    .btn-danger:hover {
+      background: #e55555;
+    }
+
+    .btn-sm {
+      padding: 8px 14px;
+      font-size: 0.82rem;
+    }
+
+    .btn-block {
+      width: 100%;
+    }
+
+    .btn:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+      transform: none !important;
+    }
+
+    /* ---- BADGES ---- */
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      border-radius: 999px;
+      padding: 4px 12px;
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.03em;
+      text-transform: uppercase;
+    }
+    .badge-gold {
+      background: rgba(244, 201, 109, 0.18);
+      color: var(--gold);
+      border: 1px solid rgba(244, 201, 109, 0.2);
+    }
+    .badge-green {
+      background: rgba(50, 210, 150, 0.18);
+      color: var(--green);
+      border: 1px solid rgba(50, 210, 150, 0.2);
+    }
+    .badge-red {
+      background: rgba(255, 107, 107, 0.18);
+      color: var(--red);
+      border: 1px solid rgba(255, 107, 107, 0.2);
+    }
+    .badge-blue {
+      background: rgba(96, 165, 250, 0.18);
+      color: var(--blue);
+      border: 1px solid rgba(96, 165, 250, 0.2);
+    }
+
+    /* ---- HERO ---- */
+    .hero {
+      padding: 60px 0 30px;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 26px;
+      align-items: center;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 9px 14px;
+      border-radius: 999px;
+      background: rgba(96, 165, 250, 0.12);
+      border: 1px solid rgba(96, 165, 250, 0.24);
+      color: #bfdbfe;
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      margin: 18px 0 16px;
+      font-size: clamp(2.4rem, 5vw, 4.5rem);
+      line-height: 1.08;
+      letter-spacing: -0.05em;
+    }
+
+    .gradient-title {
+      background: linear-gradient(135deg, #f7e5a2, #f4c96d 35%, #f2b156 70%, #f7d88f 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .lead {
+      font-size: 1.08rem;
+      color: var(--muted);
+      max-width: 60ch;
+      margin-bottom: 24px;
+    }
+
+    .cta-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      margin-bottom: 28px;
+    }
+
+    .hero-stats {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(120px, 1fr));
+      gap: 14px;
+      max-width: 560px;
+    }
+
+    .stat-box {
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 16px 18px;
+    }
+    .stat-box strong {
+      display: block;
+      font-size: 1.5rem;
+      margin-bottom: 3px;
+    }
+    .stat-box span {
+      color: var(--muted);
+      font-size: 0.82rem;
+    }
+
+    .hero-panel {
+      background: linear-gradient(180deg, rgba(24, 38, 56, 0.94), rgba(10, 16, 26, 0.94));
+      border: 1px solid var(--line);
+      border-radius: var(--radius-large);
+      box-shadow: var(--shadow);
+      padding: 18px;
+    }
+
+    .ticker-card {
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 18px;
+      margin-bottom: 16px;
+    }
+
+    .ticker-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: var(--muted);
+      font-size: 0.82rem;
+      margin-bottom: 12px;
+    }
+
+    .price-tag {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      font-size: 2rem;
+      font-weight: 800;
+      letter-spacing: -0.04em;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      border-radius: 999px;
+      background: rgba(50, 210, 150, 0.12);
+      color: var(--green);
+      border: 1px solid rgba(50, 210, 150, 0.2);
+      padding: 6px 12px;
+      font-size: 0.78rem;
+      font-weight: 700;
+    }
+
+    .task-preview {
+      display: grid;
+      gap: 12px;
+    }
+
+    .mini-task {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      padding: 14px 16px;
+      border-radius: 16px;
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid var(--line);
+    }
+    .mini-task strong {
+      font-size: 0.98rem;
+    }
+    .mini-task span {
+      color: var(--muted);
+      font-size: 0.78rem;
+    }
+    .mini-task .fee {
+      color: var(--gold);
+      font-weight: 800;
+    }
+
+    .trusted-banner {
+      padding: 20px 0 8px;
+      color: var(--muted);
+      font-size: 0.8rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    .logo-row {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(100px, 1fr));
+      gap: 10px;
+      margin-top: 18px;
+    }
+
+    .logo-pill {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 58px;
+      border-radius: 16px;
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid var(--line);
+      color: #dfe9f7;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      font-size: 0.8rem;
+      opacity: 0.8;
+    }
+
+    /* ---- SECTIONS ---- */
+    .section {
+      padding: 46px 0;
+    }
+
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: end;
+      gap: 12px;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+    }
+
+    .section-header h2 {
+      margin: 0;
+      font-size: clamp(1.8rem, 3vw, 2.6rem);
+      letter-spacing: -0.04em;
+    }
+
+    .section-sub {
+      color: var(--muted);
+      max-width: 60ch;
+    }
+
+    /* ---- CARDS ---- */
+    .card {
+      background: linear-gradient(180deg, rgba(17, 29, 42, 0.96), rgba(12, 18, 27, 0.96));
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 20px;
+      box-shadow: 0 18px 40px rgba(0, 0, 0, 0.18);
+    }
+
+    /* ---- TASK GRID ---- */
+    .task-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 20px;
+    }
+
+    .task-card {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .task-top,
+    .task-meta,
+    .task-action {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(96, 165, 250, 0.12);
+      border: 1px solid rgba(96, 165, 250, 0.18);
+      border-radius: 999px;
+      color: #dbeafe;
+      padding: 6px 10px;
+      font-size: 0.76rem;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+    }
+
+    .payout-box {
+      color: var(--gold);
+      font-weight: 800;
+      font-size: 1.15rem;
+    }
+
+    .task-card h3 {
+      margin: 0;
+      font-size: 1.28rem;
+      letter-spacing: -0.03em;
+    }
+
+    .task-card p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.94rem;
+    }
+
+    .meta-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 6px 10px;
+      color: var(--muted);
+      font-size: 0.75rem;
+      font-weight: 600;
+    }
+    .meta-pill strong {
+      color: var(--text);
+    }
+
+    .task-action {
+      margin-top: auto;
+      padding-top: 8px;
+      border-top: 1px solid var(--line);
+    }
+
+    .muted-text {
+      color: var(--muted);
+    }
+
+    /* ---- SPLIT LAYOUT ---- */
+    .split-layout {
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 22px;
+      align-items: start;
+    }
+
+    .steps {
+      display: grid;
+      gap: 16px;
+    }
+
+    .step-item {
+      display: grid;
+      grid-template-columns: 54px 1fr;
+      gap: 16px;
+      align-items: start;
+    }
+
+    .step-number {
+      width: 54px;
+      height: 54px;
+      border-radius: 18px;
+      display: grid;
+      place-items: center;
+      background: linear-gradient(135deg, rgba(244, 201, 109, 0.2), rgba(96, 165, 250, 0.14));
+      border: 1px solid rgba(244, 201, 109, 0.18);
+      font-weight: 800;
+      color: var(--gold);
+      font-size: 1.15rem;
+    }
+
+    .step-item h4 {
+      margin: 0 0 6px;
+      font-size: 1.05rem;
+    }
+    .step-item p {
+      margin: 0;
+      color: var(--muted);
+    }
+
+    .validator-panel {
+      display: grid;
+      gap: 16px;
+    }
+
+    .validator-card {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 18px 16px;
+      border-radius: 18px;
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid var(--line);
+    }
+
+    .validator-profile {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .avatar {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      font-weight: 800;
+      color: #0b1624;
+      background: linear-gradient(135deg, #d4e7ff, #f2c86e);
+    }
+
+    .validator-meta strong {
+      display: block;
+      font-size: 0.96rem;
+    }
+    .validator-meta span {
+      color: var(--muted);
+      font-size: 0.76rem;
+    }
+
+    .score {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-weight: 800;
+      color: var(--green);
+      font-size: 0.9rem;
+    }
+
+    /* ---- PACKAGE GRID ---- */
+    .package-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .package-card {
+      padding: 20px;
+      border-radius: var(--radius);
+      border: 1px solid var(--line);
+      background: linear-gradient(180deg, rgba(15, 30, 44, 0.96), rgba(8, 15, 23, 0.96));
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      min-height: 280px;
+      transition: border-color 0.3s, box-shadow 0.3s;
+    }
+
+    .package-card.active {
+      border-color: rgba(244, 201, 109, 0.55);
+      box-shadow: 0 0 0 1px rgba(244, 201, 109, 0.25), 0 18px 40px rgba(0, 0, 0, 0.2);
+    }
+
+    .package-card.locked {
+      opacity: 0.5;
+      pointer-events: none;
+    }
+
+    .package-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .package-card h3 {
+      margin: 0;
+      font-size: 1.2rem;
+    }
+
+    .package-price {
+      font-size: 2rem;
+      font-weight: 800;
+      letter-spacing: -0.05em;
+      margin: 4px 0;
+    }
+    .package-price small {
+      font-size: 0.9rem;
+      color: var(--muted);
+      letter-spacing: normal;
+    }
+
+    .package-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: grid;
+      gap: 8px;
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+    .package-list li::before {
+      content: "✓";
+      color: var(--green);
+      font-weight: 800;
+      margin-right: 8px;
+    }
+
+    /* ---- DEPOSIT ---- */
+    .deposit-wrap {
+      display: grid;
+      grid-template-columns: 1.05fr 0.95fr;
+      gap: 22px;
+      align-items: stretch;
+    }
+
+    .deposit-box,
+    .summary-box {
+      background: linear-gradient(180deg, rgba(17, 25, 38, 0.96), rgba(10, 13, 20, 0.96));
+      border: 1px solid var(--line);
+      border-radius: var(--radius-large);
+      padding: 24px;
+    }
+
+    .field-label {
+      display: block;
+      margin-bottom: 8px;
+      color: var(--muted);
+      font-size: 0.8rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    .amount-field,
+    .rate-field,
+    .select-field {
+      width: 100%;
+      border: 1px solid var(--line);
+      background: rgba(255, 255, 255, 0.02);
+      color: var(--text);
+      border-radius: 14px;
+      padding: 14px 16px;
+      outline: none;
+      font-weight: 600;
+    }
+
+    .amount-field:focus,
+    .rate-field:focus,
+    .select-field:focus {
+      border-color: rgba(244, 201, 109, 0.7);
+      box-shadow: 0 0 0 3px rgba(244, 201, 109, 0.12);
+    }
+
+    .amount-field:disabled,
+    .rate-field:disabled {
+      opacity: 0.6;
+    }
+
+    .field-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin-top: 18px;
+    }
+
+    .summary-list {
+      display: grid;
+      gap: 12px;
+      margin-top: 20px;
+    }
+
+    .summary-item {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid var(--line);
+      color: var(--muted);
+    }
+    .summary-item strong {
+      color: var(--text);
+    }
+
+    .summary-total {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      margin-top: 18px;
+      padding-top: 16px;
+      border-top: 1px solid var(--line);
+      font-size: 1.1rem;
+      font-weight: 800;
+    }
+
+    /* ---- FAQ ---- */
+    .faq {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .faq-card {
+      padding: 18px;
+      border-radius: 18px;
+      border: 1px solid var(--line);
+      background: rgba(255, 255, 255, 0.02);
+    }
+    .faq-card h4 {
+      margin: 0 0 8px;
+      font-size: 1rem;
+    }
+    .faq-card p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    /* ---- FOOTER ---- */
+    .footer {
+      padding: 28px 0 12px;
+      color: var(--muted);
+      text-align: center;
+      font-size: 0.9rem;
+    }
+
+    /* ---- HIDDEN / UTILITY ---- */
+    .hidden {
+      display: none !important;
+    }
+
+    /* ---- MODAL ---- */
+    .modal {
+      position: fixed;
+      inset: 0;
+      background: rgba(2, 6, 12, 0.74);
+      display: grid;
+      place-items: center;
+      z-index: 100;
+      padding: 18px;
+    }
+    .modal.hidden {
+      display: none;
+    }
+
+    .modal-card {
+      width: min(760px, 100%);
+      background: linear-gradient(180deg, rgba(17, 28, 41, 0.98), rgba(7, 12, 19, 0.99));
+      border: 1px solid var(--line);
+      border-radius: 28px;
+      padding: 22px;
+      box-shadow: var(--shadow);
+      max-height: 95vh;
+      overflow-y: auto;
+    }
+
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      align-items: center;
+      margin-bottom: 18px;
+    }
+
+    .modal-header h3 {
+      margin: 0;
+      font-size: 1.4rem;
+      letter-spacing: -0.03em;
+    }
+
+    .close-btn {
+      width: 38px;
+      height: 38px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      background: rgba(255, 255, 255, 0.02);
+      color: var(--text);
+      cursor: pointer;
+      font-size: 1.1rem;
+      transition: background 0.2s;
+    }
+    .close-btn:hover {
+      background: rgba(255, 255, 255, 0.06);
+    }
+
+    .package-choice-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+      margin-bottom: 18px;
+    }
+
+    .choice-card {
+      border-radius: 18px;
+      border: 1px solid var(--line);
+      padding: 16px;
+      background: rgba(255, 255, 255, 0.02);
+      cursor: pointer;
+      transition: 0.2s ease;
+    }
+    .choice-card:hover {
+      border-color: rgba(244, 201, 109, 0.5);
+    }
+    .choice-card.selected {
+      background: rgba(244, 201, 109, 0.06);
+      border-color: rgba(244, 201, 109, 0.7);
+      box-shadow: 0 0 0 1px rgba(244, 201, 109, 0.18);
+    }
+    .choice-card strong {
+      display: block;
+      font-size: 1.03rem;
+    }
+    .choice-card small {
+      color: var(--muted);
+    }
+
+    .modal-summary {
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 16px;
+      margin-top: 16px;
+    }
+
+    .modal-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 12px;
+      margin-top: 18px;
+    }
+
+    /* ---- TOAST ---- */
+    .toast-container {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      z-index: 999;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      max-width: 400px;
+    }
+
+    .toast {
+      padding: 14px 22px;
+      border-radius: 14px;
+      background: var(--panel-strong);
+      border: 1px solid var(--line);
+      color: var(--text);
+      font-weight: 500;
+      box-shadow: var(--shadow);
+      animation: slideUp 0.3s ease;
+      backdrop-filter: blur(8px);
+    }
+
+    .toast-success {
+      border-color: var(--green);
+    }
+    .toast-error {
+      border-color: var(--red);
+    }
+    .toast-info {
+      border-color: var(--blue);
+    }
+
+    @keyframes slideUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* ---- NOTIFICATIONS ---- */
+    .notification-badge {
+      background: var(--red);
+      color: #fff;
+      border-radius: 999px;
+      padding: 2px 10px;
+      font-size: 0.7rem;
+      font-weight: 700;
+      margin-left: 4px;
+    }
+
+    /* ---- ADMIN PANEL (hidden from users) ---- */
+    #admin-panel {
+      display: none;
+    }
+    #admin-panel.visible {
+      display: block;
+    }
+
+    .admin-grid {
+      display: grid;
+      grid-template-columns: 1fr 2fr;
+      gap: 20px;
+    }
+
+    .admin-sidebar {
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 16px;
+      max-height: 500px;
+      overflow-y: auto;
+    }
+
+    .admin-sidebar .admin-user-item {
+      padding: 10px 14px;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: background 0.15s;
+      border: 1px solid transparent;
+      margin-bottom: 4px;
+    }
+    .admin-sidebar .admin-user-item:hover {
+      background: rgba(255, 255, 255, 0.04);
+    }
+    .admin-sidebar .admin-user-item.active {
+      background: rgba(244, 201, 109, 0.08);
+      border-color: rgba(244, 201, 109, 0.2);
+    }
+
+    .admin-chat-area {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .admin-chat-messages {
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 16px;
+      max-height: 350px;
+      overflow-y: auto;
+      min-height: 200px;
+    }
+
+    .admin-chat-msg {
+      padding: 8px 14px;
+      border-radius: 16px;
+      margin-bottom: 6px;
+      max-width: 80%;
+    }
+    .admin-chat-msg.user {
+      background: rgba(96, 165, 250, 0.12);
+      margin-left: auto;
+      text-align: right;
+    }
+    .admin-chat-msg.admin {
+      background: rgba(244, 201, 109, 0.12);
+    }
+    .admin-chat-msg .time {
+      font-size: 0.65rem;
+      opacity: 0.5;
+      margin-left: 8px;
+    }
+
+    .admin-deposit-item {
+      padding: 14px;
+      border-radius: 14px;
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid var(--line);
+      margin-bottom: 10px;
+    }
+
+    .admin-deposit-item .actions {
+      display: flex;
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    /* ---- RESPONSIVE ---- */
+    @media (max-width: 980px) {
+      .hero-grid,
+      .split-layout,
+      .deposit-wrap,
+      .task-grid,
+      .package-grid,
+      .faq {
+        grid-template-columns: 1fr;
+      }
+      .main-nav {
+        display: none;
+      }
+      .topbar-inner {
+        min-height: 66px;
+      }
+      .admin-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .hero {
+        padding-top: 38px;
+      }
+      .hero-stats {
+        grid-template-columns: 1fr;
+      }
+      .cta-row {
+        flex-direction: column;
+        align-items: stretch;
+      }
+      .cta-row .btn {
+        width: 100%;
+      }
+      .package-choice-grid,
+      .field-row {
+        grid-template-columns: 1fr;
+      }
+      .nav-actions {
+        gap: 8px;
+      }
+      .brand {
+        font-size: 0.9rem;
+      }
+      .topbar-inner {
+        gap: 10px;
+      }
+      .logo-row {
+        grid-template-columns: repeat(2, minmax(120px, 1fr));
+      }
+      .modal-card {
+        padding: 16px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="site-shell" id="app">
+
+    <!-- ========== TOAST CONTAINER ========== -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <!-- ========== TOPBAR ========== -->
+    <header class="topbar">
+      <div class="container topbar-inner">
+        <a class="brand" id="brandLink">
+          <span class="brand-mark">T</span>
+          <span>TaskFlow Pro</span>
+        </a>
+
+        <nav class="main-nav" id="mainNav">
+          <a data-section="tasks">Tasks</a>
+          <a data-section="packages">Packages</a>
+          <a data-section="verify">Validators</a>
+          <a data-section="deposit">Deposit</a>
+          <a data-section="faq">FAQ</a>
+        </nav>
+
+        <div class="nav-actions" id="navActions">
+          <!-- Rendered by JS -->
+        </div>
+      </div>
+    </header>
+
+    <!-- ========== HERO ========== -->
+    <section class="hero container" id="home">
+      <div class="hero-grid">
+        <div>
+          <span class="eyebrow">Verified task marketplace</span>
+          <h1>Earn <span class="gradient-title">real payouts</span> from trusted digital work.</h1>
+          <p class="lead" id="heroLead">
+            Complete task jobs, track verified payouts, and deposit through secure payment packages built for fast and reliable workflows.
+          </p>
+
+          <div class="cta-row" id="heroCta">
+            <!-- Rendered by JS -->
+          </div>
+
+          <div class="hero-stats">
+            <div class="stat-box"><strong id="statUsers">3.2k+</strong><span>Active workers</span></div>
+            <div class="stat-box"><strong id="statPayouts">$84k</strong><span>Monthly payouts</span></div>
+            <div class="stat-box"><strong id="statVerified">99.2%</strong><span>Verified tasks</span></div>
+          </div>
+        </div>
+
+        <div class="hero-panel">
+          <div class="ticker-card">
+            <div class="ticker-top">
+              <span>USD / KES market</span>
+              <span class="pill">Live rate</span>
+            </div>
+            <div class="price-tag">
+              <span id="marketRateDisplay">128.50</span>
+              <small style="font-size: 0.82rem; color: var(--muted);">KES</small>
+            </div>
+          </div>
+
+          <div class="task-preview">
+            <div class="mini-task">
+              <div><strong>Resume Review</strong><span>Data / Editing</span></div>
+              <div class="fee">KES 3,200</div>
+            </div>
+            <div class="mini-task">
+              <div><strong>Data Entry</strong><span>Admin / Ops</span></div>
+              <div class="fee">KES 1,850</div>
+            </div>
+            <div class="mini-task">
+              <div><strong>Bulk Upload</strong><span>Content / QA</span></div>
+              <div class="fee">KES 4,600</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== TRUSTED BANNER ========== -->
+    <div class="container">
+      <div class="trusted-banner">Trusted by teams working across finance, support, content, and operations</div>
+      <div class="logo-row">
+        <div class="logo-pill">NEXA</div>
+        <div class="logo-pill">SYNQ</div>
+        <div class="logo-pill">VANTA</div>
+        <div class="logo-pill">PIVOT</div>
+        <div class="logo-pill">KITE</div>
+      </div>
+    </div>
+
+    <!-- ========== TASKS SECTION ========== -->
+    <section class="section container" id="tasks-section">
+      <div class="section-header">
+        <h2>Open tasks</h2>
+        <div class="section-sub">Each task shows the promised payout before you accept it.</div>
+      </div>
+      <div class="task-grid" id="taskGrid"></div>
+    </section>
+
+    <!-- ========== VERIFY / HOW IT WORKS ========== -->
+    <section class="section container" id="verify-section">
+      <div class="split-layout">
+        <div>
+          <div class="section-header" style="margin-bottom: 18px;">
+            <h2>How it works</h2>
+          </div>
+          <div class="steps">
+            <div class="step-item">
+              <div class="step-number">1</div>
+              <div><h4>Choose a task</h4><p>Filter by category, payout, and urgency. Every opportunity lists the exact promised reward before acceptance.</p></div>
+            </div>
+            <div class="step-item">
+              <div class="step-number">2</div>
+              <div><h4>Select a package</h4><p>Pick the most suitable access tier. Deposit values update automatically using the live USD-to-KES exchange rate.</p></div>
+            </div>
+            <div class="step-item">
+              <div class="step-number">3</div>
+              <div><h4>Validator checks and payout</h4><p>Approved work is reviewed by validators, then the payout is released to your wallet or withdrawal account.</p></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="validator-panel">
+          <div class="section-header" style="margin-bottom: 0;"><h2>Validators</h2></div>
+          <div class="validator-card">
+            <div class="validator-profile">
+              <div class="avatar">A</div>
+              <div class="validator-meta"><strong>Amina K.</strong><span>4,800 tasks reviewed</span></div>
+            </div>
+            <div class="score">98.6%</div>
+          </div>
+          <div class="validator-card">
+            <div class="validator-profile">
+              <div class="avatar">N</div>
+              <div class="validator-meta"><strong>Nelson M.</strong><span>3,240 tasks reviewed</span></div>
+            </div>
+            <div class="score">97.4%</div>
+          </div>
+          <div class="validator-card">
+            <div class="validator-profile">
+              <div class="avatar">R</div>
+              <div class="validator-meta"><strong>Ruth T.</strong><span>5,680 tasks reviewed</span></div>
+            </div>
+            <div class="score">99.2%</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== PACKAGES SECTION ========== -->
+    <section class="section container" id="packages-section">
+      <div class="section-header">
+        <h2>Package plans</h2>
+        <div class="section-sub">Choose the account tier that matches your workflow and deposit target.</div>
+      </div>
+      <div class="package-grid" id="packageGrid"></div>
+    </section>
+
+    <!-- ========== DEPOSIT SECTION ========== -->
+    <section class="section container" id="deposit-section">
+      <div class="section-header">
+        <h2>Deposit calculator</h2>
+        <div class="section-sub">The amount due updates automatically from the live exchange rate, calculated in KES for your selected package.</div>
+      </div>
+
+      <div class="deposit-wrap">
+        <div class="deposit-box">
+          <div class="field-label">Select package</div>
+          <select id="packageSelect" class="select-field"></select>
+
+          <div class="field-row">
+            <div>
+              <label class="field-label" for="marketRateInput">USD / KES rate</label>
+              <input id="marketRateInput" class="rate-field" type="number" min="1" step="0.01" value="128.5" />
+            </div>
+            <div>
+              <label class="field-label" for="depositAmountInput">Deposit amount (KES)</label>
+              <input id="depositAmountInput" class="amount-field" type="number" min="1" step="1" readonly />
+            </div>
+          </div>
+
+          <div class="field-row">
+            <div>
+              <label class="field-label" for="taskPayoutInput">Promised payout (KES)</label>
+              <input id="taskPayoutInput" class="amount-field" type="number" readonly />
+            </div>
+            <div>
+              <label class="field-label" for="walletInput">Wallet / payout method</label>
+              <input id="walletInput" class="select-field" type="text" value="M-Pesa" readonly />
+            </div>
+          </div>
+        </div>
+
+        <div class="summary-box">
+          <div class="section-header" style="margin-bottom: 10px;">
+            <h2 style="font-size: 1.6rem;">Summary</h2>
+          </div>
+
+          <div class="summary-list">
+            <div class="summary-item"><span>Package</span><strong id="summaryPackage">Standard</strong></div>
+            <div class="summary-item"><span>USD cost</span><strong id="summaryUSD">$50.00</strong></div>
+            <div class="summary-item"><span>Live exchange rate</span><strong id="summaryRate">1 USD = 128.50 KES</strong></div>
+            <div class="summary-item"><span>Calculated KES deposit</span><strong id="summaryKES">KES 6,425</strong></div>
+          </div>
+
+          <div class="summary-total">
+            <span>Total due</span>
+            <span id="summaryTotal">KES 6,425</span>
+          </div>
+
+          <button class="btn btn-primary btn-block" type="button" style="margin-top: 22px;" id="continueDepositBtn">Continue to deposit</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== FAQ ========== -->
+    <section class="section container" id="faq-section">
+      <div class="section-header">
+        <h2>FAQs</h2>
+        <div class="section-sub">Everything you need to know before taking your first task.</div>
+      </div>
+      <div class="faq">
+        <div class="faq-card"><h4>How do payouts work?</h4><p>Once the validator approves your task, the reward is released from the task payout schedule into your wallet or withdrawal account.</p></div>
+        <div class="faq-card"><h4>Why do I need a package?</h4><p>Packages unlock access to tasks and define your account capability, payout multiplier, and withdrawal threshold.</p></div>
+        <div class="faq-card"><h4>How is the deposit amount calculated?</h4><p>The system multiplies your selected package value by the live USD-to-KES rate so the amount always reflects the current market price.</p></div>
+      </div>
+    </section>
+
+    <!-- ========== FOOTER ========== -->
+    <footer class="footer container">
+      © 2026 TaskFlow Pro. Verified jobs, transparent payouts, trusted validators.
+    </footer>
+  </div>
+
+  <!-- ========== MODAL ========== -->
+  <div id="taskModal" class="modal hidden" aria-modal="true" role="dialog">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3 id="modalTitle">Take task</h3>
+        <button class="close-btn" type="button" id="closeModalBtn">×</button>
+      </div>
+
+      <div class="card" style="margin-bottom: 18px;">
+        <div class="task-top">
+          <span class="tag" id="modalTag">Marketing</span>
+          <span class="payout-box" id="modalPayout">KES 0</span>
+        </div>
+        <p id="modalDesc" style="margin-top: 12px; color: var(--muted);">Task details</p>
+      </div>
+
+      <div class="package-choice-grid" id="packageChoiceGrid"></div>
+
+      <div class="modal-summary">
+        <div class="summary-item"><span>Selected plan</span><strong id="modalPlanName">Standard</strong></div>
+        <div class="summary-item"><span>Deposit in KES</span><strong id="modalPlanKsh">KES 6,425</strong></div>
+        <div class="summary-item"><span>Current market rate</span><strong id="modalRate">1 USD = 128.50 KES</strong></div>
+      </div>
+
+      <div class="modal-actions">
+        <button class="btn btn-secondary" type="button" id="cancelModalBtn">Cancel</button>
+        <button class="btn btn-primary" type="button" id="confirmTaskBtn">Continue to deposit</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== ADMIN PANEL (hidden from users) ========== -->
+  <div id="admin-panel" class="container" style="padding: 40px 0;">
+    <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;margin-bottom:24px;">
+      <h2>🛡️ Admin Panel</h2>
+      <div style="display:flex;gap:12px;flex-wrap:wrap;">
+        <button class="btn btn-secondary btn-sm" id="adminTabPending">⏳ Pending Deposits</button>
+        <button class="btn btn-secondary btn-sm" id="adminTabUsers">👥 Users</button>
+        <button class="btn btn-secondary btn-sm" id="adminTabChats">💬 Support Chats</button>
+        <button class="btn btn-danger btn-sm" id="adminLogoutBtn">Exit Admin</button>
+      </div>
+    </div>
+
+    <!-- Pending Deposits -->
+    <div id="adminPendingContainer"></div>
+
+    <!-- Users -->
+    <div id="adminUsersContainer" class="hidden"></div>
+
+    <!-- Support Chats -->
+    <div id="adminChatsContainer" class="hidden">
+      <div class="admin-grid">
+        <div class="admin-sidebar" id="adminUserList"></div>
+        <div class="admin-chat-area">
+          <div class="admin-chat-messages" id="adminChatMessages">
+            <p class="muted-text">Select a user from the left to view their chat.</p>
+          </div>
+          <div style="display:flex;gap:10px;" id="adminChatReplyArea">
+            <input id="adminChatInput" class="amount-field" placeholder="Type a reply..." style="flex:1;" />
+            <button class="btn btn-primary btn-sm" id="adminChatSendBtn">Send</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // ============================================================
+    //  DATA LAYER – IndexedDB
+    // ============================================================
+    const DB_NAME = 'TaskFlowDB';
+    const STORE_NAME = 'users';
+
+    function openDB() {
+      return new Promise((resolve, reject) => {
+        const request = indexedDB.open(DB_NAME, 1);
+        request.onupgradeneeded = (e) => {
+          const db = e.target.result;
+          if (!db.objectStoreNames.contains(STORE_NAME)) {
+            db.createObjectStore(STORE_NAME, { keyPath: 'id' });
+          }
+        };
+        request.onsuccess = (e) => resolve(e.target.result);
+        request.onerror = (e) => reject(e.target.error);
+      });
+    }
+
+    async function getAllUsers() {
+      const db = await openDB();
+      return new Promise((resolve, reject) => {
+        const tx = db.transaction(STORE_NAME, 'readonly');
+        const req = tx.objectStore(STORE_NAME).getAll();
+        req.onsuccess = () => resolve(req.result || []);
+        req.onerror = () => reject(req.error);
+      });
+    }
+
+    async function getUserById(id) {
+      const users = await getAllUsers();
+      return users.find(u => u.id === id) || null;
+    }
+
+    async function saveUser(user) {
+      const db = await openDB();
+      return new Promise((resolve, reject) => {
+        const tx = db.transaction(STORE_NAME, 'readwrite');
+        const req = tx.objectStore(STORE_NAME).put(user);
+        req.onsuccess = () => resolve(user);
+        req.onerror = () => reject(req.error);
+      });
+    }
+
+    // ============================================================
+    //  APP STATE
+    // ============================================================
+    const TASKS = [
+      { id: 'resume-review', title: 'Resume Review', category: 'Editing', payout: 3200,
+        desc: 'Review and restructure a candidate resume for clarity and ATS optimization.' },
+      { id: 'data-entry', title: 'Data Entry', category: 'Admin', payout: 1850,
+        desc: 'Clean and format spreadsheet records with 100% data accuracy.' },
+      { id: 'bulk-upload', title: 'Bulk Upload', category: 'Content', payout: 4600,
+        desc: 'Organize and upload a large content package with category labels.' },
+      { id: 'social-ops', title: 'Social Ops', category: 'Marketing', payout: 5100,
+        desc: 'Create post schedules, captions, and engagement tracking for brand channels.' }
+    ];
+
+    const PACKAGES = [
+      { id: 'starter', name: 'Starter', usd: 15, multiplier: 1,
+        features: ['Basic access', 'Task entry level', 'Limited withdrawals'] },
+      { id: 'standard', name: 'Standard', usd: 50, multiplier: 1.5,
+        features: ['Priority tasks', 'Higher payout rate', 'Better withdrawal tier'] },
+      { id: 'gold', name: 'Gold', usd: 120, multiplier: 2,
+        features: ['Elite access', 'VIP task slots', 'Higher cap support'] },
+      { id: 'diamond', name: 'Diamond', usd: 200, multiplier: 3,
+        features: ['Top-tier priority', 'Premium validator coverage', 'Maximum withdrawal'] }
+    ];
+
+    const ADMIN_CRED = { email: 'admin@taskflow.com', password: 'admin123' };
+
+    let currentUser = null;
+    let exchangeRate = 128.5;
+    let selectedPackageId = 'standard';
+    let currentTaskId = null;
+    let adminSelectedUserId = null;
+    let adminTab = 'pending';
+
+    // ============================================================
+    //  HELPERS
+    // ============================================================
+    function formatKsh(v) { return Math.round(v).toLocaleString('en-KE'); }
+
+    function getPackage(id) { return PACKAGES.find(p => p.id === id) || PACKAGES[1]; }
+
+    function getTask(id) { return TASKS.find(t => t.id === id) || TASKS[0]; }
+
+    function calcKsh(usd) { return Math.round(usd * exchangeRate); }
+
+    function toast(msg, type = 'info') {
+      const container = document.getElementById('toastContainer');
+      const el = document.createElement('div');
+      el.className = `toast toast-${type}`;
+      el.textContent = msg;
+      container.appendChild(el);
+      setTimeout(() => { el.style.opacity = '0';
+        el.style.transition = 'opacity 0.3s';
+        setTimeout(() => el.remove(), 400); }, 3500);
+    }
+
+    function generateId() { return 'u_' + Date.now() + '_' + Math.random().toString(36).slice(2, 6); }
+
+    // ============================================================
+    //  AUTH
+    // ============================================================
+    function renderNav() {
+      const nav = document.getElementById('navActions');
+      if (currentUser) {
+        nav.innerHTML = `
+          <span style="color:var(--muted);font-size:0.85rem;">${currentUser.email}</span>
+          <span class="badge badge-gold">${currentUser.package ? getPackage(currentUser.package).name : 'No Pkg'}</span>
+          <span style="color:var(--gold);font-weight:700;">KES ${formatKsh(currentUser.balance)}</span>
+          <button class="btn btn-secondary btn-sm" onclick="handleLogout()">Logout</button>
+          ${currentUser.isAdmin ? '<button class="btn btn-primary btn-sm" onclick="toggleAdminPanel()">Admin</button>' : ''}
+        `;
+      } else {
+        nav.innerHTML = `
+          <button class="btn btn-secondary btn-sm" onclick="showLoginModal()">Login</button>
+          <button class="btn btn-primary btn-sm" onclick="showRegisterModal()">Join now</button>
+        `;
+      }
+    }
+
+    function renderHeroCta() {
+      const cta = document.getElementById('heroCta');
+      if (currentUser) {
+        cta.innerHTML = `
+          <a href="#tasks-section" class="btn btn-primary">Browse tasks</a>
+          <a href="#packages-section" class="btn btn-secondary">View packages</a>
+          ${currentUser.package ? `<span class="badge badge-green">${getPackage(currentUser.package).name} Active</span>` :
+            `<span class="badge badge-red">No package — deposit to start</span>`}
+        `;
+      } else {
+        cta.innerHTML = `
+          <a href="#tasks-section" class="btn btn-primary">Browse tasks</a>
+          <a href="#packages-section" class="btn btn-secondary">View packages</a>
+        `;
+      }
+    }
+
+    async function handleLogin(email, password) {
+      const users = await getAllUsers();
+      const user = users.find(u => u.email === email && u.password === password);
+      if (!user) { toast('Invalid credentials', 'error'); return false; }
+      currentUser = user;
+      localStorage.setItem('taskflow_user', user.id);
+      toast('Welcome back!', 'success');
+      renderAll();
+      return true;
+    }
+
+    async function handleRegister(email, password, phone) {
+      if (!email || !password || !phone) { toast('All fields required', 'error'); return false; }
+      const users = await getAllUsers();
+      if (users.find(u => u.email === email)) { toast('Email already exists', 'error'); return false; }
+      const newUser = {
+        id: generateId(),
+        email,
+        password,
+        phone,
+        package: null,
+        balance: 0,
+        deposits: [],
+        tasksCompleted: [],
+        withdrawals: [],
+        chat: [],
+        isAdmin: false,
+        createdAt: new Date().toISOString()
+      };
+      await saveUser(newUser);
+      currentUser = newUser;
+      localStorage.setItem('taskflow_user', newUser.id);
+      toast('Registered successfully!', 'success');
+      renderAll();
+      return true;
+    }
+
+    async function handleLogout() {
+      currentUser = null;
+      localStorage.removeItem('taskflow_user');
+      document.getElementById('admin-panel').classList.remove('visible');
+      renderAll();
+      toast('Logged out');
+    }
+
+    // ============================================================
+    //  MODALS (simple inline prompts)
+    // ============================================================
+    function showLoginModal() {
+      const email = prompt('Enter your email:');
+      if (!email) return;
+      const password = prompt('Enter your password:');
+      if (!password) return;
+      handleLogin(email, password);
+    }
+
+    function showRegisterModal() {
+      const email = prompt('Enter email:');
+      if (!email) return;
+      const password = prompt('Enter password:');
+      if (!password) return;
+      const phone = prompt('Enter phone number (M-Pesa):');
+      if (!phone) return;
+      handleRegister(email, password, phone);
+    }
+
+    // ============================================================
+    //  RENDER TASKS
+    // ============================================================
+    function renderTasks() {
+      const grid = document.getElementById('taskGrid');
+      const canTake = currentUser && currentUser.package;
+
+      grid.innerHTML = TASKS.map(task => {
+        const done = currentUser && currentUser.tasksCompleted && currentUser.tasksCompleted.some(t => t.taskId === task.id);
+        const pkg = currentUser && currentUser.package ? getPackage(currentUser.package) : null;
+        const actualPayout = pkg ? Math.round(task.payout * pkg.multiplier) : task.payout;
+
+        return `
+          <article class="card task-card">
+            <div class="task-top">
+              <span class="tag">${task.category}</span>
+              <span class="payout-box">KES ${formatKsh(actualPayout)}</span>
+            </div>
+            <h3>${task.title}</h3>
+            <p>${task.desc}</p>
+            <div class="task-meta">
+              <span class="meta-pill"><strong>ETA</strong> 24h</span>
+              <span class="meta-pill"><strong>Verified</strong> Yes</span>
+            </div>
+            <div class="task-action">
+              <span class="muted-text">${done ? '✅ Completed' : 'Promised: KES ' + formatKsh(actualPayout)}</span>
+              ${done ? '<span class="badge badge-green">Done</span>' :
+                canTake ? `<button class="btn btn-primary btn-sm take-task" data-task-id="${task.id}">Take task</button>` :
+                `<button class="btn btn-secondary btn-sm" disabled>Login & get package</button>`}
+            </div>
+          </article>
+        `;
+      }).join('');
+
+      document.querySelectorAll('.take-task').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const id = btn.dataset.taskId;
+          currentTaskId = id;
+          openTaskModal(id);
+        });
+      });
+    }
+
+    // ============================================================
+    //  RENDER PACKAGES
+    // ============================================================
+    function renderPackages() {
+      const grid = document.getElementById('packageGrid');
+      const hasPackage = currentUser && currentUser.package;
+
+      grid.innerHTML = PACKAGES.map(pkg => {
+        const isActive = hasPackage && currentUser.package === pkg.id;
+        const isLocked = !currentUser;
+        const ksh = calcKsh(pkg.usd);
+
+        return `
+          <article class="package-card ${isActive ? 'active' : ''} ${isLocked ? 'locked' : ''}">
+            <div class="package-header">
+              <h3>${pkg.name}</h3>
+              ${isActive ? '<span class="badge badge-green">Active</span>' : ''}
+              ${isLocked ? '<span class="badge badge-red">Login required</span>' : ''}
+            </div>
+            <div>
+              <div class="package-price">$${pkg.usd}<small>USD</small></div>
+              <div class="muted-text">≈ KES ${formatKsh(ksh)}</div>
+            </div>
+            <ul class="package-list">${pkg.features.map(f => `<li>${f}</li>`).join('')}</ul>
+            ${isActive ? `<button class="btn btn-secondary btn-sm" disabled>Active</button>` :
+              isLocked ? `<button class="btn btn-secondary btn-sm" onclick="showLoginModal()">Login to select</button>` :
+              `<button class="btn btn-primary btn-sm select-package" data-pkg="${pkg.id}">Select package</button>`}
+          </article>
+        `;
+      }).join('');
+
+      document.querySelectorAll('.select-package').forEach(btn => {
+        btn.addEventListener('click', async () => {
+          const pkgId = btn.dataset.pkg;
+          selectedPackageId = pkgId;
+          await handleSelectPackage(pkgId);
+        });
+      });
+    }
+
+    async function handleSelectPackage(pkgId) {
+      if (!currentUser) { toast('Please login first', 'error'); return; }
+      const pkg = getPackage(pkgId);
+      const ksh = calcKsh(pkg.usd);
+      const confirm = window.confirm(`Select ${pkg.name} package? Deposit: KES ${formatKsh(ksh)}. This will submit a deposit request for admin approval.`);
+      if (!confirm) return;
+
+      // Submit deposit request
+      currentUser.deposits.push({
+        packageId: pkgId,
+        amount: ksh,
+        method: 'mpesa',
+        reference: 'REF-' + Date.now(),
+        message: `Deposit for ${pkg.name} package`,
+        status: 'pending',
+        createdAt: new Date().toISOString()
+      });
+      await saveUser(currentUser);
+      toast(`Deposit request for ${pkg.name} submitted! Waiting for admin approval.`, 'success');
+      renderAll();
+    }
+
+    // ============================================================
+    //  DEPOSIT CALCULATOR
+    // ============================================================
+    function renderDepositCalculator() {
+      const pkg = getPackage(selectedPackageId);
+      const ksh = calcKsh(pkg.usd);
+      const taskPayout = currentTaskId ? getTask(currentTaskId).payout : 3200;
+      const pkgMultiplier = currentUser && currentUser.package ? getPackage(currentUser.package).multiplier : 1;
+      const actualPayout = Math.round(taskPayout * pkgMultiplier);
+
+      document.getElementById('packageSelect').innerHTML = PACKAGES.map(p =>
+        `<option value="${p.id}" ${p.id === selectedPackageId ? 'selected' : ''}>${p.name} — $${p.usd} USD</option>`
+      ).join('');
+
+      document.getElementById('marketRateInput').value = exchangeRate.toFixed(2);
+      document.getElementById('depositAmountInput').value = ksh;
+      document.getElementById('taskPayoutInput').value = actualPayout;
+      document.getElementById('summaryPackage').textContent = pkg.name;
+      document.getElementById('summaryUSD').textContent = `$${pkg.usd.toFixed(2)}`;
+      document.getElementById('summaryRate').textContent = `1 USD = ${exchangeRate.toFixed(2)} KES`;
+      document.getElementById('summaryKES').textContent = `KES ${formatKsh(ksh)}`;
+      document.getElementById('summaryTotal').textContent = `KES ${formatKsh(ksh)}`;
+      document.getElementById('marketRateDisplay').textContent = exchangeRate.toFixed(2);
+    }
+
+    // ============================================================
+    //  TASK MODAL
+    // ============================================================
+    function openTaskModal(taskId) {
+      const task = getTask(taskId);
+      const modal = document.getElementById('taskModal');
+      modal.classList.remove('hidden');
+
+      const pkg = getPackage(selectedPackageId);
+      const ksh = calcKsh(pkg.usd);
+      const actualPayout = currentUser && currentUser.package ? Math.round(task.payout * getPackage(currentUser.package).multiplier) :
+        task.payout;
+
+      document.getElementById('modalTitle').textContent = `Take task: ${task.title}`;
+      document.getElementById('modalTag').textContent = task.category;
+      document.getElementById('modalPayout').textContent = `KES ${formatKsh(actualPayout)}`;
+      document.getElementById('modalDesc').textContent = task.desc;
+      document.getElementById('modalPlanName').textContent = pkg.name;
+      document.getElementById('modalPlanKsh').textContent = `KES ${formatKsh(ksh)}`;
+      document.getElementById('modalRate').textContent = `1 USD = ${exchangeRate.toFixed(2)} KES`;
+
+      // Package choices
+      const grid = document.getElementById('packageChoiceGrid');
+      grid.innerHTML = PACKAGES.map(p => {
+        const sel = p.id === selectedPackageId;
+        const k = calcKsh(p.usd);
+        return `
+          <div class="choice-card ${sel ? 'selected' : ''}" data-modal-pkg="${p.id}">
+            <strong>${p.name}</strong>
+            <small>$${p.usd} USD • KES ${formatKsh(k)}</small>
+          </div>
+        `;
+      }).join('');
+
+      document.querySelectorAll('[data-modal-pkg]').forEach(el => {
+        el.addEventListener('click', () => {
+          selectedPackageId = el.dataset.modalPkg;
+          openTaskModal(taskId); // re-render
+          renderDepositCalculator();
+          renderPackages();
+        });
+      });
+    }
+
+    document.getElementById('closeModalBtn').addEventListener('click', () => {
+      document.getElementById('taskModal').classList.add('hidden');
+    });
+    document.getElementById('cancelModalBtn').addEventListener('click', () => {
+      document.getElementById('taskModal').classList.add('hidden');
+    });
+
+    document.getElementById('confirmTaskBtn').addEventListener('click', async () => {
+      if (!currentUser) { toast('Please login first', 'error'); return; }
+      const pkg = getPackage(selectedPackageId);
+      const ksh = calcKsh(pkg.usd);
+
+      // Check if user already has this package
+      if (currentUser.package === pkg.id) {
+        toast(`You already have ${pkg.name} package!`, 'info');
+        document.getElementById('taskModal').classList.add('hidden');
+        return;
+      }
+
+      // Submit deposit
+      currentUser.deposits.push({
+        packageId: pkg.id,
+        amount: ksh,
+        method: 'mpesa',
+        reference: 'REF-' + Date.now(),
+        message: `Deposit for ${pkg.name} package via task modal`,
+        status: 'pending',
+        createdAt: new Date().toISOString()
+      });
+      await saveUser(currentUser);
+      toast(`Deposit for ${pkg.name} submitted! Admin approval pending.`, 'success');
+      document.getElementById('taskModal').classList.add('hidden');
+      renderAll();
+    });
+
+    // ============================================================
+    //  ADMIN PANEL
+    // ============================================================
+    let adminLoggedIn = false;
+
+    function toggleAdminPanel() {
+      const panel = document.getElementById('admin-panel');
+      if (!adminLoggedIn) {
+        const email = prompt('Admin email:');
+        if (email !== ADMIN_CRED.email) { toast('Invalid admin credentials', 'error'); return; }
+        const pass = prompt('Admin password:');
+        if (pass !== ADMIN_CRED.password) { toast('Invalid admin credentials', 'error'); return; }
+        adminLoggedIn = true;
+        toast('Admin access granted', 'success');
+      }
+      panel.classList.toggle('visible');
+      if (panel.classList.contains('visible')) {
+        renderAdminPanel();
+      }
+    }
+
+    document.getElementById('adminLogoutBtn').addEventListener('click', () => {
+      adminLoggedIn = false;
+      document.getElementById('admin-panel').classList.remove('visible');
+      toast('Admin logged out');
+    });
+
+    // Admin tabs
+    document.getElementById('adminTabPending').addEventListener('click', () => { adminTab = 'pending';
+      renderAdminPanel(); });
+    document.getElementById('adminTabUsers').addEventListener('click', () => { adminTab = 'users';
+      renderAdminPanel(); });
+    document.getElementById('adminTabChats').addEventListener('click', () => { adminTab = 'chats';
+      renderAdminPanel(); });
+
+    async function renderAdminPanel() {
+      if (!adminLoggedIn) return;
+      const users = await getAllUsers();
+
+      // Show/hide containers
+      document.getElementById('adminPendingContainer').classList.toggle('hidden', adminTab !== 'pending');
+      document.getElementById('adminUsersContainer').classList.toggle('hidden', adminTab !== 'users');
+      document.getElementById('adminChatsContainer').classList.toggle('hidden', adminTab !== 'chats');
+
+      if (adminTab === 'pending') renderAdminPending(users);
+      if (adminTab === 'users') renderAdminUsers(users);
+      if (adminTab === 'chats') renderAdminChats(users);
+    }
+
+    async function renderAdminPending(users) {
+      const container = document.getElementById('adminPendingContainer');
+      const pending = [];
+      users.forEach(u => {
+        u.deposits.forEach((d, idx) => {
+          if (d.status === 'pending') pending.push({ user: u, deposit: d, index: idx });
+        });
+      });
+
+      if (pending.length === 0) {
+        container.innerHTML = '<p class="muted-text">No pending deposits.</p>';
+        return;
+      }
+
+      container.innerHTML = pending.map(({ user, deposit, index }) => {
+        const pkg = getPackage(deposit.packageId);
+        return `
+          <div class="admin-deposit-item">
+            <div style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;">
+              <strong>${user.email}</strong>
+              <span class="badge badge-blue">${pkg ? pkg.name : 'Unknown'}</span>
+            </div>
+            <div style="display:flex;gap:20px;flex-wrap:wrap;margin-top:6px;">
+              <span>Amount: <strong>KES ${formatKsh(deposit.amount)}</strong></span>
+              <span>Ref: ${deposit.reference}</span>
+            </div>
+            <div style="color:var(--muted);font-size:0.85rem;margin-top:4px;">${deposit.message}</div>
+            <div class="actions">
+              <button class="btn btn-success btn-sm admin-approve" data-user="${user.id}" data-idx="${index}">✅ Approve</button>
+              <button class="btn btn-danger btn-sm admin-reject" data-user="${user.id}" data-idx="${index}">❌ Reject</button>
+            </div>
+          </div>
+        `;
+      }).join('');
+
+      document.querySelectorAll('.admin-approve').forEach(btn => {
+        btn.addEventListener('click', () => adminApproveDeposit(btn.dataset.user, parseInt(btn.dataset.idx)));
+      });
+      document.querySelectorAll('.admin-reject').forEach(btn => {
+        btn.addEventListener('click', () => adminRejectDeposit(btn.dataset.user, parseInt(btn.dataset.idx)));
+      });
+    }
+
+    async function adminApproveDeposit(userId, idx) {
+      const user = await getUserById(userId);
+      if (!user) { toast('User not found', 'error'); return; }
+      const dep = user.deposits[idx];
+      if (!dep || dep.status !== 'pending') { toast('Deposit not pending', 'error'); return; }
+      dep.status = 'approved';
+      const pkg = getPackage(dep.packageId);
+      if (pkg) {
+        user.package = pkg.id;
+        user.balance = (user.balance || 0) + dep.amount;
+      }
+      await saveUser(user);
+      toast(`Deposit approved for ${user.email}`, 'success');
+      if (currentUser && currentUser.id === user.id) {
+        currentUser = user;
+        renderAll();
+      }
+      renderAdminPanel();
+    }
+
+    async function adminRejectDeposit(userId, idx) {
+      const user = await getUserById(userId);
+      if (!user) { toast('User not found', 'error'); return; }
+      const dep = user.deposits[idx];
+      if (!dep || dep.status !== 'pending') { toast('Deposit not pending', 'error'); return; }
+      dep.status = 'rejected';
+      await saveUser(user);
+      toast(`Deposit rejected for ${user.email} (funds may be lost per disclaimer)`, 'error');
+      renderAdminPanel();
+    }
+
+    function renderAdminUsers(users) {
+      const container = document.getElementById('adminUsersContainer');
+      if (users.length === 0) {
+        container.innerHTML = '<p class="muted-text">No users registered.</p>';
+        return;
+      }
+      container.innerHTML = users.map(u => {
+        const pkg = u.package ? getPackage(u.package) : null;
+        return `
+          <div class="card" style="padding:14px;margin-bottom:10px;">
+            <div style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;">
+              <strong>${u.email}</strong>
+              <span>${u.phone}</span>
+            </div>
+            <div style="display:flex;gap:16px;flex-wrap:wrap;margin-top:6px;font-size:0.9rem;">
+              <span>Package: ${pkg ? pkg.name : 'None'}</span>
+              <span>Balance: <strong>KES ${formatKsh(u.balance)}</strong></span>
+              <span>Deposits: ${u.deposits.length}</span>
+              <span>Tasks: ${u.tasksCompleted ? u.tasksCompleted.length : 0}</span>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    async function renderAdminChats(users) {
+      const list = document.getElementById('adminUserList');
+      list.innerHTML = users.map(u =>
+        `<div class="admin-user-item ${adminSelectedUserId === u.id ? 'active' : ''}" data-uid="${u.id}">
+          ${u.email} (${u.chat ? u.chat.length : 0} msgs)
+        </div>`
+      ).join('');
+
+      document.querySelectorAll('.admin-user-item').forEach(el => {
+        el.addEventListener('click', () => {
+          adminSelectedUserId = el.dataset.uid;
+          renderAdminChats(users);
+          loadAdminChat(adminSelectedUserId);
+        });
+      });
+
+      if (adminSelectedUserId) {
+        loadAdminChat(adminSelectedUserId);
+      }
+    }
+
+    async function loadAdminChat(userId) {
+      const user = await getUserById(userId);
+      const container = document.getElementById('adminChatMessages');
+      if (!user) {
+        container.innerHTML = '<p class="muted-text">User not found.</p>';
+        return;
+      }
+      const msgs = user.chat || [];
+      container.innerHTML = msgs.length === 0 ?
+        '<p class="muted-text">No messages yet.</p>' :
+        msgs.map(m =>
+          `<div class="admin-chat-msg ${m.sender}">
+            ${m.text}
+            <span class="time">${new Date(m.time).toLocaleTimeString()}</span>
+          </div>`
+        ).join('');
+      container.scrollTop = container.scrollHeight;
+    }
+
+    document.getElementById('adminChatSendBtn').addEventListener('click', async () => {
+      if (!adminSelectedUserId) { toast('Select a user first', 'error'); return; }
+      const input = document.getElementById('adminChatInput');
+      const text = input.value.trim();
+      if (!text) return;
+      const user = await getUserById(adminSelectedUserId);
+      if (!user) { toast('User not found', 'error'); return; }
+      if (!user.chat) user.chat = [];
+      user.chat.push({ sender: 'admin', text, time: new Date().toISOString() });
+      await saveUser(user);
+      input.value = '';
+      loadAdminChat(adminSelectedUserId);
+      toast('Reply sent');
+      if (currentUser && currentUser.id === user.id) {
+        currentUser = user;
+        renderAll();
+      }
+    });
+
+    // ============================================================
+    //  NAVIGATION
+    // ============================================================
+    document.querySelectorAll('[data-section]').forEach(link => {
+      link.addEventListener('click', () => {
+        const section = link.dataset.section;
+        const el = document.getElementById(section + '-section');
+        if (el) el.scrollIntoView({ behavior: 'smooth' });
+      });
+    });
+
+    document.getElementById('brandLink').addEventListener('click', () => {
+      document.getElementById('home').scrollIntoView({ behavior: 'smooth' });
+    });
+
+    // ============================================================
+    //  DEPOSIT CALCULATOR EVENTS
+    // ============================================================
+    document.getElementById('packageSelect').addEventListener('change', (e) => {
+      selectedPackageId = e.target.value;
+      renderDepositCalculator();
+      renderPackages();
+    });
+
+    document.getElementById('marketRateInput').addEventListener('input', (e) => {
+      const val = parseFloat(e.target.value);
+      if (val > 0) {
+        exchangeRate = val;
+        renderDepositCalculator();
+        renderPackages();
+      }
+    });
+
+    document.getElementById('continueDepositBtn').addEventListener('click', async () => {
+      if (!currentUser) { toast('Please login first', 'error'); return; }
+      const pkg = getPackage(selectedPackageId);
+      const ksh = calcKsh(pkg.usd);
+      if (currentUser.package === pkg.id) {
+        toast(`You already have ${pkg.name} package!`, 'info');
+        return;
+      }
+      currentUser.deposits.push({
+        packageId: pkg.id,
+        amount: ksh,
+        method: 'mpesa',
+        reference: 'REF-' + Date.now(),
+        message: `Deposit for ${pkg.name} package`,
+        status: 'pending',
+        createdAt: new Date().toISOString()
+      });
+      await saveUser(currentUser);
+      toast(`Deposit for ${pkg.name} submitted! Admin approval pending.`, 'success');
+      renderAll();
+    });
+
+    // ============================================================
+    //  RENDER ALL
+    // ============================================================
+    function renderAll() {
+      renderNav();
+      renderHeroCta();
+      renderTasks();
+      renderPackages();
+      renderDepositCalculator();
+      if (adminLoggedIn && document.getElementById('admin-panel').classList.contains('visible')) {
+        renderAdminPanel();
+      }
+    }
+
+    // ============================================================
+    //  INIT
+    // ============================================================
+    (async function init() {
+      const savedId = localStorage.getItem('taskflow_user');
+      if (savedId) {
+        const user = await getUserById(savedId);
+        if (user) {
+          currentUser = user;
+          if (user.isAdmin) adminLoggedIn = true;
+        }
+      }
+      renderAll();
+    })();
+
+    // Expose functions globally for inline onclick
+    window.handleLogin = handleLogin;
+    window.handleRegister = handleRegister;
+    window.handleLogout = handleLogout;
+    window.showLoginModal = showLoginModal;
+    window.showRegisterModal = showRegisterModal;
+    window.toggleAdminPanel = toggleAdminPanel;
+    window.adminApproveDeposit = adminApproveDeposit;
+    window.adminRejectDeposit = adminRejectDeposit;
+  </script>
+</body>
+   </html>
+<!DOCTYPE html>
 <html lang="en" data-theme="dark">
 <head>
 <meta charset="utf-8">
