@@ -1,3421 +1,753 @@
-
+  
 <!DOCTYPE html>
-<html lang="en" data-theme="dark">
+<html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>BAPI MATCHES AI — Intelligent Digit Analysis. Controlled Execution.</title>
-<meta name="description" content="Automated Deriv digit analysis and controlled execution platform. Multi-window statistics, candidate scoring and risk-controlled paper trading.">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sheilah Cowmart — Premium Cattle Marketplace</title>
 <style>
-/* ==========================================================================
-   PURE MATCHES AI — STYLESHEET
-   1. Tokens & Reset
-   2. Layout Shell
-   3. Landing Page
-   4. App Shell (Sidebar / Topbar)
-   5. Cards & Components
-   6. Dashboard Modules
-   7. Tables
-   8. Forms & Controls
-   9. Charts
-   10. Toasts & Modals
-   11. Animations
-   12. Responsive
-   ========================================================================== */
-
-/* ---------- 1. TOKENS & RESET ---------- */
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-
-:root{
-  --bg-0:#05070d;
-  --bg-1:#080b14;
-  --bg-2:#0c1019;
-  --surface:rgba(255,255,255,.035);
-  --surface-2:rgba(255,255,255,.055);
-  --border:rgba(255,255,255,.075);
-  --border-2:rgba(255,255,255,.13);
-  --text:#e8ecf5;
-  --text-2:#9aa6bd;
-  --text-3:#5f6b82;
-  --accent:#3b82f6;
-  --accent-2:#60a5fa;
-  --accent-soft:rgba(59,130,246,.14);
-  --green:#22c55e;
-  --green-soft:rgba(34,197,94,.13);
-  --red:#ef4444;
-  --red-soft:rgba(239,68,68,.13);
-  --amber:#f59e0b;
-  --amber-soft:rgba(245,158,11,.13);
-  --radius:14px;
-  --radius-sm:9px;
-  --shadow:0 18px 50px -22px rgba(0,0,0,.9);
-  --mono:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,monospace;
-  --sans:"Inter",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
-}
-
-[data-theme="light"]{
-  --bg-0:#eef1f7;
-  --bg-1:#f6f8fc;
-  --bg-2:#ffffff;
-  --surface:rgba(15,23,42,.025);
-  --surface-2:rgba(15,23,42,.05);
-  --border:rgba(15,23,42,.09);
-  --border-2:rgba(15,23,42,.16);
-  --text:#0f172a;
-  --text-2:#4a5568;
-  --text-3:#8592a8;
-  --accent:#2563eb;
-  --accent-2:#1d4ed8;
-  --accent-soft:rgba(37,99,235,.1);
-  --shadow:0 18px 40px -26px rgba(15,23,42,.4);
-}
-
-html,body{height:100%}
-body{
-  font-family:var(--sans);
-  background:var(--bg-0);
-  color:var(--text);
-  font-size:14px;
-  line-height:1.55;
-  -webkit-font-smoothing:antialiased;
-  overflow-x:hidden;
-}
-[data-theme="dark"] body{
-  background:
-    radial-gradient(1100px 620px at 12% -12%, rgba(59,130,246,.13), transparent 62%),
-    radial-gradient(900px 520px at 92% 4%, rgba(96,165,250,.08), transparent 60%),
-    var(--bg-0);
-  background-attachment:fixed;
-}
-a{color:inherit;text-decoration:none}
-button,input,select,textarea{font:inherit;color:inherit}
-canvas{display:block;width:100%}
-::selection{background:var(--accent-soft)}
-::-webkit-scrollbar{width:10px;height:10px}
-::-webkit-scrollbar-track{background:transparent}
-::-webkit-scrollbar-thumb{background:var(--border-2);border-radius:20px;border:3px solid transparent;background-clip:content-box}
-
-/* ---------- 2. LAYOUT SHELL ---------- */
-.screen{display:none;min-height:100vh}
-.screen.active{display:block}
-.hidden{display:none !important}
-.muted{color:var(--text-2)}
-.small{font-size:12px}
-.mono{font-family:var(--mono)}
-
-/* ---------- 3. LANDING ---------- */
-.landing .nav{
-  position:sticky;top:0;z-index:60;
-  display:flex;align-items:center;gap:24px;
-  padding:16px 32px;
-  backdrop-filter:blur(18px);
-  background:color-mix(in srgb, var(--bg-0) 78%, transparent);
-  border-bottom:1px solid var(--border);
-}
-.brand{display:flex;align-items:center;gap:11px}
-.brand strong{display:block;font-size:14px;letter-spacing:.04em}
-.brand small{display:block;font-size:10.5px;color:var(--text-3);letter-spacing:.02em}
-.brand-text{display:flex;flex-direction:column;line-height:1.25}
-.nav-links{display:flex;align-items:center;gap:22px;margin-left:auto;font-size:13px}
-.nav-links a{color:var(--text-2);transition:color .18s}
-.nav-links a:hover{color:var(--text)}
-.nav-toggle{display:none;background:none;border:1px solid var(--border);border-radius:8px;padding:6px 11px;cursor:pointer;margin-left:auto}
-
-.hero{position:relative;padding:100px 32px 80px;overflow:hidden}
-.hero-glow{
-  position:absolute;inset:-30% 30% 40% 10%;
-  background:radial-gradient(closest-side, rgba(59,130,246,.22), transparent 72%);
-  filter:blur(38px);pointer-events:none;
-}
-.hero-inner{position:relative;max-width:900px;margin:0 auto;text-align:center}
-.pill{
-  display:inline-block;padding:6px 15px;border-radius:99px;
-  border:1px solid var(--border-2);background:var(--surface);
-  font-size:11px;letter-spacing:.13em;color:var(--text-2);margin-bottom:26px;
-}
-.hero h1{
-  font-size:clamp(38px,7vw,68px);letter-spacing:-.03em;font-weight:800;
-  background:linear-gradient(180deg,var(--text) 30%, var(--text-3));
-  -webkit-background-clip:text;background-clip:text;color:transparent;
-  margin-bottom:14px;
-}
-.hero h2{font-size:clamp(17px,2.7vw,26px);font-weight:500;color:var(--text-2);letter-spacing:-.015em;line-height:1.42;margin-bottom:26px}
-.lede{max-width:640px;margin:0 auto 36px;color:var(--text-2);font-size:15px}
-.hero-actions{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-bottom:26px}
-.fineprint{font-size:11.5px;color:var(--text-3);max-width:640px;margin:0 auto;line-height:1.65}
-
-.section{max-width:1180px;margin:0 auto;padding:70px 32px}
-.section-title{font-size:22px;letter-spacing:-.015em;margin-bottom:30px;font-weight:650}
-.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(258px,1fr));gap:16px}
-.card{
-  background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);
-  padding:22px;backdrop-filter:blur(12px);
-  transition:border-color .2s, transform .2s, background .2s;
-}
-.card:hover{border-color:var(--border-2);transform:translateY(-2px)}
-.card-ico{
-  width:38px;height:38px;display:grid;place-items:center;border-radius:10px;
-  background:var(--accent-soft);color:var(--accent-2);font-size:16px;margin-bottom:14px;
-}
-.card h4{font-size:14.5px;margin-bottom:7px;letter-spacing:-.005em}
-.card p{font-size:13px;color:var(--text-2);line-height:1.6}
-
-.pipeline{display:flex;flex-direction:column;align-items:center;gap:7px;max-width:420px;margin:0 auto}
-.pipe{
-  width:100%;text-align:center;padding:13px 18px;border-radius:11px;
-  border:1px solid var(--border);background:var(--surface);
-  font-size:11.5px;letter-spacing:.14em;font-weight:600;color:var(--text-2);
-}
-.pipe.split{display:flex;gap:10px;padding:0;border:0;background:none}
-.pipe.split span{flex:1;padding:13px;border-radius:11px;border:1px solid var(--border);font-size:11.5px;letter-spacing:.14em;font-weight:600}
-.pipe .no{color:var(--red);background:var(--red-soft);border-color:rgba(239,68,68,.25) !important}
-.pipe .yes{color:var(--green);background:var(--green-soft);border-color:rgba(34,197,94,.25) !important}
-.arrow{color:var(--text-3);font-size:13px;line-height:1}
-
-.risk-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px}
-
-.footer{
-  border-top:1px solid var(--border);padding:38px 32px;
-  display:flex;flex-wrap:wrap;gap:22px;justify-content:space-between;
-  max-width:1180px;margin:0 auto;font-size:12.5px;color:var(--text-2);
-}
-.footer strong{font-size:13px;color:var(--text);letter-spacing:.04em}
-
-/* ---------- 4. APP SHELL ---------- */
-.app-shell{display:grid;grid-template-columns:236px 1fr;min-height:100vh}
-.sidebar{
-  border-right:1px solid var(--border);
-  background:color-mix(in srgb, var(--bg-1) 82%, transparent);
-  backdrop-filter:blur(16px);
-  display:flex;flex-direction:column;padding:18px 14px;gap:8px;
-  position:sticky;top:0;height:100vh;
-}
-.sb-brand{display:flex;align-items:center;gap:10px;padding:6px 8px 18px;border-bottom:1px solid var(--border);margin-bottom:10px}
-.sb-brand strong{display:block;font-size:12.5px;letter-spacing:.05em}
-.sb-brand small{display:block;font-size:10px;color:var(--text-3)}
-.sb-nav{display:flex;flex-direction:column;gap:3px;flex:1}
-.sb-nav a{
-  display:flex;align-items:center;gap:11px;padding:10px 12px;border-radius:9px;
-  font-size:13px;color:var(--text-2);cursor:pointer;transition:all .16s;border:1px solid transparent;
-}
-.sb-nav a:hover{background:var(--surface);color:var(--text)}
-.sb-nav a.active{background:var(--accent-soft);color:var(--accent-2);border-color:rgba(59,130,246,.22)}
-.sb-nav a .ico{width:16px;text-align:center;font-size:13px;opacity:.85}
-.sb-foot{border-top:1px solid var(--border);padding-top:12px}
-
-.main-col{display:flex;flex-direction:column;min-width:0}
-.topbar{
-  display:flex;align-items:center;gap:20px;flex-wrap:wrap;
-  padding:12px 22px;border-bottom:1px solid var(--border);
-  background:color-mix(in srgb, var(--bg-0) 72%, transparent);
-  backdrop-filter:blur(16px);position:sticky;top:0;z-index:40;
-}
-.tb-item{display:flex;flex-direction:column;gap:3px;min-width:0}
-.tb-label{font-size:9.5px;letter-spacing:.15em;color:var(--text-3);font-weight:600}
-.tb-spacer{flex:1}
-.status{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:600;letter-spacing:.04em}
-.status .dot{width:7px;height:7px;border-radius:50%;background:var(--text-3);flex:none}
-.status.ok{color:var(--green)} .status.ok .dot{background:var(--green);box-shadow:0 0 0 3px var(--green-soft)}
-.status.warn{color:var(--amber)} .status.warn .dot{background:var(--amber);box-shadow:0 0 0 3px var(--amber-soft)}
-.status.err{color:var(--red)} .status.err .dot{background:var(--red);box-shadow:0 0 0 3px var(--red-soft)}
-.status.idle{color:var(--text-3)}
-.status.live .dot{animation:pulse 1.6s infinite}
-
-.content{padding:20px 22px 60px;flex:1}
-.page{display:none;animation:fadeUp .28s ease}
-.page.active{display:block}
-.page-head{display:flex;align-items:baseline;gap:14px;margin-bottom:18px;flex-wrap:wrap}
-.page-head h2{font-size:19px;letter-spacing:-.015em;font-weight:650}
-.page-head p{font-size:12.5px;color:var(--text-2)}
-
-/* ---------- 5. CARDS & COMPONENTS ---------- */
-.grid{display:grid;grid-template-columns:repeat(12,1fr);gap:14px}
-.span-3{grid-column:span 3} .span-4{grid-column:span 4}
-.span-5{grid-column:span 5} .span-6{grid-column:span 6}
-.span-7{grid-column:span 7} .span-8{grid-column:span 8}
-.span-12{grid-column:span 12}
-@media(max-width:1180px){.span-3,.span-4,.span-5{grid-column:span 6}}
-@media(max-width:820px){.grid>*{grid-column:span 12 !important}}
-
-.card-h{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:14px}
-.card-h h3{font-size:10.5px;letter-spacing:.16em;color:var(--text-3);font-weight:700}
-.badge{
-  font-size:10px;letter-spacing:.1em;font-weight:700;padding:3.5px 9px;border-radius:6px;
-  background:var(--surface-2);color:var(--text-2);border:1px solid var(--border);
-}
-.badge.green{background:var(--green-soft);color:var(--green);border-color:rgba(34,197,94,.25)}
-.badge.red{background:var(--red-soft);color:var(--red);border-color:rgba(239,68,68,.25)}
-.badge.amber{background:var(--amber-soft);color:var(--amber);border-color:rgba(245,158,11,.25)}
-.badge.blue{background:var(--accent-soft);color:var(--accent-2);border-color:rgba(59,130,246,.25)}
-
-.btn{
-  display:inline-flex;align-items:center;justify-content:center;gap:8px;
-  padding:9px 16px;border-radius:9px;border:1px solid var(--border-2);
-  background:var(--surface);cursor:pointer;font-size:12.5px;font-weight:600;
-  letter-spacing:.02em;transition:all .16s;white-space:nowrap;
-}
-.btn:hover{background:var(--surface-2);border-color:var(--border-2);transform:translateY(-1px)}
-.btn:active{transform:translateY(0)}
-.btn:disabled{opacity:.4;cursor:not-allowed;transform:none}
-.btn-primary{background:var(--accent);border-color:var(--accent);color:#fff}
-.btn-primary:hover{background:var(--accent-2);border-color:var(--accent-2)}
-.btn-green{background:var(--green);border-color:var(--green);color:#04140a}
-.btn-green:hover{filter:brightness(1.1)}
-.btn-red{background:var(--red-soft);border-color:rgba(239,68,68,.3);color:var(--red)}
-.btn-amber{background:var(--amber-soft);border-color:rgba(245,158,11,.3);color:var(--amber)}
-.btn-ghost{background:transparent}
-.btn-lg{padding:12px 26px;font-size:13px}
-.btn-sm{padding:6px 11px;font-size:11.5px}
-.btn-block{width:100%}
-.icon-btn{
-  width:34px;height:34px;display:grid;place-items:center;border-radius:9px;
-  border:1px solid var(--border);background:var(--surface);cursor:pointer;font-size:14px;
-}
-.icon-btn:hover{background:var(--surface-2)}
-
-/* ---------- 6. DASHBOARD MODULES ---------- */
-.big-digit{
-  font-family:var(--mono);font-size:74px;font-weight:700;line-height:1;
-  text-align:center;padding:14px 0 12px;letter-spacing:-.04em;
-  color:var(--text);transition:color .2s;
-}
-.big-digit.accent{color:var(--accent-2)}
-.big-digit.flash{animation:digitPop .42s ease}
-.prev-digits{
-  display:flex;gap:5px;flex-wrap:wrap;justify-content:center;
-  font-family:var(--mono);font-size:14px;color:var(--text-2);margin-top:4px;
-}
-.prev-digits span{
-  width:24px;height:26px;display:grid;place-items:center;border-radius:6px;
-  background:var(--surface);border:1px solid var(--border);
-}
-.stat-row{display:flex;justify-content:space-between;align-items:center;padding:7px 0;border-bottom:1px solid var(--border);font-size:12.5px}
-.stat-row:last-child{border-bottom:0}
-.stat-row span{color:var(--text-2)}
-.stat-row b{font-family:var(--mono);font-weight:600}
-.pos{color:var(--green)} .neg{color:var(--red)} .neu{color:var(--text-2)}
-
-.decision{
-  margin-top:14px;padding:12px;border-radius:10px;text-align:center;
-  font-size:12px;letter-spacing:.11em;font-weight:700;
-  background:var(--surface-2);color:var(--text-2);border:1px solid var(--border);
-}
-.decision.trade{background:var(--green-soft);color:var(--green);border-color:rgba(34,197,94,.3)}
-.decision.notrade{background:var(--red-soft);color:var(--red);border-color:rgba(239,68,68,.28)}
-.decision.wait{background:var(--amber-soft);color:var(--amber);border-color:rgba(245,158,11,.28)}
-
-.controls{display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:9px;margin-bottom:14px}
-.ctl-state{
-  display:flex;align-items:center;gap:9px;padding:11px 14px;border-radius:10px;
-  background:var(--surface);border:1px solid var(--border);font-size:12px;
-}
-.ctl-state .k{color:var(--text-3);font-size:10px;letter-spacing:.13em;font-weight:700}
-.ctl-state .v{font-weight:700;letter-spacing:.05em;font-family:var(--mono)}
-
-.reason-list{display:flex;flex-direction:column;gap:7px;font-size:12.5px}
-.reason-list div{display:flex;gap:9px;align-items:flex-start;color:var(--text-2)}
-.reason-list .ic{font-weight:700;flex:none;width:14px;text-align:center}
-.reason-list .ok .ic{color:var(--green)}
-.reason-list .no .ic{color:var(--red)}
-.reason-list .warn .ic{color:var(--amber)}
-
-.tick-stream{
-  display:grid;grid-template-columns:repeat(25,1fr);gap:4px;
-  font-family:var(--mono);font-size:12.5px;
-}
-@media(max-width:820px){.tick-stream{grid-template-columns:repeat(10,1fr)}}
-.tick-stream span{
-  display:grid;place-items:center;height:27px;border-radius:5px;
-  background:var(--surface);border:1px solid var(--border);color:var(--text-2);
-  transition:all .2s;
-}
-.tick-stream span.newest{background:var(--accent-soft);border-color:rgba(59,130,246,.35);color:var(--accent-2);font-weight:700}
-
-.digit-board{display:grid;grid-template-columns:repeat(auto-fit,minmax(128px,1fr));gap:10px}
-.dcard{
-  padding:13px;border-radius:11px;background:var(--surface);
-  border:1px solid var(--border);transition:all .2s;
-}
-.dcard.best{border-color:rgba(34,197,94,.42);background:var(--green-soft)}
-.dcard-h{font-size:10px;letter-spacing:.12em;color:var(--text-3);font-weight:700;margin-bottom:8px}
-.dcard-h b{font-size:17px;color:var(--text);font-family:var(--mono);margin-left:3px}
-.dcard-score{font-family:var(--mono);font-size:23px;font-weight:700;margin-bottom:9px}
-.dcard-row{display:flex;justify-content:space-between;font-size:11px;color:var(--text-2);padding:2.5px 0;font-family:var(--mono)}
-.dcard-row em{font-style:normal;color:var(--text-3)}
-.dcard-cons{margin-top:8px;font-size:10px;letter-spacing:.1em;font-weight:700;text-align:center;padding:4px;border-radius:6px;background:var(--surface-2);color:var(--text-3)}
-.dcard-cons.HIGH{background:var(--green-soft);color:var(--green)}
-.dcard-cons.MEDIUM{background:var(--amber-soft);color:var(--amber)}
-.dcard-cons.LOW{background:var(--red-soft);color:var(--red)}
-
-/* ---------- 7. TABLES ---------- */
-.table-wrap{overflow-x:auto;border-radius:var(--radius);border:1px solid var(--border)}
-table{width:100%;border-collapse:collapse;font-size:12.5px;min-width:720px}
-thead th{
-  text-align:left;padding:11px 14px;font-size:10px;letter-spacing:.14em;
-  color:var(--text-3);font-weight:700;background:var(--surface);border-bottom:1px solid var(--border);
-  position:sticky;top:0;
-}
-tbody td{padding:10px 14px;border-bottom:1px solid var(--border);font-family:var(--mono)}
-tbody tr:last-child td{border-bottom:0}
-tbody tr:hover{background:var(--surface)}
-.empty{padding:46px 20px;text-align:center;color:var(--text-3);font-size:13px}
-
-.filters{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}
-.chip{
-  padding:6px 13px;border-radius:99px;border:1px solid var(--border);
-  background:var(--surface);font-size:11.5px;cursor:pointer;color:var(--text-2);
-  transition:all .16s;font-weight:600;
-}
-.chip:hover{background:var(--surface-2);color:var(--text)}
-.chip.active{background:var(--accent-soft);border-color:rgba(59,130,246,.35);color:var(--accent-2)}
-
-.metric-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(158px,1fr));gap:11px}
-.metric{padding:15px;border-radius:11px;background:var(--surface);border:1px solid var(--border)}
-.metric .k{font-size:9.5px;letter-spacing:.14em;color:var(--text-3);font-weight:700;margin-bottom:6px}
-.metric .v{font-family:var(--mono);font-size:20px;font-weight:700}
-
-/* ---------- 8. FORMS ---------- */
-.field{display:flex;flex-direction:column;gap:6px;margin-bottom:14px}
-.field label{font-size:10.5px;letter-spacing:.12em;color:var(--text-3);font-weight:700}
-.input,.select{
-  padding:9.5px 12px;border-radius:9px;border:1px solid var(--border);
-  background:var(--surface);font-size:13px;transition:border-color .16s;width:100%;
-}
-.input:focus,.select:focus{outline:none;border-color:var(--accent);background:var(--surface-2)}
-select.select{cursor:pointer;appearance:none;
-  background-image:linear-gradient(45deg,transparent 50%,var(--text-3) 50%),linear-gradient(135deg,var(--text-3) 50%,transparent 50%);
-  background-position:calc(100% - 16px) 50%,calc(100% - 11px) 50%;
-  background-size:5px 5px,5px 5px;background-repeat:no-repeat;padding-right:32px;
-}
-.select option{background:var(--bg-2);color:var(--text)}
-.field-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.form-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:0 16px}
-.section-block{border-top:1px solid var(--border);padding-top:16px;margin-top:6px}
-.section-block h4{font-size:11px;letter-spacing:.15em;color:var(--text-3);font-weight:700;margin-bottom:14px}
-
-/* ---------- 9. CHARTS ---------- */
-.chart-box{position:relative;width:100%;height:230px}
-.chart-box.tall{height:280px}
-.legend{display:flex;gap:14px;flex-wrap:wrap;font-size:11px;color:var(--text-2);margin-top:10px}
-.legend i{display:inline-block;width:9px;height:9px;border-radius:3px;margin-right:5px;vertical-align:middle}
-
-/* ---------- 10. TOASTS & MODALS ---------- */
-#toasts{position:fixed;right:18px;bottom:18px;z-index:200;display:flex;flex-direction:column;gap:9px;max-width:340px}
-.toast{
-  padding:12px 15px;border-radius:11px;border:1px solid var(--border-2);
-  background:color-mix(in srgb, var(--bg-2) 94%, transparent);
-  backdrop-filter:blur(14px);box-shadow:var(--shadow);
-  font-size:12.5px;display:flex;gap:10px;align-items:flex-start;
-  animation:slideIn .3s cubic-bezier(.2,.8,.3,1);
-}
-.toast.out{animation:slideOut .25s forwards}
-.toast .ti{flex:none;font-weight:700}
-.toast.ok .ti{color:var(--green)} .toast.err .ti{color:var(--red)}
-.toast.warn .ti{color:var(--amber)} .toast.info .ti{color:var(--accent-2)}
-
-.modal-backdrop{
-  position:fixed;inset:0;z-index:300;display:grid;place-items:center;padding:20px;
-  background:rgba(3,5,10,.78);backdrop-filter:blur(7px);
-  animation:fadeIn .2s ease;
-}
-.modal{
-  width:100%;max-width:480px;border-radius:16px;padding:26px;
-  background:var(--bg-2);border:1px solid var(--border-2);box-shadow:var(--shadow);
-  animation:modalIn .28s cubic-bezier(.2,.8,.3,1);
-}
-.modal h3{font-size:17px;margin-bottom:6px;letter-spacing:-.01em}
-.modal .warn-box{
-  padding:13px;border-radius:10px;background:var(--red-soft);
-  border:1px solid rgba(239,68,68,.28);color:var(--red);
-  font-size:12.5px;line-height:1.65;margin:16px 0;
-}
-.modal .warn-box ul{margin:8px 0 0 18px}
-.modal-actions{display:flex;gap:10px;justify-content:flex-end;margin-top:20px;flex-wrap:wrap}
-
-/* ---------- 11. ANIMATIONS ---------- */
-@keyframes fadeIn{from{opacity:0}to{opacity:1}}
-@keyframes fadeUp{from{opacity:0;transform:translateY(7px)}to{opacity:1;transform:none}}
-@keyframes slideIn{from{opacity:0;transform:translateX(22px)}to{opacity:1;transform:none}}
-@keyframes slideOut{to{opacity:0;transform:translateX(22px)}}
-@keyframes modalIn{from{opacity:0;transform:scale(.96) translateY(10px)}to{opacity:1;transform:none}}
-@keyframes digitPop{0%{transform:scale(.82);opacity:.4}60%{transform:scale(1.06)}100%{transform:scale(1);opacity:1}}
-@keyframes pulse{0%,100%{opacity:1}50%{opacity:.32}}
-@keyframes spin{to{transform:rotate(360deg)}}
-.spinner{
-  width:15px;height:15px;border:2px solid var(--border-2);
-  border-top-color:var(--accent-2);border-radius:50%;
-  animation:spin .7s linear infinite;display:inline-block;vertical-align:middle;
-}
-.loading{display:flex;align-items:center;justify-content:center;gap:9px;padding:36px;color:var(--text-3);font-size:12.5px}
-
-/* ---------- 12. RESPONSIVE ---------- */
-.only-mobile{display:none}
-@media(max-width:980px){
-  .app-shell{grid-template-columns:1fr}
-  .sidebar{
-    position:fixed;left:0;top:0;bottom:0;width:250px;z-index:120;
-    transform:translateX(-102%);transition:transform .26s cubic-bezier(.2,.8,.3,1);
-    background:var(--bg-1);
+  :root{
+    --bg:#0f1512;
+    --surface:#16201b;
+    --surface-2:#1d2a23;
+    --line:#2a3a31;
+    --text:#e8f0eb;
+    --muted:#8fa79a;
+    --accent:#4ade80;
+    --accent-dark:#22c55e;
+    --danger:#f87171;
+    --radius:14px;
   }
-  .sidebar.open{transform:none;box-shadow:var(--shadow)}
-  .only-mobile{display:grid}
-  .nav-links{display:none;position:absolute;top:100%;left:0;right:0;flex-direction:column;
-    background:var(--bg-1);border-bottom:1px solid var(--border);padding:16px 22px;gap:14px;align-items:flex-start}
-  .nav-links.open{display:flex}
-  .nav-toggle{display:block}
-  .topbar{gap:12px;padding:10px 14px}
-  .content{padding:14px 14px 50px}
-  .section{padding:46px 20px}
-  .hero{padding:64px 20px 54px}
-}
-@media(max-width:560px){
-  .tb-item .tb-label{font-size:9px}
-  .big-digit{font-size:58px}
-  .metric .v{font-size:17px}
-}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{
+    font-family:'Segoe UI',system-ui,-apple-system,sans-serif;
+    background:var(--bg);color:var(--text);min-height:100vh;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:1180px;margin:0 auto;padding:0 20px}
+  .muted{color:var(--muted)}
+  button{font-family:inherit}
+
+  /* ---------- Header ---------- */
+  .site-header{
+    position:sticky;top:0;z-index:50;
+    background:rgba(15,21,18,.85);backdrop-filter:blur(12px);
+    border-bottom:1px solid var(--line);
+  }
+  .header-inner{display:flex;align-items:center;gap:16px;height:68px}
+  .logo{font-weight:800;font-size:1.15rem;letter-spacing:-.02em;white-space:nowrap}
+  .nav{display:flex;gap:4px;margin-left:20px}
+  .nav-btn{
+    background:none;border:none;color:var(--muted);font-weight:600;
+    font-size:.9rem;padding:8px 14px;border-radius:10px;cursor:pointer;transition:.18s;
+  }
+  .nav-btn:hover{color:var(--text);background:var(--surface-2)}
+  .nav-btn.active{color:var(--accent);background:rgba(74,222,128,.1)}
+  .header-actions{margin-left:auto;display:flex;gap:10px;align-items:center}
+
+  /* ---------- Buttons ---------- */
+  .btn{
+    border:none;border-radius:10px;padding:10px 16px;font-size:.88rem;
+    font-weight:700;cursor:pointer;transition:.18s;display:inline-flex;
+    align-items:center;gap:8px;justify-content:center;
+  }
+  .btn-primary{background:var(--accent);color:#06210f}
+  .btn-primary:hover{background:var(--accent-dark);transform:translateY(-1px)}
+  .btn-primary:disabled{opacity:.45;cursor:not-allowed;transform:none}
+  .btn-ghost{background:transparent;border:1px solid var(--line);color:var(--text)}
+  .btn-ghost:hover{border-color:var(--accent);color:var(--accent)}
+  .btn-block{width:100%}
+  .icon-btn{
+    background:none;border:none;color:var(--muted);font-size:1.05rem;
+    cursor:pointer;padding:6px 10px;border-radius:8px;transition:.18s;
+  }
+  .icon-btn:hover{color:var(--text);background:var(--surface-2)}
+  .badge{
+    display:inline-grid;place-items:center;min-width:20px;height:20px;padding:0 6px;
+    border-radius:999px;background:var(--accent);color:#06210f;font-size:.7rem;font-weight:800;
+  }
+  .link-danger{
+    background:none;border:none;color:var(--danger);font-size:.75rem;
+    font-weight:600;cursor:pointer;padding:2px 0;
+  }
+  .link-danger:hover{text-decoration:underline}
+
+  /* ---------- Hero ---------- */
+  .hero{
+    margin:32px 0;padding:44px 40px;border-radius:var(--radius);
+    background:linear-gradient(135deg,#14301f 0%,#16283a 100%);
+    border:1px solid var(--line);position:relative;overflow:hidden;
+  }
+  .hero::after{
+    content:'🐄';position:absolute;right:28px;bottom:-14px;
+    font-size:7rem;opacity:.13;pointer-events:none;
+  }
+  .hero h1{font-size:clamp(1.6rem,4vw,2.3rem);letter-spacing:-.03em;margin-bottom:10px}
+  .hero p{color:var(--muted);max-width:520px;line-height:1.6;font-size:.95rem}
+  .hero-tags{display:flex;gap:10px;flex-wrap:wrap;margin-top:20px}
+  .hero-tags span{
+    font-size:.75rem;font-weight:700;padding:6px 12px;border-radius:999px;
+    background:rgba(74,222,128,.12);color:var(--accent);border:1px solid rgba(74,222,128,.25);
+  }
+
+  /* ---------- Product grid ---------- */
+  .section-title{font-size:1.15rem;margin:0 0 18px;letter-spacing:-.02em}
+  .grid{
+    display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));
+    gap:20px;padding-bottom:70px;
+  }
+  .cow-card{
+    background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);
+    overflow:hidden;display:flex;flex-direction:column;transition:.22s;
+  }
+  .cow-card:hover{transform:translateY(-4px);border-color:#3a5244;box-shadow:0 14px 34px rgba(0,0,0,.4)}
+  .cow-img{
+    font-size:4rem;text-align:center;padding:26px 0;line-height:1;
+    background:radial-gradient(circle at 50% 130%,rgba(74,222,128,.18),transparent 70%);
+  }
+  .cow-body{padding:18px;display:flex;flex-direction:column;flex:1}
+  .cow-top{display:flex;justify-content:space-between;align-items:baseline;gap:8px}
+  .cow-top h3{font-size:1.05rem;letter-spacing:-.01em}
+  .price{color:var(--accent);font-weight:800;font-size:.95rem;white-space:nowrap}
+  .breed{color:var(--muted);font-size:.8rem;margin-top:2px}
+  .specs{list-style:none;display:flex;flex-wrap:wrap;gap:6px;margin:14px 0 18px}
+  .specs li{
+    font-size:.7rem;color:var(--muted);background:var(--surface-2);
+    border:1px solid var(--line);padding:4px 8px;border-radius:8px;
+  }
+  .specs b{color:var(--text);font-weight:600}
+  .cow-body .btn{margin-top:auto}
+
+  /* ---------- Account ---------- */
+  #accountView{padding:32px 0 80px}
+  .account-head{
+    display:flex;align-items:center;gap:18px;flex-wrap:wrap;
+    background:var(--surface);border:1px solid var(--line);
+    border-radius:var(--radius);padding:24px;margin-bottom:22px;
+  }
+  .avatar{
+    width:62px;height:62px;border-radius:50%;flex-shrink:0;
+    background:linear-gradient(135deg,var(--accent),#0ea5e9);
+    color:#06210f;font-weight:800;font-size:1.3rem;
+    display:grid;place-items:center;
+  }
+  .account-head h1{font-size:1.3rem;letter-spacing:-.02em}
+  .account-head p{font-size:.85rem;margin-top:4px}
+  .account-head .btn{margin-left:auto}
+  .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px;margin-bottom:28px}
+  .stat{
+    background:var(--surface);border:1px solid var(--line);
+    border-radius:var(--radius);padding:18px;
+  }
+  .stat span{display:block;font-size:.75rem;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.06em}
+  .stat b{display:block;font-size:1.5rem;margin-top:6px;letter-spacing:-.02em}
+  .orders{display:flex;flex-direction:column;gap:12px}
+  .order{
+    background:var(--surface);border:1px solid var(--line);
+    border-radius:var(--radius);padding:16px 18px;
+  }
+  .order-head{display:flex;align-items:center;gap:12px;flex-wrap:wrap;font-size:.85rem}
+  .order-head .oid{font-weight:800;letter-spacing:.02em}
+  .order-head .pill{
+    margin-left:auto;background:rgba(74,222,128,.12);color:var(--accent);
+    border:1px solid rgba(74,222,128,.25);padding:4px 12px;border-radius:999px;
+    font-weight:800;font-size:.8rem;
+  }
+  .order-items{color:var(--muted);font-size:.82rem;margin-top:10px;line-height:1.6}
+  .empty-state{
+    text-align:center;padding:70px 20px;background:var(--surface);
+    border:1px dashed var(--line);border-radius:var(--radius);
+  }
+  .empty-state .big{font-size:3rem;margin-bottom:12px}
+  .empty-state h2{margin-bottom:8px;font-size:1.2rem}
+  .empty-state p{color:var(--muted);font-size:.9rem;margin-bottom:20px}
+
+  /* ---------- Drawer ---------- */
+  .backdrop{
+    position:fixed;inset:0;background:rgba(0,0,0,.65);z-index:90;
+    opacity:0;pointer-events:none;transition:.28s;
+  }
+  .backdrop.show{opacity:1;pointer-events:auto}
+  .drawer{
+    position:fixed;top:0;right:0;height:100%;width:min(410px,100%);
+    background:var(--surface);border-left:1px solid var(--line);z-index:100;
+    display:flex;flex-direction:column;
+    transform:translateX(105%);transition:transform .32s cubic-bezier(.4,0,.2,1);
+  }
+  .drawer.open{transform:none}
+  .drawer-head{
+    display:flex;align-items:center;justify-content:space-between;
+    padding:20px;border-bottom:1px solid var(--line);
+  }
+  .drawer-head h2{font-size:1.05rem}
+  .drawer-body{flex:1;overflow-y:auto;padding:16px 20px}
+  .drawer-foot{border-top:1px solid var(--line);padding:18px 20px;display:flex;flex-direction:column;gap:10px}
+  .cart-item{display:flex;gap:14px;padding:14px 0;border-bottom:1px solid var(--line)}
+  .cart-item:last-child{border-bottom:none}
+  .ci-img{
+    width:52px;height:52px;flex-shrink:0;border-radius:12px;background:var(--surface-2);
+    display:grid;place-items:center;font-size:1.6rem;border:1px solid var(--line);
+  }
+  .ci-info{flex:1;display:flex;flex-direction:column;gap:3px;font-size:.85rem}
+  .ci-info .muted{font-size:.75rem}
+  .ci-right{display:flex;flex-direction:column;align-items:flex-end;justify-content:space-between;gap:8px;font-size:.85rem}
+  .qty{display:flex;align-items:center;gap:10px;margin-top:8px}
+  .qty button{
+    width:26px;height:26px;border-radius:8px;border:1px solid var(--line);
+    background:var(--surface-2);color:var(--text);cursor:pointer;
+    font-size:.95rem;line-height:1;display:grid;place-items:center;transition:.15s;
+  }
+  .qty button:hover{border-color:var(--accent);color:var(--accent)}
+  .qty span{min-width:16px;text-align:center;font-weight:700;font-size:.85rem}
+  .row{display:flex;justify-content:space-between;font-size:.88rem}
+  .row.total{font-size:1.05rem;font-weight:800;padding-top:10px;border-top:1px solid var(--line)}
+  .row.total b{color:var(--accent)}
+  .empty{text-align:center;color:var(--muted);padding:60px 10px;font-size:.9rem;line-height:1.8}
+
+  /* ---------- Modal ---------- */
+  .modal-overlay{
+    position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:110;
+    display:grid;place-items:center;padding:20px;
+    opacity:0;pointer-events:none;transition:.25s;
+  }
+  .modal-overlay.show{opacity:1;pointer-events:auto}
+  .modal{
+    width:100%;max-width:400px;background:var(--surface);
+    border:1px solid var(--line);border-radius:18px;padding:30px;
+    position:relative;transform:translateY(14px);transition:.25s;
+  }
+  .modal-overlay.show .modal{transform:none}
+  .modal-close{position:absolute;top:14px;right:14px}
+  .modal h2{font-size:1.25rem;margin-bottom:6px;letter-spacing:-.02em}
+  .modal > p{font-size:.85rem;margin-bottom:20px}
+  .tabs{display:flex;gap:4px;background:var(--surface-2);padding:4px;border-radius:12px;margin-bottom:20px}
+  .tab{
+    flex:1;background:none;border:none;color:var(--muted);font-weight:700;
+    font-size:.83rem;padding:9px;border-radius:9px;cursor:pointer;transition:.18s;
+  }
+  .tab.active{background:var(--bg);color:var(--accent)}
+  .field{display:flex;flex-direction:column;gap:7px;margin-bottom:15px}
+  .field span{font-size:.78rem;font-weight:700;color:var(--muted)}
+  .field input{
+    background:var(--bg);border:1px solid var(--line);color:var(--text);
+    padding:11px 13px;border-radius:10px;font-size:.88rem;font-family:inherit;
+    outline:none;transition:.18s;width:100%;
+  }
+  .field input:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(74,222,128,.12)}
+  .form-error{color:var(--danger);font-size:.8rem;min-height:18px;margin-bottom:10px;font-weight:600}
+  .hint{font-size:.75rem;text-align:center;margin-top:16px}
+  .hint b{color:var(--text)}
+
+  /* ---------- Toast ---------- */
+  .toast{
+    position:fixed;left:50%;bottom:28px;z-index:200;
+    transform:translate(-50%,140%);
+    background:var(--surface-2);border:1px solid var(--line);color:var(--text);
+    padding:13px 22px;border-radius:12px;font-weight:600;font-size:.88rem;
+    box-shadow:0 12px 34px rgba(0,0,0,.5);transition:transform .32s cubic-bezier(.4,0,.2,1);
+    max-width:90vw;text-align:center;
+  }
+  .toast.show{transform:translate(-50%,0)}
+  .toast.err{border-color:#7f1d1d;color:#fca5a5}
+
+  /* ---------- Responsive ---------- */
+  @media(max-width:640px){
+    .header-inner{height:auto;flex-wrap:wrap;padding:12px 0;gap:10px}
+    .nav{margin-left:0;order:3;width:100%}
+    .nav-btn{flex:1}
+    .header-actions{margin-left:auto}
+    .hero{padding:30px 22px}
+    .hero::after{font-size:5rem;right:10px}
+    .account-head .btn{margin-left:0;width:100%}
+  }
 </style>
 </head>
 <body>
 
-<!-- ==========================================================================
-     LANDING SCREEN
-     ========================================================================== -->
-<div id="screen-landing" class="screen active landing">
-
-  <header class="nav">
-    <a class="brand" href="#" onclick="App.showLanding();return false;">
-      <svg width="34" height="34" viewBox="0 0 40 40" aria-hidden="true">
-        <defs>
-          <linearGradient id="lg1" x1="0" y1="0" x2="1" y2="1">
-            <stop offset="0%" stop-color="#3b82f6"/><stop offset="100%" stop-color="#60a5fa"/>
-          </linearGradient>
-        </defs>
-        <rect x="1" y="1" width="38" height="38" rx="11" fill="url(#lg1)" opacity=".16"/>
-        <rect x="1" y="1" width="38" height="38" rx="11" fill="none" stroke="url(#lg1)" stroke-width="1.4"/>
-        <text x="20" y="26" text-anchor="middle" font-family="ui-monospace,monospace"
-              font-size="15" font-weight="700" fill="#60a5fa">PM</text>
-      </svg>
-      <span class="brand-text">
-        <strong>PURE MATCHES AI</strong>
-        <small>Intelligent Digit Analysis. Controlled Execution.</small>
-      </span>
-    </a>
-    <nav class="nav-links" id="navLinks">
-      <a href="#features">Features</a>
-      <a href="#how">How it works</a>
-      <a href="#risk">Risk</a>
-      <a class="btn btn-ghost" href="#" onclick="App.showApp();return false;">Sign in</a>
-      <a class="btn btn-primary" href="#" onclick="App.showApp();return false;">Open Dashboard</a>
+<!-- ============ HEADER ============ -->
+<header class="site-header">
+  <div class="wrap header-inner">
+    <div class="logo">🐄 Sheilah Cowmart</div>
+    <nav class="nav">
+      <button class="nav-btn active" data-view="shop">Shop</button>
+      <button class="nav-btn" data-view="account">Account</button>
     </nav>
-    <button class="nav-toggle" id="navToggle" aria-label="Menu">☰</button>
+    <div class="header-actions">
+      <button class="btn btn-ghost" id="cartBtn">
+        🛒 Cart <span class="badge" id="cartBadge">0</span>
+      </button>
+      <button class="btn btn-primary" id="authBtn">Sign in</button>
+    </div>
+  </div>
+</header>
+
+<!-- ============ MAIN ============ -->
+<main class="wrap">
+
+  <!-- SHOP VIEW -->
+  <section id="shopView">
+    <div class="hero">
+      <h1>Healthy cattle, straight from the farm.</h1>
+      <p>Browse our herd of vet-checked dairy and beef cattle. Every animal comes with full health records, pedigree papers and free delivery within 200 km.</p>
+      <div class="hero-tags">
+        <span>✓ Vet certified</span>
+        <span>✓ Free delivery</span>
+        <span>✓ 30-day guarantee</span>
+      </div>
+    </div>
+    <h2 class="section-title">Available herd</h2>
+    <div class="grid" id="cowGrid"></div>
+  </section>
+
+  <!-- ACCOUNT VIEW -->
+  <section id="accountView" hidden></section>
+
+</main>
+
+<!-- ============ CART DRAWER ============ -->
+<div class="backdrop" id="backdrop"></div>
+<aside class="drawer" id="cartDrawer" aria-label="Shopping cart">
+  <header class="drawer-head">
+    <h2>Your cart</h2>
+    <button class="icon-btn" id="closeCart" aria-label="Close cart">✕</button>
   </header>
+  <div class="drawer-body" id="cartBody"></div>
+  <footer class="drawer-foot" id="cartFoot"></footer>
+</aside>
 
-  <main>
-    <section class="hero">
-      <div class="hero-glow"></div>
-      <div class="hero-inner">
-        <div class="pill">● LIVE ANALYSIS · REAL-TIME TICKS · MULTI-WINDOW ENGINE · RISK CONTROLS</div>
-        <h1>PURE MATCHES AI</h1>
-        <h2>Intelligent Digit Analysis.<br>Controlled Automated Execution.</h2>
-        <p class="lede">
-          Analyze live Deriv digit data using multi-window statistics, pattern analysis
-          and adaptive decision filtering. Every candidate is scored, filtered and
-          risk-checked before anything is executed.
-        </p>
-        <div class="hero-actions">
-          <button class="btn btn-primary btn-lg" onclick="App.showApp()">OPEN DASHBOARD</button>
-          <a class="btn btn-ghost btn-lg" href="#features">EXPLORE PLATFORM</a>
-        </div>
-        <p class="fineprint">
-          Experimental statistical tooling. No profit is promised or implied.
-          Trading involves financial risk. Past performance does not guarantee future results.
-        </p>
-      </div>
-    </section>
-
-    <section class="section" id="features">
-      <h3 class="section-title">Platform capabilities</h3>
-      <div class="cards">
-        <article class="card">
-          <div class="card-ico">◈</div>
-          <h4>Live Digit Engine</h4>
-          <p>Analyze incoming Deriv tick digits in real time, straight from the live Deriv WebSocket feed.</p>
-        </article>
-        <article class="card">
-          <div class="card-ico">▤</div>
-          <h4>Multi-Window Analysis</h4>
-          <p>Compare 50, 100, 250, 500 and 1000-tick datasets side by side for every single digit.</p>
-        </article>
-        <article class="card">
-          <div class="card-ico">◎</div>
-          <h4>Candidate Intelligence</h4>
-          <p>Evaluate all ten digits across six statistical features before selecting a candidate.</p>
-        </article>
-        <article class="card">
-          <div class="card-ico">⛨</div>
-          <h4>Risk Engine</h4>
-          <p>Hard limits, cooldowns, consecutive-loss locks and full session protection.</p>
-        </article>
-        <article class="card">
-          <div class="card-ico">▷</div>
-          <h4>Paper Trading</h4>
-          <p>Test the complete strategy pipeline against real ticks without risking any funds.</p>
-        </article>
-        <article class="card">
-          <div class="card-ico">↺</div>
-          <h4>Backtesting</h4>
-          <p>Replay collected or uploaded historical tick data through the exact same engine.</p>
-        </article>
-      </div>
-    </section>
-
-    <section class="section" id="how">
-      <h3 class="section-title">How it works</h3>
-      <div class="pipeline">
-        <div class="pipe">LIVE TICKS</div><div class="arrow">↓</div>
-        <div class="pipe">DIGIT EXTRACTION</div><div class="arrow">↓</div>
-        <div class="pipe">MULTI-WINDOW ANALYSIS</div><div class="arrow">↓</div>
-        <div class="pipe">10-DIGIT EVALUATION</div><div class="arrow">↓</div>
-        <div class="pipe">AI STRATEGY SCORE</div><div class="arrow">↓</div>
-        <div class="pipe">RISK CHECK</div><div class="arrow">↓</div>
-        <div class="pipe split"><span class="no">NO TRADE</span><span class="yes">TRADE</span></div>
-        <div class="arrow">↓</div>
-        <div class="pipe">PROPOSAL · VALIDATION · EXECUTION</div><div class="arrow">↓</div>
-        <div class="pipe">RESULT</div>
-      </div>
-    </section>
-
-    <section class="section" id="risk">
-      <h3 class="section-title">Built-in risk discipline</h3>
-      <div class="risk-grid">
-        <div class="card"><h4>Fixed staking</h4><p>Default stake is fixed. No martingale. No loss doubling. No automatic recovery multiplier.</p></div>
-        <div class="card"><h4>Session limits</h4><p>Daily loss limit, maximum consecutive losses and maximum trades per session are enforced server-side.</p></div>
-        <div class="card"><h4>No-trade is a decision</h4><p>The engine is allowed — and expected — to reject weak candidates. NO TRADE is a valid outcome.</p></div>
-        <div class="card"><h4>Duplicate protection</h4><p>An execution mutex guarantees only one purchase can ever be attempted per signal.</p></div>
-      </div>
-    </section>
-  </main>
-
-  <footer class="footer">
-    <div>
-      <strong>PURE MATCHES AI</strong>
-      <p>Automated analysis · Statistical filtering · Risk-controlled execution · Experimental strategy</p>
-    </div>
-    <p class="fineprint">
-      Trading involves financial risk. Past performance does not guarantee future results.
-      This software does not provide financial advice. Use at your own risk.
-    </p>
-  </footer>
-</div>
-
-<!-- ==========================================================================
-     APPLICATION SCREEN
-     ========================================================================== -->
-<div id="screen-app" class="screen">
-  <div class="app-shell">
-
-    <!-- SIDEBAR -->
-    <aside class="sidebar" id="sidebar">
-      <div class="sb-brand">
-        <svg width="30" height="30" viewBox="0 0 40 40" aria-hidden="true">
-          <rect x="1" y="1" width="38" height="38" rx="11" fill="#3b82f6" opacity=".16"/>
-          <rect x="1" y="1" width="38" height="38" rx="11" fill="none" stroke="#60a5fa" stroke-width="1.4"/>
-          <text x="20" y="26" text-anchor="middle" font-family="ui-monospace,monospace"
-                font-size="15" font-weight="700" fill="#60a5fa">PM</text>
-        </svg>
-        <div><strong>PURE MATCHES AI</strong><small>v1.0 · Experimental</small></div>
-      </div>
-      <nav class="sb-nav" id="sbNav">
-        <a data-page="dashboard" class="active"><span class="ico">◧</span><span>Dashboard</span></a>
-        <a data-page="trades"><span class="ico">▤</span><span>Trade History</span></a>
-        <a data-page="performance"><span class="ico">◔</span><span>Performance</span></a>
-        <a data-page="backtest"><span class="ico">↺</span><span>Backtesting</span></a>
-        <a data-page="settings"><span class="ico">⚙</span><span>Settings</span></a>
-        <a data-page="about"><span class="ico">ⓘ</span><span>About</span></a>
-      </nav>
-      <div class="sb-foot">
-        <button class="btn btn-ghost btn-block btn-sm" onclick="App.showLanding()">← Exit to site</button>
-      </div>
-    </aside>
-
-    <!-- MAIN -->
-    <div class="main-col">
-
-      <!-- TOPBAR -->
-      <header class="topbar">
-        <button class="icon-btn only-mobile" id="menuBtn" aria-label="Menu">☰</button>
-        <div class="tb-item">
-          <span class="tb-label">DERIV</span>
-          <span class="status idle" id="stDeriv"><i class="dot"></i><em id="stDerivText" style="font-style:normal">DISCONNECTED</em></span>
-        </div>
-        <div class="tb-item">
-          <span class="tb-label">MODE</span>
-          <span class="badge blue" id="stMode">PAPER</span>
-        </div>
-        <div class="tb-item">
-          <span class="tb-label">SYMBOL</span>
-          <select class="select" id="selSymbol" style="min-width:170px;padding:5px 30px 5px 10px;font-size:12px"></select>
-        </div>
-        <div class="tb-item">
-          <span class="tb-label">BOT</span>
-          <span class="status idle" id="stBot"><i class="dot"></i><em id="stBotText" style="font-style:normal">STOPPED</em></span>
-        </div>
-        <div class="tb-spacer"></div>
-        <div class="tb-item" style="align-items:flex-end">
-          <span class="tb-label">TICKS</span>
-          <span class="mono" id="stTicks" style="font-size:12px;font-weight:600">0</span>
-        </div>
-        <button class="icon-btn" id="themeBtn" title="Toggle theme">◐</button>
-      </header>
-
-      <!-- CONTENT -->
-      <div class="content">
-
-        <!-- ============ DASHBOARD ============ -->
-        <section class="page active" id="page-dashboard">
-          <div class="grid">
-
-            <!-- CURRENT DIGIT -->
-            <div class="card span-4">
-              <div class="card-h"><h3>CURRENT DIGIT</h3><span class="muted small mono" id="curSymbolLabel">—</span></div>
-              <div class="big-digit" id="currentDigit">–</div>
-              <div class="muted small" style="text-align:center;margin-bottom:8px">Previous</div>
-              <div class="prev-digits" id="prevDigits"></div>
-            </div>
-
-            <!-- AI CANDIDATE -->
-            <div class="card span-4">
-              <div class="card-h"><h3>AI CANDIDATE</h3><span class="badge" id="candBadge">WAITING</span></div>
-              <div class="big-digit accent" id="candDigit">–</div>
-              <div class="stat-row"><span>Strategy Score</span><b id="candScore">—</b></div>
-              <div class="stat-row"><span>Score Gap</span><b id="candGap">—</b></div>
-              <div class="stat-row"><span>Data Quality</span><b id="candQuality">—</b></div>
-              <div class="stat-row"><span>Threshold</span><b id="candThreshold">—</b></div>
-              <div class="decision wait" id="candDecision">WAITING FOR DATA</div>
-            </div>
-
-            <!-- RISK -->
-            <div class="card span-4">
-              <div class="card-h"><h3>RISK STATUS</h3><span class="status ok" id="riskStatus"><i class="dot"></i><em id="riskStatusText" style="font-style:normal">SAFE</em></span></div>
-              <div class="stat-row"><span>Daily P/L</span><b id="riskDailyPL">$0.00</b></div>
-              <div class="stat-row"><span>Daily Loss Limit</span><b id="riskDailyLimit">—</b></div>
-              <div class="stat-row"><span>Consecutive Losses</span><b id="riskConsec">0 / 3</b></div>
-              <div class="stat-row"><span>Trades Today</span><b id="riskTrades">0 / 50</b></div>
-              <div class="stat-row"><span>Open Contract</span><b id="riskOpen">NONE</b></div>
-              <div class="decision" id="riskLockBox" style="display:none"></div>
-            </div>
-
-            <!-- BOT CONTROLS -->
-            <div class="card span-7">
-              <div class="card-h"><h3>BOT CONTROL</h3><span class="muted small" id="botSubtitle">Idle</span></div>
-              <div class="controls">
-                <button class="btn btn-green" id="btnStart">▶ START BOT</button>
-                <button class="btn btn-amber" id="btnPause" disabled>❚❚ PAUSE</button>
-                <button class="btn btn-red" id="btnStop" disabled>■ STOP</button>
-              </div>
-              <div class="ctl-state" style="margin-bottom:10px">
-                <span class="k">STATE</span>
-                <span class="v" id="botStateText">STOPPED</span>
-                <span class="tb-spacer"></span>
-                <span class="k">COOLDOWN</span>
-                <span class="v" id="botCooldown">0 ticks</span>
-              </div>
-              <div class="controls" style="grid-template-columns:repeat(auto-fit,minmax(120px,1fr))">
-                <button class="btn btn-sm" data-mode="PAPER" id="btnModePaper">PAPER MODE</button>
-                <button class="btn btn-sm" data-mode="DEMO" id="btnModeDemo">DEMO (READ-ONLY)</button>
-                <button class="btn btn-sm btn-red" data-mode="REAL" id="btnModeReal">ENABLE REAL</button>
-              </div>
-              <p class="fineprint" style="text-align:left;margin-top:12px;max-width:none">
-                Paper mode simulates contracts against real ticks. Real mode requires explicit
-                confirmation and a Deriv API token held only in memory for this session.
-                Fixed staking only — no martingale, no loss recovery multiplier.
-              </p>
-            </div>
-
-            <!-- REASONING -->
-            <div class="card span-5">
-              <div class="card-h"><h3>LIVE STRATEGY REASONING</h3><span class="badge" id="reasonBadge">—</span></div>
-              <div class="reason-list" id="reasonList">
-                <div><span class="ic">·</span><span>Waiting for sufficient tick data…</span></div>
-              </div>
-            </div>
-
-            <!-- TICK STREAM -->
-            <div class="card span-7">
-              <div class="card-h"><h3>LIVE TICK STREAM</h3><span class="muted small">latest 50 digits</span></div>
-              <div class="tick-stream" id="tickStream"></div>
-            </div>
-
-            <!-- DISTRIBUTION -->
-            <div class="card span-5">
-              <div class="card-h"><h3>DIGIT DISTRIBUTION</h3>
-                <select class="select" id="distWindow" style="width:auto;padding:4px 28px 4px 9px;font-size:11.5px">
-                  <option value="50">50 ticks</option>
-                  <option value="100">100 ticks</option>
-                  <option value="250" selected>250 ticks</option>
-                  <option value="500">500 ticks</option>
-                  <option value="1000">1000 ticks</option>
-                </select>
-              </div>
-              <div class="chart-box"><canvas id="chartDist"></canvas></div>
-            </div>
-
-            <!-- MULTI WINDOW -->
-            <div class="card span-12">
-              <div class="card-h"><h3>MULTI-WINDOW FREQUENCY COMPARISON</h3><span class="muted small">per-digit frequency across all window sizes</span></div>
-              <div class="chart-box tall"><canvas id="chartMulti"></canvas></div>
-              <div class="legend" id="multiLegend"></div>
-            </div>
-
-            <!-- TEN DIGIT BOARD -->
-            <div class="card span-12">
-              <div class="card-h"><h3>TEN-DIGIT ANALYSIS BOARD</h3><span class="muted small">composite strategy score per digit</span></div>
-              <div class="digit-board" id="digitBoard"></div>
-            </div>
-
-          </div>
-        </section>
-
-        <!-- ============ TRADES ============ -->
-        <section class="page" id="page-trades">
-          <div class="page-head"><h2>Trade History</h2><p id="tradesSubtitle">—</p></div>
-          <div class="filters" id="tradeFilters">
-            <button class="chip active" data-range="today">Today</button>
-            <button class="chip" data-range="yesterday">Yesterday</button>
-            <button class="chip" data-range="7">7 Days</button>
-            <button class="chip" data-range="30">30 Days</button>
-            <button class="chip" data-range="all">All</button>
-          </div>
-          <div class="table-wrap">
-            <table>
-              <thead>
-                <tr>
-                  <th>TIME</th><th>SYMBOL</th><th>DIGIT</th><th>SCORE</th><th>STAKE</th>
-                  <th>RESULT</th><th>PAYOUT</th><th>P/L</th><th>CONTRACT ID</th>
-                </tr>
-              </thead>
-              <tbody id="tradesBody"></tbody>
-            </table>
-          </div>
-        </section>
-
-        <!-- ============ PERFORMANCE ============ -->
-        <section class="page" id="page-performance">
-          <div class="page-head"><h2>Performance</h2><p>Derived from stored trade records</p></div>
-          <div class="metric-grid" id="perfMetrics" style="margin-bottom:16px"></div>
-          <div class="grid">
-            <div class="card span-8">
-              <div class="card-h"><h3>EQUITY CURVE</h3><span class="muted small">cumulative P/L</span></div>
-              <div class="chart-box"><canvas id="chartEquity"></canvas></div>
-            </div>
-            <div class="card span-4">
-              <div class="card-h"><h3>WIN / LOSS</h3></div>
-              <div class="chart-box"><canvas id="chartWinLoss"></canvas></div>
-            </div>
-            <div class="card span-6">
-              <div class="card-h"><h3>P/L BY DAY</h3></div>
-              <div class="chart-box"><canvas id="chartByDay"></canvas></div>
-            </div>
-            <div class="card span-6">
-              <div class="card-h"><h3>TRADES BY DIGIT</h3></div>
-              <div class="chart-box"><canvas id="chartByDigit"></canvas></div>
-            </div>
-            <div class="card span-12">
-              <div class="card-h"><h3>PERFORMANCE BY STRATEGY SCORE</h3></div>
-              <div class="chart-box"><canvas id="chartByScore"></canvas></div>
-            </div>
-          </div>
-        </section>
-
-        <!-- ============ BACKTEST ============ -->
-        <section class="page" id="page-backtest">
-          <div class="page-head"><h2>Backtesting</h2><p>Run the live engine over historical data</p></div>
-          <div class="grid">
-            <div class="card span-4">
-              <div class="card-h"><h3>DATA SOURCE</h3></div>
-              <div class="field">
-                <label>SOURCE</label>
-                <select class="select" id="btSource">
-                  <option value="collected">Collected live ticks (<span id="btCollected">0</span>)</option>
-                  <option value="csv">Upload CSV file</option>
-                  <option value="synthetic">Generate synthetic dataset</option>
-                </select>
-              </div>
-              <div class="field" id="btCsvField" style="display:none">
-                <label>CSV FILE (one quote per line)</label>
-                <input type="file" class="input" id="btFile" accept=".csv,.txt">
-              </div>
-              <div class="field" id="btSynthField" style="display:none">
-                <label>SYNTHETIC TICKS</label>
-                <input type="number" class="input" id="btSynthCount" value="5000" min="1000" max="20000" step="500">
-              </div>
-              <div class="section-block">
-                <h4>PARAMETERS</h4>
-                <div class="field-row">
-                  <div class="field"><label>START BALANCE</label><input type="number" class="input" id="btBalance" value="1000" min="1" step="10"></div>
-                  <div class="field"><label>STAKE</label><input type="number" class="input" id="btStake" value="1" min="0.1" step="0.1"></div>
-                </div>
-                <div class="field-row">
-                  <div class="field"><label>MIN SCORE</label><input type="number" class="input" id="btMinScore" value="75" min="0" max="100"></div>
-                  <div class="field"><label>MIN GAP</label><input type="number" class="input" id="btMinGap" value="8" min="0" max="100"></div>
-                </div>
-                <div class="field-row">
-                  <div class="field"><label>MIN DATA QUALITY</label><input type="number" class="input" id="btMinQuality" value="0.70" min="0" max="1" step="0.05"></div>
-                  <div class="field"><label>PAYOUT MULT</label><input type="number" class="input" id="btPayout" value="9" min="1.1" step="0.1"></div>
-                </div>
-                <div class="field"><label>WINDOW SIZES (comma separated)</label><input type="text" class="input" id="btWindows" value="50,100,250,500,1000"></div>
-              </div>
-              <button class="btn btn-primary btn-block btn-lg" id="btnRunBacktest" style="margin-top:14px">▶ RUN BACKTEST</button>
-            </div>
-
-            <div class="card span-8">
-              <div class="card-h"><h3>RESULTS</h3><span class="badge" id="btStatus">IDLE</span></div>
-              <div id="btResults">
-                <div class="loading"><span class="spinner"></span> Waiting for a run…</div>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <!-- ============ SETTINGS ============ -->
-        <section class="page" id="page-settings">
-          <div class="page-head"><h2>Settings</h2><p>Applied immediately to the live engine</p></div>
-          <div class="grid">
-            <div class="card span-6">
-              <div class="card-h"><h3>TRADING</h3></div>
-              <div class="form-grid">
-                <div class="field"><label>SYMBOL</label><select class="select" id="setSymbol"></select></div>
-                <div class="field"><label>CURRENCY</label><input class="input" id="setCurrency" value="USD"></div>
-                <div class="field"><label>BASE STAKE</label><input type="number" class="input" id="setStake" value="1" min="0.1" step="0.1"></div>
-                <div class="field"><label>MAXIMUM STAKE</label><input type="number" class="input" id="setMaxStake" value="5" min="0.1" step="0.1"></div>
-                <div class="field"><label>PAYOUT MULTIPLIER</label><input type="number" class="input" id="setPayout" value="9" min="1.1" step="0.1"></div>
-              </div>
-            </div>
-
-            <div class="card span-6">
-              <div class="card-h"><h3>STRATEGY</h3></div>
-              <div class="form-grid">
-                <div class="field"><label>MINIMUM SCORE</label><input type="number" class="input" id="setMinScore" value="75" min="0" max="100"></div>
-                <div class="field"><label>MINIMUM SCORE GAP</label><input type="number" class="input" id="setMinGap" value="8" min="0" max="100"></div>
-                <div class="field"><label>MINIMUM DATA QUALITY</label><input type="number" class="input" id="setMinQuality" value="0.70" min="0" max="1" step="0.05"></div>
-                <div class="field"><label>MINIMUM DATA (TICKS)</label><input type="number" class="input" id="setMinData" value="100" min="50" step="10"></div>
-                <div class="field" style="grid-column:1/-1"><label>WINDOW SIZES</label><input class="input" id="setWindows" value="50,100,250,500,1000"></div>
-              </div>
-              <div class="section-block">
-                <h4>FEATURE WEIGHTS</h4>
-                <div class="form-grid" id="weightFields"></div>
-              </div>
-            </div>
-
-            <div class="card span-6">
-              <div class="card-h"><h3>RISK</h3></div>
-              <div class="form-grid">
-                <div class="field"><label>DAILY LOSS LIMIT</label><input type="number" class="input" id="setDailyLoss" value="5" min="0.5" step="0.5"></div>
-                <div class="field"><label>MAX CONSECUTIVE LOSSES</label><input type="number" class="input" id="setMaxConsec" value="3" min="1" max="20"></div>
-                <div class="field"><label>MAX TRADES PER SESSION</label><input type="number" class="input" id="setMaxTrades" value="50" min="1" max="1000"></div>
-                <div class="field"><label>COOLDOWN (TICKS)</label><input type="number" class="input" id="setCooldown" value="3" min="0" max="60"></div>
-              </div>
-              <p class="fineprint" style="text-align:left;max-width:none;margin-top:6px">
-                When a limit is reached the bot locks. Manual restart is required.
-              </p>
-            </div>
-
-            <div class="card span-6">
-              <div class="card-h"><h3>CONNECTION & DATA</h3></div>
-              <div class="stat-row"><span>Deriv WebSocket</span><b id="setConnStatus">—</b></div>
-              <div class="stat-row"><span>Deriv App ID</span><b class="mono">1089 (public)</b></div>
-              <div class="stat-row"><span>Authorized</span><b id="setAuthStatus">NO</b></div>
-              <div class="stat-row"><span>Ticks collected</span><b id="setTickCount">0</b></div>
-              <div class="stat-row"><span>Trades stored</span><b id="setTradeCount">0</b></div>
-              <div class="section-block">
-                <h4>DATA MANAGEMENT</h4>
-                <div style="display:flex;gap:9px;flex-wrap:wrap">
-                  <button class="btn btn-sm" id="btnExportTrades">Export trades (JSON)</button>
-                  <button class="btn btn-sm btn-red" id="btnClearTrades">Clear trade history</button>
-                  <button class="btn btn-sm btn-red" id="btnResetRisk">Reset risk state</button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <!-- ============ ABOUT ============ -->
-        <section class="page" id="page-about">
-          <div class="page-head"><h2>About &amp; Risk Disclosure</h2></div>
-          <div class="grid">
-            <div class="card span-6">
-              <div class="card-h"><h3>WHAT THIS IS</h3></div>
-              <p class="small" style="color:var(--text-2);line-height:1.75">
-                PURE MATCHES AI is an experimental statistical analysis tool for Deriv digit-based
-                synthetic indices. It collects live tick data, extracts the last digit of each quote,
-                and evaluates all ten digits across six statistical features over five rolling windows.
-                A composite score is produced for each digit. The highest-scoring digit becomes the
-                candidate — but only if it clears every configured threshold and the risk engine
-                approves execution.
-              </p>
-            </div>
-            <div class="card span-6">
-              <div class="card-h"><h3>WHAT THIS IS NOT</h3></div>
-              <p class="small" style="color:var(--text-2);line-height:1.75">
-                This is not a guaranteed-profit system. It is not financial advice. It does not
-                predict the future. Deriv synthetic indices are generated by a cryptographically
-                secure random number generator — historical digit frequencies do not influence
-                future outcomes. Any apparent statistical bias is transient noise. The strategy
-                engine exists to filter weak candidates and control risk exposure, not to produce
-                a mathematical edge.
-              </p>
-            </div>
-            <div class="card span-12">
-              <div class="card-h"><h3>RISK DISCLOSURE</h3></div>
-              <ul class="small" style="color:var(--text-2);line-height:1.9;margin-left:18px">
-                <li>Trading involves financial risk. You can lose money.</li>
-                <li>Past performance does not guarantee future results.</li>
-                <li>No profit, income or accuracy is promised or implied.</li>
-                <li>Paper mode simulates contracts — no real orders are placed.</li>
-                <li>Real mode requires explicit confirmation and a valid Deriv API token.</li>
-                <li>Never trade with funds you cannot afford to lose.</li>
-                <li>Fixed staking is enforced. No martingale. No recovery multiplier.</li>
-                <li>Session limits (daily loss, consecutive losses, max trades) lock the bot when breached.</li>
-              </ul>
-            </div>
-            <div class="card span-12">
-              <div class="card-h"><h3>ENGINE PIPELINE</h3></div>
-              <div class="pipeline" style="max-width:100%;display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:9px">
-                <div class="pipe">DERIV TICK</div>
-                <div class="pipe">DIGIT EXTRACTION</div>
-                <div class="pipe">ROLLING WINDOWS</div>
-                <div class="pipe">STATISTICAL FEATURES</div>
-                <div class="pipe">10-DIGIT SCORING</div>
-                <div class="pipe">CANDIDATE SELECTION</div>
-                <div class="pipe">SCORE GAP</div>
-                <div class="pipe">DATA QUALITY</div>
-                <div class="pipe">RISK CHECK</div>
-                <div class="pipe">NO TRADE / PROPOSAL</div>
-                <div class="pipe">PROPOSAL VALIDATION</div>
-                <div class="pipe">BUY</div>
-                <div class="pipe">CONTRACT MONITOR</div>
-                <div class="pipe">RESULT</div>
-                <div class="pipe">DATABASE</div>
-                <div class="pipe">DASHBOARD</div>
-              </div>
-            </div>
-          </div>
-        </section>
-
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- ==========================================================================
-     MODALS & TOASTS
-     ========================================================================== -->
-<div class="modal-backdrop hidden" id="modalReal">
+<!-- ============ AUTH MODAL ============ -->
+<div class="modal-overlay" id="authModal">
   <div class="modal">
-    <h3>REAL TRADING</h3>
-    <p class="muted small">Explicit confirmation required</p>
-    <div class="warn-box">
-      <strong>Real trading uses real funds. Losses are possible.</strong>
-      <ul>
-        <li>The strategy does not guarantee winning trades.</li>
-        <li>Digit outcomes are randomly generated and independent.</li>
-        <li>Only trade with money you can afford to lose.</li>
-        <li>Session limits will lock the bot when breached.</li>
-      </ul>
+    <button class="icon-btn modal-close" id="closeAuth" aria-label="Close">✕</button>
+    <h2 id="authTitle">Welcome back</h2>
+    <p class="muted" id="authSub">Sign in to track your herd and orders.</p>
+
+    <div class="tabs">
+      <button class="tab active" data-tab="login" type="button">Sign in</button>
+      <button class="tab" data-tab="signup" type="button">Create account</button>
     </div>
-    <div class="field">
-      <label>DERIV API TOKEN (kept in memory only — never stored, never logged)</label>
-      <input type="password" class="input" id="realToken" placeholder="paste token…" autocomplete="off">
-      <p class="fineprint" style="text-align:left;margin:0;max-width:none">
-        This standalone build holds the token in memory for this browser session only.
-        A production deployment must proxy execution through a backend so the token
-        never reaches the browser.
-      </p>
-    </div>
-    <div class="modal-actions">
-      <button class="btn btn-ghost" id="realCancel">CANCEL</button>
-      <button class="btn btn-red" id="realConfirm">I UNDERSTAND — ENABLE REAL TRADING</button>
-    </div>
+
+    <form id="authForm" novalidate>
+      <label class="field" id="nameField" hidden>
+        <span>Full name</span>
+        <input type="text" id="authName" placeholder="e.g. Sam Otieno" autocomplete="name">
+      </label>
+      <label class="field">
+        <span>Email</span>
+        <input type="email" id="authEmail" placeholder="you@farm.com" autocomplete="email">
+      </label>
+      <label class="field">
+        <span>Password</span>
+        <input type="password" id="authPass" placeholder="••••••••" autocomplete="current-password">
+      </label>
+      <p class="form-error" id="authError"></p>
+      <button type="submit" class="btn btn-primary btn-block" id="authSubmit">Sign in</button>
+    </form>
+
+    <p class="hint muted">Demo login: <b>demo@sheilahcowmart.com</b> / <b>demo123</b></p>
   </div>
 </div>
 
-<div id="toasts"></div>
+<!-- ============ TOAST ============ -->
+<div class="toast" id="toast"></div>
 
 <script>
-"use strict";
-/* ==========================================================================
-   PURE MATCHES AI — APPLICATION SCRIPT
-   --------------------------------------------------------------------------
-   1.  Configuration & Constants
-   2.  State & Persistence
-   3.  Utilities
-   4.  Deriv WebSocket Client
-   5.  Digit Extraction
-   6.  Analysis Engine (6 features × 5 windows)
-   7.  Decision Engine
-   8.  Risk Engine
-   9.  Execution Engine (paper + real)
-   10. Chart Renderers (Canvas)
-   11. UI Renderers
-   12. Backtesting Engine
-   13. Settings Bindings
-   14. Routing & Init
-   ========================================================================== */
-
-/* ---------- 1. CONFIGURATION & CONSTANTS ---------- */
-const CFG = {
-  DERIV_APP_ID: "1089",                       // public read-only app id
-  WS_URL: "wss://ws.derivws.com/websockets/v3",
-  MAX_DIGITS: 20000,                          // rolling memory cap
-  ANALYSIS_MIN_TICKS: 50,
-  LS_SETTINGS: "pma.settings.v1",
-  LS_TRADES: "pma.trades.v1",
-  LS_RISK: "pma.risk.v1",
-  LS_THEME: "pma.theme.v1",
-  SYMBOL_FALLBACK: [
-    { symbol:"R_10",     display_name:"Volatility 10 Index",      pip:0.01 },
-    { symbol:"R_25",     display_name:"Volatility 25 Index",      pip:0.01 },
-    { symbol:"R_50",     display_name:"Volatility 50 Index",      pip:0.01 },
-    { symbol:"R_75",     display_name:"Volatility 75 Index",      pip:0.01 },
-    { symbol:"R_100",    display_name:"Volatility 100 Index",     pip:0.01 },
-    { symbol:"1HZ10V",   display_name:"Volatility 10 (1s) Index", pip:0.01 },
-    { symbol:"1HZ25V",   display_name:"Volatility 25 (1s) Index", pip:0.01 },
-    { symbol:"1HZ50V",   display_name:"Volatility 50 (1s) Index", pip:0.01 },
-    { symbol:"1HZ75V",   display_name:"Volatility 75 (1s) Index", pip:0.01 },
-    { symbol:"1HZ100V",  display_name:"Volatility 100 (1s) Index",pip:0.01 }
-  ]
-};
-
-const WINDOW_LABELS = { 50:"50T", 100:"100T", 250:"250T", 500:"500T", 1000:"1000T" };
-
-const FEATURE_META = [
-  { key:"frequency",    label:"Frequency",    desc:"relative occurrence rate within the window" },
-  { key:"recency",      label:"Recency",      desc:"gap since last appearance vs expected gap" },
-  { key:"clustering",   label:"Clustering",   desc:"tendency to appear in runs" },
-  { key:"stability",    label:"Stability",    desc:"consistency of frequency across sub-blocks" },
-  { key:"distribution", label:"Distribution", desc:"recent-vs-overall frequency momentum" },
-  { key:"transitions",  label:"Transitions",  desc:"conditional probability given the last digit" }
+/* =========================================================
+   DATA
+   ========================================================= */
+const COWS = [
+  { id:1, name:'Bella',    breed:'Holstein-Friesian', age:4, price:1850, emoji:'🐄', milk:'32 L/day',  weight:'620 kg' },
+  { id:2, name:'Daisy',    breed:'Jersey',            age:3, price:1400, emoji:'🐄', milk:'22 L/day',  weight:'430 kg' },
+  { id:3, name:'Buttercup',breed:'Guernsey',          age:5, price:1650, emoji:'🐄', milk:'26 L/day',  weight:'500 kg' },
+  { id:4, name:'Maggie',   breed:'Aberdeen Angus',    age:2, price:2200, emoji:'🐂', milk:'Beef breed',weight:'680 kg' },
+  { id:5, name:'Clover',   breed:'Brown Swiss',       age:6, price:1750, emoji:'🐄', milk:'28 L/day',  weight:'650 kg' },
+  { id:6, name:'Nugget',   breed:'Hereford',          age:1, price:1200, emoji:'🐂', milk:'Beef breed',weight:'380 kg' },
+  { id:7, name:'Rosie',    breed:'Ayrshire',          age:4, price:1580, emoji:'🐄', milk:'25 L/day',  weight:'560 kg' },
+  { id:8, name:'Pearl',    breed:'Simmental',         age:3, price:1980, emoji:'🐄', milk:'27 L/day',  weight:'700 kg' }
 ];
 
-const DEFAULT_SETTINGS = {
-  symbol: "R_100",
-  currency: "USD",
-  baseStake: 1,
-  maxStake: 5,
-  payoutMultiplier: 9,
-  minScore: 75,
-  minGap: 8,
-  minQuality: 0.70,
-  minData: 100,
-  windows: [50, 100, 250, 500, 1000],
-  weights: { frequency:0.22, recency:0.14, clustering:0.12, stability:0.14, distribution:0.18, transitions:0.20 },
-  dailyLossLimit: 5,
-  maxConsecutiveLosses: 3,
-  maxTrades: 50,
-  cooldownTicks: 3
+/* =========================================================
+   STATE
+   ========================================================= */
+const state = {
+  user: null,
+  users: [
+    { name:'Demo Farmer', email:'demo@sheilahcowmart.com', password:'demo123', since:'Jan 2026' }
+  ],
+  cart: [],   // [{ id, qty }]
+  orders: []  // [{ id, date, email, items:[{id,name,price,qty}], total }]
 };
 
-/* ---------- 2. STATE & PERSISTENCE ---------- */
-const State = {
-  connected: false,
-  authorized: false,
-  mode: "PAPER",                 // PAPER | DEMO | REAL
-  bot: "STOPPED",                // STOPPED | ANALYZING | WAITING | TRADE_READY | TRADE_OPEN | COOLDOWN | RISK_LOCKED
-  symbol: "R_100",
-  pipSize: 2,
-  symbols: [],
-  quotes: [],                    // raw quotes (numbers)
-  digits: [],                    // extracted digits (numbers)
-  analysis: null,
-  trades: [],
-  settings: { ...DEFAULT_SETTINGS },
-  risk: null,
-  pending: null,                 // open contract
-  cooldown: 0,
-  executing: false,              // duplicate-purchase mutex
-  lastTickAt: 0,
-  tickCount: 0,
-  tradeFilter: "today",
-  backtestData: null
-};
-
-const Store = {
-  load(key, fallback) {
-    try {
-      const raw = localStorage.getItem(key);
-      return raw ? JSON.parse(raw) : fallback;
-    } catch (e) { return fallback; }
-  },
-  save(key, value) {
-    try { localStorage.setItem(key, JSON.stringify(value)); } catch (e) {}
-  },
-  remove(key) { try { localStorage.removeItem(key); } catch (e) {} }
-};
-
-function loadPersisted() {
-  State.settings = Object.assign({}, DEFAULT_SETTINGS, Store.load(CFG.LS_SETTINGS, {}));
-  // deep-merge weights
-  State.settings.weights = Object.assign({}, DEFAULT_SETTINGS.weights,
-    (Store.load(CFG.LS_SETTINGS, {}).weights || {}));
-  State.trades = Store.load(CFG.LS_TRADES, []);
-  State.symbol = State.settings.symbol;
-}
-
-function persistSettings() { Store.save(CFG.LS_SETTINGS, State.settings); }
-function persistTrades()   { Store.save(CFG.LS_TRADES, State.trades.slice(-2000)); }
-function persistRisk()     { Store.save(CFG.LS_RISK, State.risk); }
-
-/* ---------- 3. UTILITIES ---------- */
+/* =========================================================
+   HELPERS
+   ========================================================= */
 const $  = (sel, root = document) => root.querySelector(sel);
-const $$ = (sel, root = document) => Array.from(root.querySelectorAll(sel));
+const $$ = (sel, root = document) => [...root.querySelectorAll(sel)];
+const money = n => '$' + n.toLocaleString('en-US');
+const cowById = id => COWS.find(c => c.id === id);
+const initials = name => name.trim().split(/\s+/).map(w => w[0]).slice(0,2).join('').toUpperCase();
 
-const fmt = {
-  money(v, cur = "USD") {
-    const n = Number(v) || 0;
-    const sign = n < 0 ? "-" : "";
-    return sign + "$" + Math.abs(n).toFixed(2);
-  },
-  signed(v) {
-    const n = Number(v) || 0;
-    return (n >= 0 ? "+" : "") + "$" + n.toFixed(2);
-  },
-  pct(v, d = 1) { return (Number(v) * 100).toFixed(d) + "%"; },
-  num(v, d = 0) { return Number(v).toFixed(d); },
-  time(ts) {
-    const d = new Date(ts);
-    return d.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit", second: "2-digit" });
-  },
-  dateTime(ts) {
-    const d = new Date(ts);
-    return d.toLocaleDateString([], { month: "short", day: "2-digit" }) + " " +
-           d.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit", second: "2-digit" });
-  },
-  dayKey(ts) {
-    const d = new Date(ts);
-    return d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0");
-  },
-  todayKey() { return fmt.dayKey(Date.now()); }
-};
-
-function clamp(v, lo, hi) { return Math.max(lo, Math.min(hi, v)); }
-
-function minMaxNormalize(map) {
-  const keys = Object.keys(map);
-  let mn = Infinity, mx = -Infinity;
-  for (const k of keys) { const v = map[k]; if (v < mn) mn = v; if (v > mx) mx = v; }
-  const out = {};
-  for (const k of keys) out[k] = (mx === mn) ? 0.5 : (map[k] - mn) / (mx - mn);
-  return out;
+let toastTimer;
+function toast(msg, type = 'ok') {
+  const el = $('#toast');
+  el.textContent = msg;
+  el.className = 'toast show' + (type === 'err' ? ' err' : '');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => el.classList.remove('show'), 2600);
 }
 
-function uid(prefix = "id") {
-  return prefix + "-" + Date.now().toString(36) + "-" + Math.random().toString(36).slice(2, 8);
+/* =========================================================
+   SHOP RENDER
+   ========================================================= */
+function renderShop() {
+  $('#cowGrid').innerHTML = COWS.map(cow => `
+    <article class="cow-card">
+      <div class="cow-img">${cow.emoji}</div>
+      <div class="cow-body">
+        <div class="cow-top">
+          <h3>${cow.name}</h3>
+          <span class="price">${money(cow.price)}</span>
+        </div>
+        <p class="breed">${cow.breed}</p>
+        <ul class="specs">
+          <li>Age <b>${cow.age} yr</b></li>
+          <li>Milk <b>${cow.milk}</b></li>
+          <li>Weight <b>${cow.weight}</b></li>
+        </ul>
+        <button class="btn btn-primary btn-block" data-add="${cow.id}">Add to cart</button>
+      </div>
+    </article>
+  `).join('');
 }
 
-/* ---------- 4. DERIV WEBSOCKET CLIENT ---------- */
-const Deriv = {
-  ws: null,
-  token: null,                 // memory only — never persisted, never logged
-  reqId: 1,
-  pending: new Map(),
-  reconnectTimer: null,
-  attempts: 0,
-  intentionalClose: false,
-  subscribedSymbol: null,
+/* =========================================================
+   CART LOGIC
+   ========================================================= */
+const cartCount = () => state.cart.reduce((s, i) => s + i.qty, 0);
+const cartTotal = () => state.cart.reduce((s, i) => s + cowById(i.id).price * i.qty, 0);
 
-  url() {
-    return CFG.WS_URL + "?app_id=" + encodeURIComponent(CFG.DERIV_APP_ID) + "&l=EN";
-  },
+function addToCart(id) {
+  const line = state.cart.find(i => i.id === id);
+  if (line) line.qty++;
+  else state.cart.push({ id, qty: 1 });
 
-  connect() {
-    if (this.ws && (this.ws.readyState === 0 || this.ws.readyState === 1)) return;
-    this.intentionalClose = false;
-    UI.setDerivStatus("CONNECTING");
-
-    let ws;
-    try { ws = new WebSocket(this.url()); }
-    catch (e) { UI.setDerivStatus("ERROR"); this.scheduleReconnect(); return; }
-    this.ws = ws;
-
-    ws.onopen = () => {
-      this.attempts = 0;
-      State.connected = true;
-      UI.setDerivStatus("CONNECTED");
-      UI.toast("ok", "Deriv connection established");
-      // discover symbols then subscribe
-      this.fetchActiveSymbols().finally(() => this.subscribeTicks(State.symbol));
-      if (this.token) this.authorize(this.token).catch(() => {});
-    };
-
-    ws.onmessage = (ev) => {
-      let msg;
-      try { msg = JSON.parse(ev.data); } catch (e) { return; }
-      this.handle(msg);
-    };
-
-    ws.onclose = () => {
-      State.connected = false;
-      this.ws = null;
-      UI.setDerivStatus("DISCONNECTED");
-      if (!this.intentionalClose) {
-        UI.toast("warn", "Deriv connection lost — reconnecting…");
-        Bot.onDisconnect();
-        this.scheduleReconnect();
-      }
-    };
-
-    ws.onerror = () => { /* onclose handles recovery */ };
-  },
-
-  scheduleReconnect() {
-    clearTimeout(this.reconnectTimer);
-    const delay = Math.min(15000, 900 * Math.pow(1.7, this.attempts++));
-    this.reconnectTimer = setTimeout(() => this.connect(), delay);
-  },
-
-  disconnect() {
-    this.intentionalClose = true;
-    clearTimeout(this.reconnectTimer);
-    if (this.ws) { try { this.ws.close(); } catch (e) {} }
-    this.ws = null;
-    State.connected = false;
-  },
-
-  send(payload) {
-    return new Promise((resolve, reject) => {
-      if (!this.ws || this.ws.readyState !== 1) {
-        reject(new Error("Not connected to Deriv"));
-        return;
-      }
-      const reqId = this.reqId++;
-      this.pending.set(reqId, { resolve, reject });
-      try {
-        this.ws.send(JSON.stringify(Object.assign({}, payload, { req_id: reqId })));
-      } catch (e) {
-        this.pending.delete(reqId);
-        reject(e);
-        return;
-      }
-      setTimeout(() => {
-        if (this.pending.has(reqId)) {
-          this.pending.delete(reqId);
-          reject(new Error("Deriv request timed out"));
-        }
-      }, 20000);
-    });
-  },
-
-  handle(msg) {
-    // resolve pending request
-    if (msg.req_id && this.pending.has(msg.req_id)) {
-      const p = this.pending.get(msg.req_id);
-      this.pending.delete(msg.req_id);
-      if (msg.error) p.reject(new Error(msg.error.message || "Deriv API error"));
-      else p.resolve(msg);
-    }
-
-    switch (msg.msg_type) {
-      case "tick":
-        if (msg.tick) Feed.onTick(msg.tick);
-        break;
-      case "proposal_open_contract":
-        if (msg.proposal_open_contract) Contracts.onUpdate(msg.proposal_open_contract);
-        break;
-      case "balance":
-        if (msg.balance) UI.onBalance(msg.balance);
-        break;
-    }
-  },
-
-  async fetchActiveSymbols() {
-    try {
-      const res = await this.send({ active_symbols: "brief", product_type: "basic" });
-      const list = (res.active_symbols || [])
-        .filter(s => s.market === "synthetic_index" && s.exchange_is_open === 1)
-        .map(s => ({
-          symbol: s.symbol,
-          display_name: s.display_name,
-          pip: parseFloat(s.pip) || 0.01
-        }));
-      if (list.length) {
-        // keep volatility indices first, then everything else
-        const vol = list.filter(s => /^R_|^1HZ/.test(s.symbol));
-        const rest = list.filter(s => !/^R_|^1HZ/.test(s.symbol));
-        State.symbols = vol.concat(rest);
-      } else {
-        State.symbols = CFG.SYMBOL_FALLBACK.slice();
-      }
-    } catch (e) {
-      State.symbols = CFG.SYMBOL_FALLBACK.slice();
-    }
-    UI.populateSymbolSelectors();
-    const found = State.symbols.find(s => s.symbol === State.symbol);
-    if (found) State.pipSize = Math.round(-Math.log10(found.pip));
-  },
-
-  async subscribeTicks(symbol) {
-    if (!State.connected) return;
-    // forget previous subscription
-    if (this.subscribedSymbol && this.subscribedSymbol !== symbol) {
-      try { await this.send({ forget_all: "ticks" }); } catch (e) {}
-    }
-    this.subscribedSymbol = symbol;
-    try {
-      await this.send({ ticks: symbol, subscribe: 1 });
-    } catch (e) {
-      UI.toast("err", "Could not subscribe to " + symbol + ": " + e.message);
-    }
-  },
-
-  async authorize(token) {
-    const res = await this.send({ authorize: token });
-    if (res.authorize) {
-      this.token = token;
-      State.authorized = true;
-      UI.onAuthorized(res.authorize);
-      return res.authorize;
-    }
-    throw new Error("Authorization failed");
-  },
-
-  async requestProposal(cfg) {
-    // Deriv DigitMatch proposal
-    const payload = {
-      proposal: 1,
-      amount: cfg.amount,
-      basis: "stake",
-      contract_type: "DIGITMATCH",
-      currency: cfg.currency,
-      duration: 1,
-      duration_unit: "t",
-      symbol: cfg.symbol,
-      barrier: String(cfg.digit)
-    };
-    const res = await this.send(payload);
-    if (!res.proposal) throw new Error("No proposal returned");
-    return res.proposal;
-  },
-
-  async buy(proposalId, price) {
-    const res = await this.send({ buy: proposalId, price: price });
-    if (!res.buy) throw new Error("Buy failed");
-    return res.buy;
-  },
-
-  async subscribeContract(contractId) {
-    const res = await this.send({
-      proposal_open_contract: 1,
-      contract_id: contractId,
-      subscribe: 1
-    });
-    return res.proposal_open_contract;
-  }
-};
-
-/* ---------- 5. DIGIT EXTRACTION ---------- */
-function extractDigit(quote, pipSize) {
-  const s = Number(quote).toFixed(pipSize).replace(".", "").replace("-", "");
-  const ch = s.charAt(s.length - 1);
-  const d = parseInt(ch, 10);
-  return Number.isFinite(d) ? d : 0;
+  updateCartBadge();
+  renderCart();
+  toast(`${cowById(id).name} added to cart 🐄`);
 }
 
-const Feed = {
-  onTick(tick) {
-    const quote = Number(tick.quote);
-    if (!Number.isFinite(quote)) return;
-    const digit = extractDigit(quote, State.pipSize);
+function changeQty(id, delta) {
+  const line = state.cart.find(i => i.id === id);
+  if (!line) return;
+  line.qty += delta;
+  if (line.qty <= 0) state.cart = state.cart.filter(i => i.id !== id);
+  updateCartBadge();
+  renderCart();
+}
 
-    State.quotes.push(quote);
-    State.digits.push(digit);
-    State.tickCount++;
-    State.lastTickAt = Date.now();
+function removeFromCart(id) {
+  state.cart = state.cart.filter(i => i.id !== id);
+  updateCartBadge();
+  renderCart();
+}
 
-    if (State.quotes.length > CFG.MAX_DIGITS) {
-      State.quotes.splice(0, State.quotes.length - CFG.MAX_DIGITS);
-      State.digits.splice(0, State.digits.length - CFG.MAX_DIGITS);
-    }
+function updateCartBadge() {
+  $('#cartBadge').textContent = cartCount();
+}
 
-    Engine.onTick(digit, quote);
-  }
-};
+function renderCart() {
+  const body = $('#cartBody');
+  const foot = $('#cartFoot');
 
-/* ---------- 6. ANALYSIS ENGINE ---------- */
-/**
- * computeAnalysis(digits, settings, end)
- * Evaluates all 10 digits across 6 statistical features over every configured window.
- * Returns a full analysis object or null when there is not enough data.
- */
-function computeAnalysis(digits, settings, end) {
-  const n = (end === undefined) ? digits.length : end;
-  if (n < CFG.ANALYSIS_MIN_TICKS) return null;
-
-  const windows = (settings.windows || DEFAULT_SETTINGS.windows)
-    .filter(w => w > 0)
-    .sort((a, b) => a - b);
-  const available = windows.filter(w => n >= w);
-  if (!available.length) return null;
-
-  const weights = settings.weights || DEFAULT_SETTINGS.weights;
-  const lastDigit = digits[n - 1];
-
-  // ---- global recency gaps over the whole history -------------------------
-  const gap = new Array(10).fill(Infinity);
-  for (let i = n - 1; i >= 0; i--) {
-    const d = digits[i];
-    if (gap[d] === Infinity) gap[d] = n - 1 - i;
+  if (!state.cart.length) {
+    body.innerHTML = `<p class="empty">Your cart is empty.<br><span class="muted">Add a cow to get moo-ving.</span></p>`;
+    foot.innerHTML = '';
+    return;
   }
 
-  // ---- transition matrix over the last 1000 ticks -------------------------
-  const tN = Math.min(n, 1000);
-  const trans = Array.from({ length: 10 }, () => new Array(10).fill(0));
-  const rowSum = new Array(10).fill(0);
-  for (let i = n - tN + 1; i < n; i++) {
-    const a = digits[i - 1], b = digits[i];
-    trans[a][b]++;
-    rowSum[a]++;
+  body.innerHTML = state.cart.map(item => {
+    const c = cowById(item.id);
+    return `
+      <div class="cart-item">
+        <div class="ci-img">${c.emoji}</div>
+        <div class="ci-info">
+          <b>${c.name}</b>
+          <span class="muted">${c.breed}</span>
+          <div class="qty">
+            <button data-dec="${c.id}" aria-label="Decrease quantity">−</button>
+            <span>${item.qty}</span>
+            <button data-inc="${c.id}" aria-label="Increase quantity">+</button>
+          </div>
+        </div>
+        <div class="ci-right">
+          <b>${money(c.price * item.qty)}</b>
+          <button class="link-danger" data-remove="${c.id}">Remove</button>
+        </div>
+      </div>`;
+  }).join('');
+
+  const subtotal = cartTotal();
+  foot.innerHTML = `
+    <div class="row"><span class="muted">Subtotal</span><span>${money(subtotal)}</span></div>
+    <div class="row"><span class="muted">Delivery</span><span>Free</span></div>
+    <div class="row total"><span>Total</span><b>${money(subtotal)}</b></div>
+    <button class="btn btn-primary btn-block" data-checkout>Checkout</button>
+  `;
+}
+
+/* =========================================================
+   CHECKOUT
+   ========================================================= */
+function checkout() {
+  if (!state.cart.length) return;
+
+  if (!state.user) {
+    toast('Please sign in to check out', 'err');
+    openAuth('login');
+    return;
   }
 
-  // ---- per-window component extraction ------------------------------------
-  const perWindow = {};      // W -> { counts, freq, comps, score }
-  const windowWeightRaw = {}; // W -> relative weight (favours larger windows)
-  const winWeightTable = [0.10, 0.15, 0.20, 0.25, 0.30];
-
-  available.forEach((W, idx) => {
-    const slice = digits.slice(n - W, n);
-    const counts = new Array(10).fill(0);
-    for (let i = 0; i < W; i++) counts[slice[i]]++;
-
-    // clustering — total ticks belonging to runs of length >= 2
-    const runs = new Array(10).fill(0);
-    let i = 0;
-    while (i < W) {
-      let j = i;
-      while (j + 1 < W && slice[j + 1] === slice[i]) j++;
-      const len = j - i + 1;
-      if (len >= 2) runs[slice[i]] += len;
-      i = j + 1;
-    }
-
-    // stability — 5 equal sub-blocks, std of per-block frequency
-    const B = 5;
-    const bl = Math.max(1, Math.floor(W / B));
-    const blockFreq = Array.from({ length: 10 }, () => []);
-    for (let b = 0; b < B; b++) {
-      const seg = slice.slice(b * bl, (b + 1) * bl);
-      const c = new Array(10).fill(0);
-      for (let k = 0; k < seg.length; k++) c[seg[k]]++;
-      for (let d = 0; d < 10; d++) blockFreq[d].push(seg.length ? c[d] / seg.length : 0);
-    }
-
-    // distribution — recent 20% momentum vs whole window
-    const m = Math.max(1, Math.floor(W * 0.2));
-    const rc = new Array(10).fill(0);
-    for (let k = W - m; k < W; k++) rc[slice[k]]++;
-
-    const raw = {
-      frequency: {}, recency: {}, clustering: {},
-      stability: {}, distribution: {}, transitions: {}
-    };
-
-    for (let d = 0; d < 10; d++) {
-      raw.frequency[d] = counts[d] / W;
-      const g = Math.min(gap[d], W);
-      raw.recency[d] = -Math.abs(g - W / 10) / (W / 10);
-      raw.clustering[d] = runs[d] / W;
-
-      const bf = blockFreq[d];
-      const mean = bf.reduce((a, b) => a + b, 0) / bf.length;
-      const varc = bf.reduce((a, b) => a + (b - mean) * (b - mean), 0) / bf.length;
-      raw.stability[d] = -Math.sqrt(varc);
-
-      raw.distribution[d] = rc[d] / m - counts[d] / W;
-      raw.transitions[d] = rowSum[lastDigit] ? trans[lastDigit][d] / rowSum[lastDigit] : 0.1;
-    }
-
-    // normalise each component across the 10 digits, then weight-combine
-    const norm = {};
-    for (const key in raw) norm[key] = minMaxNormalize(raw[key]);
-
-    const scores = new Array(10).fill(0);
-    let wSum = 0;
-    for (const key in weights) wSum += weights[key];
-    if (wSum <= 0) wSum = 1;
-
-    for (let d = 0; d < 10; d++) {
-      let s = 0;
-      for (const key in weights) s += weights[key] * (norm[key][d] !== undefined ? norm[key][d] : 0.5);
-      scores[d] = s / wSum;
-    }
-
-    perWindow[W] = { counts, freq: counts.map(c => c / W), raw, norm, score: scores };
-    windowWeightRaw[W] = winWeightTable[Math.min(idx, winWeightTable.length - 1)];
+  const items = state.cart.map(i => {
+    const c = cowById(i.id);
+    return { id: c.id, name: c.name, price: c.price, qty: i.qty };
   });
 
-  // ---- combine windows ----------------------------------------------------
-  const totalWinWeight = Object.values(windowWeightRaw).reduce((a, b) => a + b, 0);
-  const finalScores = new Array(10).fill(0);
-  for (let d = 0; d < 10; d++) {
-    let s = 0;
-    for (const W of available) {
-      s += (windowWeightRaw[W] / totalWinWeight) * perWindow[W].score[d];
-    }
-    finalScores[d] = s * 100;
-  }
+  const total = items.reduce((s, i) => s + i.price * i.qty, 0);
 
-  // ---- data quality -------------------------------------------------------
-  const sampleAdequacy = Math.min(1, n / 1000);
-  const qN = Math.min(n, 250);
-  const qCounts = new Array(10).fill(0);
-  for (let k = n - qN; k < n; k++) qCounts[digits[k]]++;
-  let entropy = 0;
-  for (let d = 0; d < 10; d++) {
-    const p = qCounts[d] / qN;
-    if (p > 0) entropy -= p * Math.log(p);
-  }
-  const entropyNorm = entropy / Math.log(10);
-  const quality = clamp(0.55 * sampleAdequacy + 0.45 * entropyNorm, 0, 1);
+  state.orders.unshift({
+    id: 'SC-' + Math.floor(100000 + Math.random() * 900000),
+    date: new Date().toLocaleDateString('en-US', { month:'short', day:'numeric', year:'numeric' }),
+    email: state.user.email,
+    items,
+    total
+  });
 
-  // ---- ranking ------------------------------------------------------------
-  const ranked = finalScores
-    .map((score, digit) => ({ digit, score }))
-    .sort((a, b) => b.score - a.score);
-
-  const best = ranked[0];
-  const second = ranked[1];
-  const gapScore = best.score - second.score;
-
-  // consensus: how many windows show this digit above uniform 10%
-  const consensusCounts = new Array(10).fill(0);
-  for (const W of available) {
-    for (let d = 0; d < 10; d++) {
-      if (perWindow[W].freq[d] > 0.10) consensusCounts[d]++;
-    }
-  }
-  function consensusLabel(d) {
-    const c = consensusCounts[d];
-    if (c >= Math.max(3, available.length - 1)) return "HIGH";
-    if (c >= Math.ceil(available.length / 2)) return "MEDIUM";
-    return "LOW";
-  }
-
-  // component scores for the winning digit (averaged across windows, 0..1)
-  const bestDigit = best.digit;
-  const featureScores = {};
-  for (const key of Object.keys(weights)) {
-    let s = 0;
-    for (const W of available) s += (windowWeightRaw[W] / totalWinWeight) * perWindow[W].norm[key][bestDigit];
-    featureScores[key] = s;
-  }
-
-  // multi-window consistency: fraction of windows where the winning digit
-  // ranks in the top 3
-  let top3Count = 0;
-  for (const W of available) {
-    const order = perWindow[W].score
-      .map((s, d) => ({ s, d }))
-      .sort((a, b) => b.s - a.s)
-      .slice(0, 3)
-      .map(o => o.d);
-    if (order.includes(bestDigit)) top3Count++;
-  }
-  const windowConsistency = top3Count / available.length;
-
-  return {
-    tickCount: n,
-    lastDigit,
-    windows: available,
-    perWindow,
-    scores: finalScores,
-    ranked,
-    best: { digit: best.digit, score: best.score },
-    second: { digit: second.digit, score: second.score },
-    gap: gapScore,
-    quality,
-    entropy: entropyNorm,
-    consensus: consensusCounts,
-    consensusLabel: consensusLabel(bestDigit),
-    featureScores,
-    windowConsistency,
-    generatedAt: Date.now()
-  };
+  state.cart = [];
+  updateCartBadge();
+  renderCart();
+  closeCart();
+  switchView('account');
+  toast('Order placed! 🎉');
 }
 
-/* ---------- 7. DECISION ENGINE ---------- */
-const Decision = {
-  evaluate(analysis, settings, risk) {
-    const reasons = [];
-    const warnings = [];
+/* =========================================================
+   ACCOUNT VIEW
+   ========================================================= */
+function renderAccount() {
+  const view = $('#accountView');
 
-    if (!analysis) {
-      return {
-        ok: false,
-        code: "NO_DATA",
-        headline: "WAITING FOR DATA",
-        reasons: [{ ok: false, text: "Insufficient tick data collected" }],
-        warnings: []
-      };
-    }
-
-    if (risk.locked) {
-      return {
-        ok: false,
-        code: "RISK_LOCKED",
-        headline: "NO TRADE",
-        reasons: [
-          { ok: false, text: "Risk engine is locked" },
-          { ok: false, text: risk.lockReason || "Session limit reached" }
-        ],
-        warnings: ["Manual restart required to unlock."]
-      };
-    }
-
-    const checks = [
-      {
-        ok: analysis.windowConsistency >= 0.6,
-        text: "Multi-window consistency",
-        detail: Math.round(analysis.windowConsistency * 100) + "% of windows rank the candidate top-3"
-      },
-      {
-        ok: analysis.consensusLabel !== "LOW",
-        text: "Candidate consensus",
-        detail: "Consensus is " + analysis.consensusLabel
-      },
-      {
-        ok: analysis.tickCount >= settings.minData,
-        text: "Adequate sample size",
-        detail: analysis.tickCount + " / " + settings.minData + " ticks"
-      },
-      {
-        ok: analysis.featureScores.stability >= 0.45,
-        text: "Stable distribution",
-        detail: "Stability component at " + Math.round(analysis.featureScores.stability * 100) + "%"
-      },
-      {
-        ok: analysis.quality >= settings.minQuality,
-        text: "Data quality acceptable",
-        detail: Math.round(analysis.quality * 100) + "% vs required " + Math.round(settings.minQuality * 100) + "%"
-      }
-    ];
-
-    checks.forEach(c => reasons.push({ ok: c.ok, text: c.text, detail: c.detail }));
-
-    if (analysis.best.score < settings.minScore) {
-      reasons.push({
-        ok: false,
-        text: "Candidate score below threshold",
-        detail: analysis.best.score.toFixed(1) + " / " + settings.minScore
-      });
-      warnings.push("Historical patterns do not guarantee the next digit.");
-      return { ok: false, code: "LOW_SCORE", headline: "NO TRADE", reasons, warnings };
-    }
-
-    if (analysis.gap < settings.minGap) {
-      reasons.push({
-        ok: false,
-        text: "Score gap insufficient",
-        detail: analysis.gap.toFixed(1) + " / " + settings.minGap
-      });
-      warnings.push("Historical patterns do not guarantee the next digit.");
-      return { ok: false, code: "LOW_GAP", headline: "NO TRADE", reasons, warnings };
-    }
-
-    if (analysis.quality < settings.minQuality) {
-      reasons.push({
-        ok: false,
-        text: "Data quality below requirement",
-        detail: Math.round(analysis.quality * 100) + "% / " + Math.round(settings.minQuality * 100) + "%"
-      });
-      return { ok: false, code: "LOW_QUALITY", headline: "NO TRADE", reasons, warnings };
-    }
-
-    if (State.cooldown > 0) {
-      return {
-        ok: false,
-        code: "COOLDOWN",
-        headline: "COOLDOWN",
-        reasons: [{ ok: false, text: "Cooldown active", detail: State.cooldown + " ticks remaining" }],
-        warnings: []
-      };
-    }
-
-    warnings.push("Historical patterns do not guarantee the next digit.");
-    return {
-      ok: true,
-      code: "TRADE",
-      headline: "TRADE CANDIDATE",
-      digit: analysis.best.digit,
-      score: analysis.best.score,
-      gap: analysis.gap,
-      reasons,
-      warnings
-    };
+  if (!state.user) {
+    view.innerHTML = `
+      <div class="empty-state">
+        <div class="big">🔐</div>
+        <h2>You're not signed in</h2>
+        <p>Sign in to view your orders, saved cattle and account details.</p>
+        <button class="btn btn-primary" data-open-auth>Sign in / Create account</button>
+      </div>`;
+    return;
   }
-};
 
-/* ---------- 8. RISK ENGINE ---------- */
-const Risk = {
-  init() {
-    const saved = Store.load(CFG.LS_RISK, null);
-    const today = fmt.todayKey();
-    if (saved && saved.day === today) {
-      State.risk = saved;
-    } else {
-      State.risk = {
-        day: today,
-        dailyPL: 0,
-        consecutiveLosses: 0,
-        tradesToday: 0,
-        locked: false,
-        lockReason: ""
-      };
-    }
-    Risk.render();
-  },
+  const myOrders = state.orders.filter(o => o.email === state.user.email);
+  const totalSpent = myOrders.reduce((s, o) => s + o.total, 0);
+  const cowsOwned = myOrders.reduce((s, o) => s + o.items.reduce((a, i) => a + i.qty, 0), 0);
 
-  rollDayIfNeeded() {
-    const today = fmt.todayKey();
-    if (State.risk.day !== today) {
-      State.risk = {
-        day: today,
-        dailyPL: 0,
-        consecutiveLosses: 0,
-        tradesToday: 0,
-        locked: false,
-        lockReason: ""
-      };
-      persistRisk();
-      Risk.render();
-    }
-  },
+  view.innerHTML = `
+    <div class="account-head">
+      <div class="avatar">${initials(state.user.name)}</div>
+      <div>
+        <h1>${state.user.name}</h1>
+        <p class="muted">${state.user.email} &middot; Member since ${state.user.since}</p>
+      </div>
+      <button class="btn btn-ghost" data-logout>Sign out</button>
+    </div>
 
-  /** Pre-trade check. Returns { ok, reason } */
-  canTrade() {
-    Risk.rollDayIfNeeded();
-    const s = State.settings, r = State.risk;
+    <div class="stats">
+      <div class="stat"><span>Orders</span><b>${myOrders.length}</b></div>
+      <div class="stat"><span>Total spent</span><b>${money(totalSpent)}</b></div>
+      <div class="stat"><span>Cattle owned</span><b>${cowsOwned}</b></div>
+      <div class="stat"><span>In cart</span><b>${cartCount()}</b></div>
+    </div>
 
-    if (r.locked) return { ok: false, reason: r.lockReason || "Risk lock active" };
-    if (r.tradesToday >= s.maxTrades) return { ok: false, reason: "Maximum trades per session reached" };
-    if (r.dailyPL <= -Math.abs(s.dailyLossLimit)) return { ok: false, reason: "Daily loss limit reached" };
-    if (r.consecutiveLosses >= s.maxConsecutiveLosses) return { ok: false, reason: "Maximum consecutive losses reached" };
-    if (State.cooldown > 0) return { ok: false, reason: "Cooldown active" };
+    <h2 class="section-title">Order history</h2>
+    <div class="orders">
+      ${myOrders.length ? myOrders.map(o => `
+        <div class="order">
+          <div class="order-head">
+            <span class="oid">#${o.id}</span>
+            <span class="muted">${o.date}</span>
+            <span class="pill">${money(o.total)}</span>
+          </div>
+          <div class="order-items">
+            ${o.items.map(i => `${i.name} × ${i.qty}`).join(' &middot; ')}
+          </div>
+        </div>
+      `).join('') : `
+        <div class="empty-state">
+          <div class="big">📦</div>
+          <h2>No orders yet</h2>
+          <p>Your future herd will show up here.</p>
+          <button class="btn btn-primary" data-view="shop">Browse cattle</button>
+        </div>
+      `}
+    </div>
+  `;
+}
 
-    return { ok: true };
-  },
+/* =========================================================
+   VIEW SWITCHING
+   ========================================================= */
+function switchView(name) {
+  $('#shopView').hidden = name !== 'shop';
+  $('#accountView').hidden = name !== 'account';
+  $$('.nav-btn').forEach(b => b.classList.toggle('active', b.dataset.view === name));
+  if (name === 'account') renderAccount();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
 
-  lock(reason) {
-    State.risk.locked = true;
-    State.risk.lockReason = reason;
-    persistRisk();
-    Risk.render();
-    UI.toast("err", "RISK LOCKED — " + reason);
-    if (State.bot !== "STOPPED") Bot.setState("RISK_LOCKED");
-  },
+/* =========================================================
+   CART DRAWER
+   ========================================================= */
+function openCart() {
+  renderCart();
+  $('#cartDrawer').classList.add('open');
+  $('#backdrop').classList.add('show');
+}
+function closeCart() {
+  $('#cartDrawer').classList.remove('open');
+  $('#backdrop').classList.remove('show');
+}
 
-  recordTrade(pnl, won) {
-    Risk.rollDayIfNeeded();
-    const r = State.risk;
-    r.tradesToday++;
-    r.dailyPL += pnl;
-    if (won) r.consecutiveLosses = 0;
-    else r.consecutiveLosses++;
-    persistRisk();
-    Risk.render();
+/* =========================================================
+   AUTH
+   ========================================================= */
+let authMode = 'login';
 
-    const s = State.settings;
-    if (r.consecutiveLosses >= s.maxConsecutiveLosses) {
-      Risk.lock(s.maxConsecutiveLosses + " consecutive losses");
-    } else if (r.dailyPL <= -Math.abs(s.dailyLossLimit)) {
-      Risk.lock("Daily loss limit of " + fmt.money(s.dailyLossLimit) + " reached");
-    } else if (r.tradesToday >= s.maxTrades) {
-      Risk.lock("Maximum of " + s.maxTrades + " trades reached");
-    }
-  },
+function openAuth(mode = 'login') {
+  setAuthMode(mode);
+  $('#authModal').classList.add('show');
+  setTimeout(() => $('#authEmail').focus(), 120);
+}
+function closeAuth() {
+  $('#authModal').classList.remove('show');
+  $('#authForm').reset();
+  $('#authError').textContent = '';
+}
 
-  reset() {
-    State.risk = {
-      day: fmt.todayKey(),
-      dailyPL: 0,
-      consecutiveLosses: 0,
-      tradesToday: 0,
-      locked: false,
-      lockReason: ""
-    };
-    persistRisk();
-    Risk.render();
-    UI.toast("info", "Risk state reset");
-  },
+function setAuthMode(mode) {
+  authMode = mode;
+  $$('.tab').forEach(t => t.classList.toggle('active', t.dataset.tab === mode));
+  $('#nameField').hidden = mode !== 'signup';
+  $('#authSubmit').textContent = mode === 'login' ? 'Sign in' : 'Create account';
+  $('#authTitle').textContent = mode === 'login' ? 'Welcome back' : 'Join Sheilah Cowmart';
+  $('#authSub').textContent = mode === 'login'
+    ? 'Sign in to track your herd and orders.'
+    : 'Create an account to start buying cattle.';
+  $('#authError').textContent = '';
+}
 
-  render() {
-    const r = State.risk, s = State.settings;
-    if (!r) return;
+function handleAuthSubmit(e) {
+  e.preventDefault();
+  const name  = $('#authName').value.trim();
+  const email = $('#authEmail').value.trim().toLowerCase();
+  const pass  = $('#authPass').value;
+  const err   = $('#authError');
 
-    $("#riskDailyPL").textContent = fmt.signed(r.dailyPL);
-    $("#riskDailyPL").className = r.dailyPL > 0 ? "pos" : (r.dailyPL < 0 ? "neg" : "neu");
-    $("#riskDailyLimit").textContent = "-" + fmt.money(Math.abs(s.dailyLossLimit));
-    $("#riskConsec").textContent = r.consecutiveLosses + " / " + s.maxConsecutiveLosses;
-    $("#riskTrades").textContent = r.tradesToday + " / " + s.maxTrades;
-
-    const st = $("#riskStatus");
-    const stText = $("#riskStatusText");
-    if (r.locked) {
-      st.className = "status err";
-      stText.textContent = "LOCKED";
-    } else if (r.consecutiveLosses >= s.maxConsecutiveLosses - 1 || r.dailyPL <= -Math.abs(s.dailyLossLimit) * 0.7) {
-      st.className = "status warn";
-      stText.textContent = "CAUTION";
-    } else {
-      st.className = "status ok";
-      stText.textContent = "SAFE";
-    }
-
-    const lockBox = $("#riskLockBox");
-    if (r.locked) {
-      lockBox.style.display = "block";
-      lockBox.className = "decision notrade";
-      lockBox.textContent = "RISK LOCKED — " + (r.lockReason || "Limit reached") + ". Manual restart required.";
-    } else {
-      lockBox.style.display = "none";
-    }
-
-    $("#riskOpen").textContent = State.pending
-      ? ("#" + State.pending.id + " · D" + State.pending.digit)
-      : "NONE";
-    $("#riskOpen").className = State.pending ? "pos" : "neu";
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    err.textContent = 'Please enter a valid email address.';
+    return;
   }
-};
-
-/* ---------- 9. EXECUTION ENGINE ---------- */
-const Contracts = {
-  /** Called from Engine when a signal is approved. */
-  async open(signal) {
-    // ---- duplicate-purchase mutex ----
-    if (State.executing) {
-      UI.log("EXEC", "rejected — mutex busy");
-      return false;
-    }
-    if (State.pending) {
-      UI.log("EXEC", "rejected — contract already open");
-      return false;
-    }
-
-    const check = Risk.canTrade();
-    if (!check.ok) {
-      UI.log("RISK", "blocked — " + check.reason);
-      return false;
-    }
-
-    State.executing = true;
-    try {
-      const s = State.settings;
-      const stake = clamp(s.baseStake, 0.1, s.maxStake);
-
-      if (State.mode === "REAL") {
-        Bot.setState("TRADE_READY");
-        UI.toast("info", "Requesting proposal…");
-
-        // 1. proposal
-        const proposal = await Deriv.requestProposal({
-          amount: stake,
-          currency: s.currency,
-          symbol: State.symbol,
-          digit: signal.digit
-        });
-
-        // 2. validate proposal
-        if (!proposal || !proposal.id) throw new Error("Proposal validation failed");
-        if (Number(proposal.spot) !== Number(proposal.spot)) throw new Error("Malformed proposal");
-
-        UI.toast("ok", "Proposal validated · " + Number(proposal.payout).toFixed(2) + " " + s.currency);
-
-        // 3. buy
-        const buyRes = await Deriv.buy(proposal.id, stake);
-        const contractId = buyRes.contract_id;
-
-        State.pending = {
-          id: contractId,
-          digit: signal.digit,
-          score: signal.score,
-          stake: stake,
-          payout: Number(buyRes.buy_price) || stake,
-          multiplier: s.payoutMultiplier,
-          openedAt: Date.now(),
-          real: true
-        };
-        Bot.setState("TRADE_OPEN");
-        UI.log("BUY", "contract=" + contractId + " digit=" + signal.digit + " stake=" + stake);
-
-        // 4. monitor
-        await Deriv.subscribeContract(contractId);
-      } else {
-        // PAPER / DEMO — simulate a contract against the very next tick
-        const contractId = "PAPER-" + Date.now().toString(36).toUpperCase();
-        State.pending = {
-          id: contractId,
-          digit: signal.digit,
-          score: signal.score,
-          stake: stake,
-          multiplier: s.payoutMultiplier,
-          openedAt: Date.now(),
-          real: false
-        };
-        Bot.setState("TRADE_OPEN");
-        UI.log("PAPER", "contract=" + contractId + " digit=" + signal.digit + " stake=" + stake);
-        UI.toast("info", "Paper contract open · predicting digit " + signal.digit);
-      }
-
-      Risk.render();
-      return true;
-    } catch (e) {
-      UI.toast("err", "Execution failed: " + e.message);
-      UI.log("EXEC", "error — " + e.message);
-      Bot.setState("ANALYZING");
-      return false;
-    } finally {
-      State.executing = false;
-    }
-  },
-
-  /** Deriv streaming update for a real contract. */
-  onUpdate(c) {
-    if (!State.pending || String(State.pending.id) !== String(c.contract_id)) return;
-    if (c.is_sold || c.status === "sold") {
-      const profit = Number(c.profit);
-      Contracts.settle({
-        won: profit > 0,
-        profit: profit,
-        payout: Number(c.payout) || 0,
-        exitDigit: c.exit_tick ? extractDigit(c.exit_tick, State.pipSize) : null
-      });
-    } else {
-      $("#riskOpen").textContent = "#" + c.contract_id + " · " + (c.status || "open");
-    }
-  },
-
-  /** Settle a paper contract against the incoming tick digit. */
-  settlePaper(nextDigit) {
-    if (!State.pending || State.pending.real) return;
-    const p = State.pending;
-    const won = (nextDigit === p.digit);
-    const profit = won ? p.stake * (p.multiplier - 1) : -p.stake;
-    const payout = won ? p.stake * p.multiplier : 0;
-    Contracts.settle({ won, profit, payout, exitDigit: nextDigit });
-  },
-
-  /** Common settlement handler — records the trade and updates risk. */
-  settle({ won, profit, payout, exitDigit }) {
-    const p = State.pending;
-    if (!p) return;
-    State.pending = null;
-
-    const trade = {
-      id: p.id,
-      time: Date.now(),
-      symbol: State.symbol,
-      digit: p.digit,
-      score: Number(p.score.toFixed(1)),
-      stake: p.stake,
-      result: won ? "WIN" : "LOSS",
-      payout: Number(payout.toFixed(2)),
-      pl: Number(profit.toFixed(2)),
-      exitDigit: exitDigit,
-      mode: p.real ? "REAL" : "PAPER",
-      contractId: p.id
-    };
-
-    State.trades.push(trade);
-    persistTrades();
-
-    Risk.recordTrade(trade.pl, won);
-
-    if (!won) {
-      State.cooldown = State.settings.cooldownTicks;
-    } else {
-      State.cooldown = 0;
-    }
-
-    UI.log("SETTLEMENT", (won ? "WIN" : "LOSS") + " digit=" + exitDigit + " pl=" + profit.toFixed(2));
-    UI.toast(won ? "ok" : "err",
-      (won ? "WIN" : "LOSS") + " · " + (won ? "+" : "") + profit.toFixed(2) + " " + State.settings.currency +
-      (won ? "" : " · cooldown " + State.cooldown + " ticks"));
-
-    UI.renderTrades();
-    Perf.render();
-
-    if (State.bot !== "STOPPED" && State.bot !== "RISK_LOCKED") {
-      Bot.setState(State.cooldown > 0 ? "COOLDOWN" : "ANALYZING");
-    }
-    Risk.render();
+  if (pass.length < 5) {
+    err.textContent = 'Password must be at least 5 characters.';
+    return;
   }
-};
 
-/* ---------- 10. CHART RENDERERS ---------- */
-const Charts = {
-  _prep(canvas) {
-    if (!canvas) return null;
-    const dpr = window.devicePixelRatio || 1;
-    const rect = canvas.getBoundingClientRect();
-    if (rect.width === 0 || rect.height === 0) return null;
-    canvas.width = Math.round(rect.width * dpr);
-    canvas.height = Math.round(rect.height * dpr);
-    const ctx = canvas.getContext("2d");
-    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-    ctx.clearRect(0, 0, rect.width, rect.height);
-    return { ctx, w: rect.width, h: rect.height };
-  },
-
-  _colors() {
-    const cs = getComputedStyle(document.body);
-    return {
-      text: cs.getPropertyValue("--text").trim() || "#e8ecf5",
-      text2: cs.getPropertyValue("--text-2").trim() || "#9aa6bd",
-      text3: cs.getPropertyValue("--text-3").trim() || "#5f6b82",
-      accent: cs.getPropertyValue("--accent-2").trim() || "#60a5fa",
-      green: cs.getPropertyValue("--green").trim() || "#22c55e",
-      red: cs.getPropertyValue("--red").trim() || "#ef4444",
-      amber: cs.getPropertyValue("--amber").trim() || "#f59e0b",
-      grid: "rgba(128,140,165,.16)"
-    };
-  },
-
-  /** Vertical bar chart. values: array of numbers. */
-  bars(canvas, labels, values, opts = {}) {
-    const c = this._prep(canvas);
-    if (!c) return;
-    const { ctx, w, h } = c;
-    const col = this._colors();
-
-    const padL = 36, padR = 10, padT = 14, padB = 26;
-    const plotW = w - padL - padR;
-    const plotH = h - padT - padB;
-
-    const maxV = Math.max(...values, 0.0001);
-    const niceMax = maxV * 1.15;
-
-    // grid + y labels
-    ctx.font = "10px " + (getComputedStyle(document.body).fontFamily || "sans-serif");
-    ctx.textAlign = "right";
-    ctx.textBaseline = "middle";
-    for (let i = 0; i <= 4; i++) {
-      const y = padT + plotH - (plotH * i / 4);
-      ctx.strokeStyle = col.grid;
-      ctx.lineWidth = 1;
-      ctx.beginPath();
-      ctx.moveTo(padL, y);
-      ctx.lineTo(padL + plotW, y);
-      ctx.stroke();
-
-      ctx.fillStyle = col.text3;
-      ctx.fillText((niceMax * i / 4).toFixed(niceMax < 1 ? 2 : 0), padL - 7, y);
-    }
-
-    const n = values.length;
-    const slot = plotW / n;
-    const barW = Math.min(slot * 0.62, 44);
-
-    for (let i = 0; i < n; i++) {
-      const v = values[i];
-      const bh = (v / niceMax) * plotH;
-      const x = padL + slot * i + (slot - barW) / 2;
-      const y = padT + plotH - bh;
-
-      const grad = ctx.createLinearGradient(0, y, 0, y + bh);
-      const base = opts.colorFor ? opts.colorFor(i, v) : col.accent;
-      grad.addColorStop(0, base);
-      grad.addColorStop(1, base + "44");
-      ctx.fillStyle = grad;
-      ctx.beginPath();
-      const r = Math.min(4, barW / 2);
-      ctx.moveTo(x, y + bh);
-      ctx.lineTo(x, y + r);
-      ctx.quadraticCurveTo(x, y, x + r, y);
-      ctx.lineTo(x + barW - r, y);
-      ctx.quadraticCurveTo(x + barW, y, x + barW, y + r);
-      ctx.lineTo(x + barW, y + bh);
-      ctx.closePath();
-      ctx.fill();
-
-      // x label
-      ctx.fillStyle = col.text2;
-      ctx.textAlign = "center";
-      ctx.textBaseline = "top";
-      ctx.font = "11px " + (getComputedStyle(document.body).fontFamily || "sans-serif");
-      ctx.fillText(String(labels[i]), padL + slot * i + slot / 2, padT + plotH + 7);
-
-      // value label
-      if (opts.showValues !== false && bh > 12) {
-        ctx.fillStyle = col.text;
-        ctx.textBaseline = "bottom";
-        ctx.font = "10px ui-monospace, monospace";
-        ctx.fillText(opts.valueFmt ? opts.valueFmt(v) : String(Math.round(v * 100) / 100), x + barW / 2, y - 3);
-      }
-    }
-  },
-
-  /** Multi-series line chart. series: [{name,color,values:[]}] */
-  lines(canvas, labels, series, opts = {}) {
-    const c = this._prep(canvas);
-    if (!c) return;
-    const { ctx, w, h } = c;
-    const col = this._colors();
-
-    const padL = 40, padR = 12, padT = 16, padB = 26;
-    const plotW = w - padL - padR;
-    const plotH = h - padT - padB;
-
-    let allVals = [];
-    series.forEach(s => allVals = allVals.concat(s.values));
-    const maxV = Math.max(...allVals, 0.0001);
-    const minV = opts.min !== undefined ? opts.min : Math.min(...allVals, 0);
-    const span = (maxV - minV) || 1;
-    const top = maxV + span * 0.15;
-    const bottom = minV - span * 0.1;
-
-    const X = i => padL + (plotW * i) / Math.max(1, labels.length - 1);
-    const Y = v => padT + plotH - ((v - bottom) / (top - bottom)) * plotH;
-
-    // grid
-    ctx.font = "10px " + (getComputedStyle(document.body).fontFamily || "sans-serif");
-    for (let i = 0; i <= 4; i++) {
-      const y = padT + (plotH * i / 4);
-      ctx.strokeStyle = col.grid;
-      ctx.beginPath();
-      ctx.moveTo(padL, y);
-      ctx.lineTo(padL + plotW, y);
-      ctx.stroke();
-      ctx.fillStyle = col.text3;
-      ctx.textAlign = "right";
-      ctx.textBaseline = "middle";
-      const v = top - ((top - bottom) * i / 4);
-      ctx.fillText(opts.yFmt ? opts.yFmt(v) : v.toFixed(2), padL - 7, y);
-    }
-
-    // x labels
-    ctx.textAlign = "center";
-    ctx.textBaseline = "top";
-    ctx.fillStyle = col.text2;
-    for (let i = 0; i < labels.length; i++) {
-      ctx.fillText(String(labels[i]), X(i), padT + plotH + 7);
-    }
-
-    // series
-    series.forEach(s => {
-      if (!s.values.length) return;
-      ctx.strokeStyle = s.color || col.accent;
-      ctx.lineWidth = 2;
-      ctx.lineJoin = "round";
-      ctx.beginPath();
-      s.values.forEach((v, i) => {
-        const x = X(i), y = Y(v);
-        if (i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
-      });
-      ctx.stroke();
-
-      // points
-      ctx.fillStyle = s.color || col.accent;
-      s.values.forEach((v, i) => {
-        ctx.beginPath();
-        ctx.arc(X(i), Y(v), 2.6, 0, Math.PI * 2);
-        ctx.fill();
-      });
-    });
-  },
-
-  /** Horizontal proportional bar (win/loss) */
-  ratio(canvas, segments) {
-    const c = this._prep(canvas);
-    if (!c) return;
-    const { ctx, w, h } = c;
-    const col = this._colors();
-
-    const total = segments.reduce((a, s) => a + s.value, 0);
-    const padX = 14, padY = 14;
-    const barH = 46;
-    const barY = padY + 24;
-    const barW = w - padX * 2;
-
-    ctx.font = "11px " + (getComputedStyle(document.body).fontFamily || "sans-serif");
-    ctx.fillStyle = col.text3;
-    ctx.textAlign = "left";
-    ctx.textBaseline = "top";
-    ctx.fillText("DISTRIBUTION", padX, padY);
-
-    // track
-    ctx.fillStyle = "rgba(128,140,165,.14)";
-    this._roundRect(ctx, padX, barY, barW, barH, 10);
-    ctx.fill();
-
-    if (total > 0) {
-      let x = padX;
-      segments.forEach(s => {
-        const sw = (s.value / total) * barW;
-        if (sw <= 0) return;
-        ctx.fillStyle = s.color;
-        this._roundRect(ctx, x, barY, sw, barH, 10);
-        ctx.fill();
-        x += sw;
-      });
-    }
-
-    // labels
-    let ly = barY + barH + 20;
-    segments.forEach(s => {
-      ctx.fillStyle = s.color;
-      ctx.beginPath();
-      ctx.arc(padX + 5, ly + 5, 4.5, 0, Math.PI * 2);
-      ctx.fill();
-
-      ctx.fillStyle = col.text2;
-      ctx.textAlign = "left";
-      ctx.font = "11.5px " + (getComputedStyle(document.body).fontFamily || "sans-serif");
-      ctx.fillText(s.name, padX + 16, ly);
-
-      ctx.fillStyle = col.text;
-      ctx.textAlign = "right";
-      ctx.font = "11.5px ui-monospace, monospace";
-      const pct = total ? ((s.value / total) * 100).toFixed(1) + "%" : "0%";
-      ctx.fillText(s.value + "  (" + pct + ")", padX + barW, ly);
-      ly += 22;
-    });
-  },
-
-  _roundRect(ctx, x, y, w, h, r) {
-    r = Math.min(r, w / 2, h / 2);
-    ctx.beginPath();
-    ctx.moveTo(x + r, y);
-    ctx.arcTo(x + w, y, x + w, y + h, r);
-    ctx.arcTo(x + w, y + h, x, y + h, r);
-    ctx.arcTo(x, y + h, x, y, r);
-    ctx.arcTo(x, y, x + w, y, r);
-    ctx.closePath();
-  }
-};
-
-/* ---------- 11. UI RENDERERS ---------- */
-const UI = {
-  /* -------- toasts -------- */
-  toast(kind, message, ms = 4200) {
-    const wrap = $("#toasts");
-    const el = document.createElement("div");
-    el.className = "toast " + kind;
-    const icons = { ok: "✓", err: "✕", warn: "!", info: "●" };
-    el.innerHTML = '<span class="ti">' + (icons[kind] || "●") + "</span><span>" + escapeHtml(message) + "</span>";
-    wrap.appendChild(el);
-    setTimeout(() => {
-      el.classList.add("out");
-      setTimeout(() => el.remove(), 260);
-    }, ms);
-    while (wrap.children.length > 6) wrap.removeChild(wrap.firstChild);
-  },
-
-  /* -------- structured log -------- */
-  log(tag, message) {
-    const t = new Date();
-    const stamp = String(t.getHours()).padStart(2, "0") + ":" +
-                  String(t.getMinutes()).padStart(2, "0") + ":" +
-                  String(t.getSeconds()).padStart(2, "0");
-    // Console only — never contains credentials.
-    console.log("[" + stamp + "] " + tag + " " + message);
-  },
-
-  /* -------- status helpers -------- */
-  setDerivStatus(state) {
-    const el = $("#stDeriv"), txt = $("#stDerivText");
-    if (!el) return;
-    const map = {
-      CONNECTED:    ["ok", "CONNECTED", true],
-      CONNECTING:   ["warn", "CONNECTING", true],
-      DISCONNECTED: ["idle", "DISCONNECTED", false],
-      ERROR:        ["err", "ERROR", false]
-    };
-    const [cls, label, live] = map[state] || map.DISCONNECTED;
-    el.className = "status " + cls + (live ? " live" : "");
-    txt.textContent = label;
-    const s = $("#setConnStatus");
-    if (s) { s.textContent = label; s.className = cls === "ok" ? "pos" : (cls === "err" ? "neg" : "neu"); }
-  },
-
-  setBotStatus(state) {
-    const el = $("#stBot"), txt = $("#stBotText");
-    if (!el) return;
-    const map = {
-      STOPPED:     ["idle", "STOPPED"],
-      ANALYZING:   ["ok", "ANALYZING"],
-      WAITING:     ["warn", "WAITING"],
-      TRADE_READY: ["ok", "TRADE READY"],
-      TRADE_OPEN:  ["warn", "TRADE OPEN"],
-      COOLDOWN:    ["warn", "COOLDOWN"],
-      RISK_LOCKED: ["err", "RISK LOCKED"]
-    };
-    const [cls, label] = map[state] || map.STOPPED;
-    el.className = "status " + cls + (state === "ANALYZING" ? " live" : "");
-    txt.textContent = label;
-
-    const bs = $("#botStateText");
-    if (bs) {
-      bs.textContent = label;
-      bs.className = "v " + (cls === "ok" ? "pos" : cls === "err" ? "neg" : cls === "warn" ? "neu" : "neu");
-    }
-  },
-
-  setMode(mode) {
-    State.mode = mode;
-    const el = $("#stMode");
-    el.textContent = mode;
-    el.className = "badge " + (mode === "REAL" ? "red" : mode === "PAPER" ? "blue" : "amber");
-    UI.log("MODE", mode);
-  },
-
-  onAuthorized(auth) {
-    UI.toast("ok", "Deriv account authorized · " + (auth.loginid || ""));
-    const s = $("#setAuthStatus");
-    if (s) { s.textContent = "YES (" + (auth.loginid || "—") + ")"; s.className = "pos"; }
-  },
-
-  onBalance(bal) {
-    // Surfaced only when real authorization is active.
-    const s = $("#setBalance");
-    if (s) s.textContent = Number(bal.balance).toFixed(2) + " " + bal.currency;
-  },
-
-  populateSymbolSelectors() {
-    const list = State.symbols.length ? State.symbols : CFG.SYMBOL_FALLBACK;
-    [["#selSymbol"], ["#setSymbol"]].forEach(([sel]) => {
-      const el = $(sel);
-      if (!el) return;
-      const current = el.value || State.symbol;
-      el.innerHTML = list.map(s =>
-        '<option value="' + s.symbol + '">' + escapeHtml(s.display_name || s.symbol) + "</option>"
-      ).join("");
-      el.value = list.some(s => s.symbol === current) ? current : list[0].symbol;
-    });
-  },
-
-  /* -------- live digit panels -------- */
-  renderCurrentDigit(digit) {
-    const el = $("#currentDigit");
-    if (!el) return;
-    el.textContent = digit;
-    el.classList.remove("flash");
-    void el.offsetWidth;
-    el.classList.add("flash");
-
-    const prev = State.digits.slice(-11, -1).reverse();
-    $("#prevDigits").innerHTML = prev.map(d => "<span>" + d + "</span>").join("");
-  },
-
-  renderTickStream() {
-    const el = $("#tickStream");
-    if (!el) return;
-    const recent = State.digits.slice(-50).reverse();
-    el.innerHTML = recent.map((d, i) =>
-      '<span class="' + (i === 0 ? "newest" : "") + '">' + d + "</span>"
-    ).join("");
-  },
-
-  /* -------- candidate panel -------- */
-  renderCandidate(analysis, decision) {
-    const badge = $("#candBadge");
-    const digitEl = $("#candDigit");
-    const scoreEl = $("#candScore");
-    const gapEl = $("#candGap");
-    const qEl = $("#candQuality");
-    const thEl = $("#candThreshold");
-    const decEl = $("#candDecision");
-    const s = State.settings;
-
-    if (!analysis) {
-      badge.textContent = "WAITING";
-      badge.className = "badge";
-      digitEl.textContent = "–";
-      scoreEl.textContent = "—";
-      gapEl.textContent = "—";
-      qEl.textContent = "—";
-      thEl.textContent = s.minScore + " / gap " + s.minGap;
-      decEl.className = "decision wait";
-      decEl.textContent = "WAITING FOR DATA · " + State.digits.length + " ticks";
+  if (authMode === 'signup') {
+    if (name.length < 2) { err.textContent = 'Please enter your full name.'; return; }
+    if (state.users.some(u => u.email === email)) {
+      err.textContent = 'An account with that email already exists.';
       return;
     }
-
-    digitEl.textContent = analysis.best.digit;
-    scoreEl.textContent = analysis.best.score.toFixed(1) + " / 100";
-    gapEl.textContent = analysis.gap.toFixed(1);
-    qEl.textContent = Math.round(analysis.quality * 100) + "%";
-    thEl.textContent = s.minScore + " / gap " + s.minGap;
-
-    if (decision.ok) {
-      badge.textContent = "TRADE CANDIDATE";
-      badge.className = "badge green";
-      decEl.className = "decision trade";
-      decEl.textContent = "TRADE CANDIDATE · DIGIT " + analysis.best.digit;
-    } else {
-      badge.textContent = decision.code === "COOLDOWN" ? "COOLDOWN" : "NO TRADE";
-      badge.className = "badge " + (decision.code === "COOLDOWN" ? "amber" : "red");
-      decEl.className = "decision " + (decision.code === "COOLDOWN" ? "wait" : "notrade");
-      decEl.textContent = decision.headline;
-    }
-  },
-
-  /* -------- reasoning panel -------- */
-  renderReasoning(decision) {
-    const el = $("#reasonList");
-    const badge = $("#reasonBadge");
-    if (!el) return;
-
-    if (!decision) {
-      badge.textContent = "—";
-      badge.className = "badge";
-      el.innerHTML = '<div><span class="ic">·</span><span>Waiting for sufficient tick data…</span></div>';
-      return;
-    }
-
-    badge.textContent = decision.ok ? "APPROVED" : decision.headline;
-    badge.className = "badge " + (decision.ok ? "green" : (decision.code === "COOLDOWN" ? "amber" : "red"));
-
-    let html = "";
-    decision.reasons.forEach(r => {
-      html += '<div class="' + (r.ok ? "ok" : "no") + '">' +
-              '<span class="ic">' + (r.ok ? "✓" : "✕") + "</span>" +
-              "<span>" + escapeHtml(r.text) +
-              (r.detail ? ' <span class="muted small">— ' + escapeHtml(r.detail) + "</span>" : "") +
-              "</span></div>";
-    });
-
-    if (decision.warnings && decision.warnings.length) {
-      html += '<div style="margin-top:8px" class="muted small">Warnings:</div>';
-      decision.warnings.forEach(w => {
-        html += '<div class="warn"><span class="ic">•</span><span>' + escapeHtml(w) + "</span></div>";
-      });
-    }
-
-    el.innerHTML = html;
-  },
-
-  /* -------- ten digit board -------- */
-  renderDigitBoard(analysis) {
-    const el = $("#digitBoard");
-    if (!el) return;
-
-    const windows = State.settings.windows;
-    let html = "";
-
-    for (let d = 0; d < 10; d++) {
-      const isBest = analysis && analysis.best.digit === d;
-      const score = analysis ? analysis.scores[d] : null;
-      const cons = analysis ? analysis.consensusLabel(d) : "—";
-
-      let rows = "";
-      windows.forEach(w => {
-        const pw = analysis && analysis.perWindow[w];
-        const val = pw ? (pw.freq[d] * 100).toFixed(1) + "%" : "—";
-        rows += '<div class="dcard-row"><em>' + (WINDOW_LABELS[w] || w + "T") + "</em><span>" + val + "</span></div>";
-      });
-
-      html +=
-        '<div class="dcard' + (isBest ? " best" : "") + '">' +
-          '<div class="dcard-h">DIGIT<b>' + d + "</b></div>" +
-          '<div class="dcard-score">' + (score !== null ? score.toFixed(1) : "—") + "</div>" +
-          rows +
-          '<div class="dcard-cons ' + cons + '">' + (cons === "—" ? "—" : "CONSENSUS " + cons) + "</div>" +
-        "</div>";
-    }
-    el.innerHTML = html;
-  },
-
-  /* -------- charts -------- */
-  renderDistChart() {
-    const w = parseInt($("#distWindow").value, 10) || 250;
-    const slice = State.digits.slice(-w);
-    if (slice.length < 10) { Charts._prep($("#chartDist")); return; }
-
-    const counts = new Array(10).fill(0);
-    slice.forEach(d => counts[d]++);
-    const values = counts.map(c => (c / slice.length) * 100);
-
-    const col = Charts._colors();
-    Charts.bars($("#chartDist"), ["0","1","2","3","4","5","6","7","8","9"], values, {
-      valueFmt: v => v.toFixed(1) + "%",
-      colorFor: (i, v) => v >= 12 ? col.green : (v <= 8 ? col.red : col.accent)
-    });
-  },
-
-  renderMultiChart() {
-    const a = State.analysis;
-    const cv = $("#chartMulti");
-    if (!a) { Charts._prep(cv); $("#multiLegend").innerHTML = ""; return; }
-
-    const palette = ["#60a5fa", "#22c55e", "#f59e0b", "#a78bfa", "#f472b6"];
-    const labels = ["0","1","2","3","4","5","6","7","8","9"];
-    const series = a.windows.map((w, i) => ({
-      name: (WINDOW_LABELS[w] || w + "T"),
-      color: palette[i % palette.length],
-      values: labels.map((_, d) => (a.perWindow[w] ? a.perWindow[w].freq[d] * 100 : 0))
-    }));
-
-    Charts.lines(cv, labels, series, { min: 0, yFmt: v => v.toFixed(1) + "%" });
-
-    $("#multiLegend").innerHTML = series.map(s =>
-      '<span><i style="background:' + s.color + '"></i>' + s.name + "</span>"
-    ).join("");
-  },
-
-  /* -------- trades table -------- */
-  renderTrades() {
-    const body = $("#tradesBody");
-    if (!body) return;
-
-    const now = Date.now();
-    const dayMs = 86400000;
-    const todayStart = new Date(); todayStart.setHours(0, 0, 0, 0);
-    const t0 = todayStart.getTime();
-
-    let list = State.trades.slice().reverse();
-
-    switch (State.tradeFilter) {
-      case "today":     list = list.filter(t => t.time >= t0); break;
-      case "yesterday": list = list.filter(t => t.time >= t0 - dayMs && t.time < t0); break;
-      case "7":         list = list.filter(t => t.time >= now - 7 * dayMs); break;
-      case "30":        list = list.filter(t => t.time >= now - 30 * dayMs); break;
-      case "all":       break;
-    }
-
-    $("#tradesSubtitle").textContent = list.length + " trade" + (list.length === 1 ? "" : "s") + " · " +
-      (State.trades.length) + " total stored";
-
-    if (!list.length) {
-      body.innerHTML = '<tr><td colspan="9" class="empty">No trades recorded for this period.</td></tr>';
-      return;
-    }
-
-    body.innerHTML = list.slice(0, 500).map(t =>
-      "<tr>" +
-        "<td>" + fmt.dateTime(t.time) + "</td>" +
-        "<td>" + escapeHtml(t.symbol) + "</td>" +
-        "<td>" + t.digit + "</td>" +
-        "<td>" + Number(t.score).toFixed(1) + "</td>" +
-        "<td>" + Number(t.stake).toFixed(2) + "</td>" +
-        '<td class="' + (t.result === "WIN" ? "pos" : "neg") + '">' + t.result + "</td>" +
-        "<td>" + Number(t.payout).toFixed(2) + "</td>" +
-        '<td class="' + (t.pl >= 0 ? "pos" : "neg") + '">' + (t.pl >= 0 ? "+" : "") + Number(t.pl).toFixed(2) + "</td>" +
-        '<td class="muted">' + escapeHtml(String(t.contractId)) + "</td>" +
-      "</tr>"
-    ).join("");
-  },
-
-  /* -------- settings stats -------- */
-  renderSettingsStats() {
-    const s1 = $("#setTickCount");
-    if (s1) s1.textContent = State.tickCount.toLocaleString();
-    const s2 = $("#setTradeCount");
-    if (s2) s2.textContent = State.trades.length.toLocaleString();
-    const s3 = $("#btCollected");
-    if (s3) s3.textContent = State.quotes.length.toLocaleString();
-  },
-
-  renderAll() {
-    UI.renderTickStream();
-    UI.renderDigitBoard(State.analysis);
-    UI.renderDistChart();
-    UI.renderMultiChart();
-    UI.renderSettingsStats();
+    const user = {
+      name,
+      email,
+      password: pass,
+      since: new Date().toLocaleDateString('en-US', { month:'short', year:'numeric' })
+    };
+    state.users.push(user);
+    state.user = user;
+    toast(`Welcome to Sheilah Cowmart, ${name.split(' ')[0]}! 🐄`);
+  } else {
+    const user = state.users.find(u => u.email === email && u.password === pass);
+    if (!user) { err.textContent = 'Incorrect email or password.'; return; }
+    state.user = user;
+    toast(`Welcome back, ${user.name.split(' ')[0]}!`);
   }
-};
 
-function escapeHtml(s) {
-  return String(s).replace(/[&<>"']/g, c => ({
-    "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"
-  }[c]));
+  closeAuth();
+  updateAuthButton();
+  renderAccount();
+  if (!$('#shopView').hidden) renderAccount(); // keep account fresh in background
 }
 
-/* ---------- BOT CONTROLLER ---------- */
-const Bot = {
-  setState(state) {
-    State.bot = state;
-    UI.setBotStatus(state);
-
-    const startBtn = $("#btnStart"), pauseBtn = $("#btnPause"), stopBtn = $("#btnStop");
-    const subtitle = $("#botSubtitle");
-
-    const running = state !== "STOPPED";
-    startBtn.disabled = running;
-    pauseBtn.disabled = !running || state === "RISK_LOCKED";
-    stopBtn.disabled = !running;
-
-    const subs = {
-      STOPPED: "Idle",
-      ANALYZING: "Processing live ticks",
-      WAITING: "Awaiting more data",
-      TRADE_READY: "Signal approved",
-      TRADE_OPEN: "Contract open — monitoring",
-      COOLDOWN: "Cooldown active",
-      RISK_LOCKED: "Locked by risk engine"
-    };
-    subtitle.textContent = subs[state] || "Idle";
-  },
-
-  start() {
-    if (State.bot === "RISK_LOCKED") {
-      UI.toast("warn", "Bot is risk-locked. Reset risk state in Settings.");
-      return;
-    }
-    if (!State.connected) {
-      UI.toast("warn", "Waiting for Deriv connection…");
-      Deriv.connect();
-    }
-    if (State.digits.length < CFG.ANALYSIS_MIN_TICKS) {
-      Bot.setState("WAITING");
-      UI.toast("info", "Collecting data — " + State.digits.length + " / " + CFG.ANALYSIS_MIN_TICKS + " ticks");
-    } else {
-      Bot.setState("ANALYZING");
-    }
-    UI.toast("ok", "Bot started · " + State.mode + " mode");
-    UI.log("BOT", "started mode=" + State.mode);
-  },
-
-  pause() {
-    if (State.bot === "STOPPED") return;
-    Bot.setState("WAITING");
-    UI.toast("info", "Bot paused");
-    UI.log("BOT", "paused");
-  },
-
-  stop() {
-    Bot.setState("STOPPED");
-    UI.toast("warn", "Bot stopped");
-    UI.log("BOT", "stopped");
-  },
-
-  onDisconnect() {
-    if (State.bot !== "STOPPED") {
-      Bot.setState("WAITING");
-      UI.toast("warn", "Bot paused — connection lost");
-    }
-  },
-
-  /** Rebuild state after reconnection. Never purchases immediately. */
-  onReconnect() {
-    State.cooldown = Math.max(State.cooldown, 5);
-    UI.log("RECONNECT", "tick history preserved (" + State.digits.length + " digits); cooldown applied");
-    UI.toast("ok", "Connection restored — analysis resumed");
+function updateAuthButton() {
+  const btn = $('#authBtn');
+  if (state.user) {
+    btn.textContent = state.user.name.split(' ')[0];
+    btn.onclick = () => switchView('account');
+  } else {
+    btn.textContent = 'Sign in';
+    btn.onclick = () => openAuth('login');
   }
-};
-
-/* ---------- ENGINE (tick → analysis → decision → execution) ---------- */
-const Engine = {
-  lastAnalysisAt: 0,
-  ANALYSIS_INTERVAL: 350,   // ms — throttle heavy computation
-
-  onTick(digit, quote) {
-    // 1. settle any open paper contract against this tick
-    if (State.pending && !State.pending.real) {
-      Contracts.settlePaper(digit);
-    }
-
-    // 2. cooldown decrement
-    if (State.cooldown > 0 && !State.pending) {
-      State.cooldown--;
-      const cd = $("#botCooldown");
-      if (cd) cd.textContent = State.cooldown + " ticks";
-    }
-
-    // 3. UI updates (cheap)
-    UI.renderCurrentDigit(digit);
-    UI.renderTickStream();
-    UI.renderSettingsStats();
-    const tc = $("#stTicks");
-    if (tc) tc.textContent = State.tickCount.toLocaleString();
-
-    // 4. analysis + decision (throttled)
-    const now = Date.now();
-    if (now - this.lastAnalysisAt < this.ANALYSIS_INTERVAL) return;
-    this.lastAnalysisAt = now;
-
-    Engine.run(digit);
-  },
-
-  run(currentDigit) {
-    const analysis = computeAnalysis(State.digits, State.settings);
-    State.analysis = analysis;
-
-    if (!analysis) {
-      UI.renderCandidate(null, null);
-      UI.renderReasoning(null);
-      UI.renderDigitBoard(null);
-      if (State.bot === "ANALYZING") Bot.setState("WAITING");
-      return;
-    }
-
-    const decision = Decision.evaluate(analysis, State.settings, State.risk);
-
-    UI.renderCandidate(analysis, decision);
-    UI.renderReasoning(decision);
-    UI.renderDigitBoard(analysis);
-    UI.renderDistChart();
-    UI.renderMultiChart();
-
-    // ---- execution gate ----
-    const running = State.bot === "ANALYZING" || State.bot === "WAITING" ||
-                    State.bot === "TRADE_READY" || State.bot === "COOLDOWN";
-
-    if (!running) return;
-    if (State.pending) return;
-    if (State.bot === "RISK_LOCKED") return;
-
-    if (decision.ok) {
-      Bot.setState("TRADE_READY");
-      UI.log("ANALYSIS", "candidate=" + analysis.best.digit +
-             " score=" + analysis.best.score.toFixed(1) +
-             " gap=" + analysis.gap.toFixed(1) +
-             " quality=" + Math.round(analysis.quality * 100) + "%");
-      Contracts.open({ digit: analysis.best.digit, score: analysis.best.score });
-    } else {
-      UI.log("ANALYSIS", "no-trade code=" + decision.code);
-      if (State.cooldown > 0) Bot.setState("COOLDOWN");
-      else if (State.bot !== "WAITING") Bot.setState("ANALYZING");
-    }
-  }
-};
-
-/* ---------- PERFORMANCE ---------- */
-const Perf = {
-  stats() {
-    const t = State.trades;
-    const wins = t.filter(x => x.result === "WIN");
-    const losses = t.filter(x => x.result === "LOSS");
-    const net = t.reduce((a, x) => a + x.pl, 0);
-    const grossProfit = wins.reduce((a, x) => a + x.pl, 0);
-    const grossLoss = Math.abs(losses.reduce((a, x) => a + x.pl, 0));
-    const winRate = t.length ? wins.length / t.length : 0;
-    const profitFactor = grossLoss > 0 ? grossProfit / grossLoss : (grossProfit > 0 ? Infinity : 0);
-
-    // max drawdown on equity curve
-    let peak = 0, equity = 0, maxDD = 0;
-    t.forEach(x => {
-      equity += x.pl;
-      peak = Math.max(peak, equity);
-      maxDD = Math.max(maxDD, peak - equity);
-    });
-
-    // streaks
-    let curWin = 0, curLose = 0, bestWin = 0, bestLose = 0;
-    t.forEach(x => {
-      if (x.result === "WIN") { curWin++; curLose = 0; }
-      else { curLose++; curWin = 0; }
-      bestWin = Math.max(bestWin, curWin);
-      bestLose = Math.max(bestLose, curLose);
-    });
-
-    const noTradeRate = State.tickCount > 0
-      ? 1 - (t.length / Math.max(1, State.tickCount))
-      : 0;
-
-    return {
-      total: t.length, wins: wins.length, losses: losses.length,
-      winRate, net, grossProfit, grossLoss, profitFactor,
-      maxDD, bestWin, bestLose, noTradeRate
-    };
-  },
-
-  render() {
-    const s = Perf.stats();
-    const grid = $("#perfMetrics");
-    if (grid) {
-      const items = [
-        ["TOTAL TRADES", s.total, ""],
-        ["WINS", s.wins, "pos"],
-        ["LOSSES", s.losses, "neg"],
-        ["WIN RATE", (s.winRate * 100).toFixed(1) + "%", s.winRate >= 0.5 ? "pos" : "neg"],
-        ["NET P/L", fmt.signed(s.net), s.net >= 0 ? "pos" : "neg"],
-        ["GROSS PROFIT", "+" + s.grossProfit.toFixed(2), "pos"],
-        ["GROSS LOSS", "-" + s.grossLoss.toFixed(2), "neg"],
-        ["PROFIT FACTOR", s.profitFactor === Infinity ? "∞" : s.profitFactor.toFixed(2), s.profitFactor >= 1 ? "pos" : "neg"],
-        ["MAX DRAWDOWN", "-" + s.maxDD.toFixed(2), s.maxDD > 0 ? "neg" : "neu"],
-        ["LONGEST WIN STREAK", s.bestWin, "pos"],
-        ["LONGEST LOSS STREAK", s.bestLose, "neg"],
-        ["NO-TRADE RATE", (s.noTradeRate * 100).toFixed(1) + "%", "neu"]
-      ];
-      grid.innerHTML = items.map(([k, v, cls]) =>
-        '<div class="metric"><div class="k">' + k + '</div><div class="v ' + cls + '">' + v + "</div></div>"
-      ).join("");
-    }
-
-    // equity curve
-    let eq = 0;
-    const equitySeries = State.trades.map(t => (eq += t.pl));
-    Charts.lines($("#chartEquity"),
-      equitySeries.map((_, i) => String(i + 1)),
-      [{ name: "Equity", color: Charts._colors().accent, values: equitySeries.length ? equitySeries : [0] }],
-      { yFmt: v => v.toFixed(1) }
-    );
-
-    // win / loss
-    Charts.ratio($("#chartWinLoss"), [
-      { name: "Wins", value: s.wins, color: Charts._colors().green },
-      { name: "Losses", value: s.losses, color: Charts._colors().red }
-    ]);
-
-    // P/L by day (last 14 days)
-    const byDay = {};
-    State.trades.forEach(t => {
-      const k = fmt.dayKey(t.time);
-      byDay[k] = (byDay[k] || 0) + t.pl;
-    });
-    const dayKeys = Object.keys(byDay).sort().slice(-14);
-    Charts.bars($("#chartByDay"),
-      dayKeys.length ? dayKeys.map(k => k.slice(5)) : ["—"],
-      dayKeys.length ? dayKeys.map(k => byDay[k]) : [0],
-      { valueFmt: v => v.toFixed(2), colorFor: (i, v) => v >= 0 ? Charts._colors().green : Charts._colors().red }
-    );
-
-    // trades by digit
-    const byDigit = new Array(10).fill(0);
-    State.trades.forEach(t => { if (t.digit >= 0 && t.digit <= 9) byDigit[t.digit]++; });
-    Charts.bars($("#chartByDigit"), ["0","1","2","3","4","5","6","7","8","9"], byDigit, {
-      valueFmt: v => String(v)
-    });
-
-    // performance by strategy score bucket
-    const buckets = [
-      { label: "75-79", lo: 75, hi: 80 },
-      { label: "80-84", lo: 80, hi: 85 },
-      { label: "85-89", lo: 85, hi: 90 },
-      { label: "90-94", lo: 90, hi: 95 },
-      { label: "95-100", lo: 95, hi: 101 }
-    ];
-    const bucketPL = buckets.map(b =>
-      State.trades.filter(t => t.score >= b.lo && t.score < b.hi).reduce((a, t) => a + t.pl, 0)
-    );
-    Charts.bars($("#chartByScore"), buckets.map(b => b.label), bucketPL, {
-      valueFmt: v => v.toFixed(2),
-      colorFor: (i, v) => v >= 0 ? Charts._colors().green : Charts._colors().red
-    });
-  }
-};
-
-/* ---------- 12. BACKTESTING ENGINE ---------- */
-const Backtest = {
-  async run() {
-    const source = $("#btSource").value;
-    const btn = $("#btnRunBacktest");
-    const status = $("#btStatus");
-    const results = $("#btResults");
-
-    btn.disabled = true;
-    status.textContent = "RUNNING";
-    status.className = "badge amber";
-    results.innerHTML = '<div class="loading"><span class="spinner"></span> Loading dataset…</div>';
-
-    let quotes = [];
-
-    try {
-      if (source === "collected") {
-        quotes = State.quotes.slice();
-        if (quotes.length < 200) throw new Error("Not enough collected ticks (" + quotes.length + "). Run the bot first or use another source.");
-      } else if (source === "csv") {
-        const file = $("#btFile").files[0];
-        if (!file) throw new Error("Please select a CSV file.");
-        const text = await file.text();
-        quotes = text.split(/[\r\n,;]+/)
-          .map(s => parseFloat(s.trim()))
-          .filter(v => Number.isFinite(v));
-        if (quotes.length < 200) throw new Error("CSV contained fewer than 200 valid numeric quotes.");
-      } else {
-        const count = clamp(parseInt($("#btSynthCount").value, 10) || 5000, 1000, 20000);
-        quotes = [];
-        let price = 1000;
-        for (let i = 0; i < count; i++) {
-          price += (Math.random() - 0.5) * 2;
-          quotes.push(Math.round(price * 100) / 100);
-        }
-      }
-
-      const cfg = {
-        startBalance: parseFloat($("#btBalance").value) || 1000,
-        stake: parseFloat($("#btStake").value) || 1,
-        minScore: parseFloat($("#btMinScore").value) || 75,
-        minGap: parseFloat($("#btMinGap").value) || 8,
-        minQuality: parseFloat($("#btMinQuality").value) || 0.70,
-        payout: parseFloat($("#btPayout").value) || 9,
-        cooldownTicks: State.settings.cooldownTicks,
-        windows: $("#btWindows").value.split(",").map(s => parseInt(s.trim(), 10)).filter(n => n >= 20),
-        weights: State.settings.weights
-      };
-      if (!cfg.windows.length) cfg.windows = [50, 100, 250, 500, 1000];
-
-      results.innerHTML = '<div class="loading"><span class="spinner"></span> Analysing ' +
-        quotes.length.toLocaleString() + " ticks…</div>";
-
-      // let the browser paint before the heavy loop
-      await new Promise(r => setTimeout(r, 40));
-
-      const out = Backtest.execute(quotes, cfg);
-      Backtest.render(out, cfg);
-      status.textContent = "COMPLETE";
-      status.className = "badge green";
-
-    } catch (e) {
-      status.textContent = "ERROR";
-      status.className = "badge red";
-      results.innerHTML = '<div class="empty">' + escapeHtml(e.message) + "</div>";
-      UI.toast("err", "Backtest failed: " + e.message);
-    } finally {
-      btn.disabled = false;
-    }
-  },
-
-  execute(quotes, cfg) {
-    const pip = State.pipSize || 2;
-    const digits = quotes.map(q => extractDigit(q, pip));
-
-    const minTicks = Math.max(50, Math.min.apply(null, cfg.windows));
-    let balance = cfg.startBalance;
-    let peak = balance, maxDD = 0;
-    let trades = 0, wins = 0, losses = 0;
-    let grossProfit = 0, grossLoss = 0;
-    let signals = 0, noTrade = 0, cooldown = 0;
-    const equity = [balance];
-    const start = Date.now();
-
-    // Rolling analysis over a bounded tail keeps this O(n · W) rather than O(n²).
-    const maxLookback = Math.max.apply(null, cfg.windows);
-
-    for (let i = minTicks; i < digits.length - 1; i++) {
-      if (cooldown > 0) { cooldown--; noTrade++; continue; }
-
-      const from = Math.max(0, i + 1 - maxLookback);
-      const slice = digits.slice(from, i + 1);
-
-      const a = computeAnalysis(slice, cfg);
-      if (!a) { noTrade++; continue; }
-
-      if (a.best.score < cfg.minScore || a.gap < cfg.minGap || a.quality < cfg.minQuality) {
-        noTrade++;
-        continue;
-      }
-
-      signals++;
-      const nextDigit = digits[i + 1];
-      const won = nextDigit === a.best.digit;
-      trades++;
-
-      if (won) {
-        wins++;
-        const profit = cfg.stake * (cfg.payout - 1);
-        balance += profit;
-        grossProfit += profit;
-      } else {
-        losses++;
-        balance -= cfg.stake;
-        grossLoss += cfg.stake;
-        cooldown = cfg.cooldownTicks;
-      }
-
-      peak = Math.max(peak, balance);
-      maxDD = Math.max(maxDD, peak - balance);
-      equity.push(balance);
-
-      if (balance <= 0) break;
-    }
-
-    const elapsed = Date.now() - start;
-    const evaluated = Math.max(1, digits.length - minTicks);
-
-    return {
-      ticks: digits.length,
-      evaluated,
-      signals,
-      noTrade,
-      trades, wins, losses,
-      winRate: trades ? wins / trades : 0,
-      net: balance - cfg.startBalance,
-      finalBalance: balance,
-      maxDD,
-      profitFactor: grossLoss > 0 ? grossProfit / grossLoss : (grossProfit > 0 ? Infinity : 0),
-      grossProfit, grossLoss,
-      equity,
-      elapsed,
-      noTradeRate: noTrade / evaluated
-    };
-  },
-
-  render(r, cfg) {
-    const items = [
-      ["TICKS ANALYSED", r.ticks.toLocaleString(), ""],
-      ["SIGNALS GENERATED", r.signals.toLocaleString(), ""],
-      ["TRADES EXECUTED", r.trades.toLocaleString(), ""],
-      ["WINS", r.wins, "pos"],
-      ["LOSSES", r.losses, "neg"],
-      ["WIN RATE", (r.winRate * 100).toFixed(1) + "%", r.winRate >= 0.5 ? "pos" : "neg"],
-      ["NET P/L", (r.net >= 0 ? "+" : "") + r.net.toFixed(2), r.net >= 0 ? "pos" : "neg"],
-      ["FINAL BALANCE", r.finalBalance.toFixed(2), r.finalBalance >= cfg.startBalance ? "pos" : "neg"],
-      ["MAX DRAWDOWN", "-" + r.maxDD.toFixed(2), r.maxDD > 0 ? "neg" : "neu"],
-      ["PROFIT FACTOR", r.profitFactor === Infinity ? "∞" : r.profitFactor.toFixed(2), r.profitFactor >= 1 ? "pos" : "neg"],
-      ["NO-TRADE RATE", (r.noTradeRate * 100).toFixed(1) + "%", "neu"],
-      ["RUNTIME", r.elapsed + " ms", "neu"]
-    ];
-
-    $("#btResults").innerHTML =
-      '<div class="metric-grid" style="margin-bottom:16px">' +
-        items.map(([k, v, c]) =>
-          '<div class="metric"><div class="k">' + k + '</div><div class="v ' + c + '">' + v + "</div></div>"
-        ).join("") +
-      "</div>" +
-      '<div class="chart-box"><canvas id="chartBacktest"></canvas></div>' +
-      '<p class="fineprint" style="text-align:left;max-width:none;margin-top:12px">' +
-        "Backtest results are historical simulations. They do not predict future performance. " +
-        "Deriv synthetic indices are randomly generated and independent between ticks." +
-      "</p>";
-
-    const eq = r.equity.length ? r.equity : [cfg.startBalance];
-    Charts.lines($("#chartBacktest"),
-      eq.map((_, i) => String(i)),
-      [{ name: "Balance", color: Charts._colors().accent, values: eq }],
-      { yFmt: v => v.toFixed(0) }
-    );
-  }
-};
-
-/* ---------- 13. SETTINGS BINDINGS ---------- */
-function buildWeightFields() {
-  const wrap = $("#weightFields");
-  if (!wrap) return;
-  wrap.innerHTML = FEATURE_META.map(f =>
-    '<div class="field"><label>' + f.label.toUpperCase() + '</label>' +
-    '<input type="number" class="input weight-input" data-key="' + f.key +
-    '" min="0" max="1" step="0.01" value="' + State.settings.weights[f.key] + '">' +
-    '<span class="muted small">' + f.desc + "</span></div>"
-  ).join("");
 }
 
-function bindSettingsInputs() {
-  const map = [
-    ["#setCurrency",   "currency",          v => v],
-    ["#setStake",      "baseStake",         v => parseFloat(v) || 1],
-    ["#setMaxStake",   "maxStake",          v => parseFloat(v) || 5],
-    ["#setPayout",     "payoutMultiplier",  v => parseFloat(v) || 9],
-    ["#setMinScore",   "minScore",          v => parseFloat(v) || 0],
-    ["#setMinGap",     "minGap",            v => parseFloat(v) || 0],
-    ["#setMinQuality", "minQuality",        v => clamp(parseFloat(v) || 0, 0, 1)],
-    ["#setMinData",    "minData",           v => parseInt(v, 10) || 100],
-    ["#setDailyLoss",  "dailyLossLimit",    v => parseFloat(v) || 1],
-    ["#setMaxConsec",  "maxConsecutiveLosses", v => parseInt(v, 10) || 3],
-    ["#setMaxTrades",  "maxTrades",         v => parseInt(v, 10) || 50],
-    ["#setCooldown",   "cooldownTicks",     v => parseInt(v, 10) || 0]
-  ];
-
-  map.forEach(([sel, key, cast]) => {
-    const el = $(sel);
-    if (!el) return;
-    el.value = State.settings[key];
-    el.addEventListener("change", () => {
-      State.settings[key] = cast(el.value);
-      persistSettings();
-      Risk.render();
-      UI.toast("info", "Setting updated: " + key);
-    });
-  });
-
-  const winEl = $("#setWindows");
-  if (winEl) {
-    winEl.value = State.settings.windows.join(",");
-    winEl.addEventListener("change", () => {
-      const w = winEl.value.split(",").map(s => parseInt(s.trim(), 10)).filter(n => n >= 20);
-      if (w.length) {
-        State.settings.windows = w;
-        persistSettings();
-        UI.toast("info", "Window sizes updated");
-        UI.renderDigitBoard(State.analysis);
-      }
-    });
-  }
-
-  // weights
-  document.addEventListener("change", e => {
-    const el = e.target;
-    if (!el.classList || !el.classList.contains("weight-input")) return;
-    const key = el.dataset.key;
-    State.settings.weights[key] = clamp(parseFloat(el.value) || 0, 0, 1);
-    persistSettings();
-    UI.toast("info", "Weight updated: " + key);
-  });
-
-  // symbol selectors
-  ["#setSymbol", "#selSymbol"].forEach(sel => {
-    const el = $(sel);
-    if (!el) return;
-    el.addEventListener("change", () => {
-      const sym = el.value;
-      State.settings.symbol = sym;
-      State.symbol = sym;
-      persistSettings();
-
-      const found = State.symbols.find(s => s.symbol === sym);
-      State.pipSize = found ? Math.round(-Math.log10(found.pip)) : 2;
-
-      // reset data on symbol change
-      State.quotes = [];
-      State.digits = [];
-      State.analysis = null;
-      State.tickCount = 0;
-      State.pending = null;
-      State.cooldown = 0;
-
-      ["#selSymbol", "#setSymbol"].forEach(s => { const e2 = $(s); if (e2) e2.value = sym; });
-      $("#curSymbolLabel").textContent = sym;
-      UI.renderAll();
-      UI.renderCandidate(null, null);
-      UI.renderReasoning(null);
-      Risk.render();
-
-      if (State.connected) Deriv.subscribeTicks(sym);
-      UI.toast("info", "Symbol changed to " + sym);
-    });
-  });
-
-  // data actions
-  const exp = $("#btnExportTrades");
-  if (exp) exp.addEventListener("click", () => {
-    const blob = new Blob([JSON.stringify(State.trades, null, 2)], { type: "application/json" });
-    const a = document.createElement("a");
-    a.href = URL.createObjectURL(blob);
-    a.download = "pure-matches-ai-trades-" + fmt.todayKey() + ".json";
-    a.click();
-    URL.revokeObjectURL(a.href);
-    UI.toast("ok", "Trade history exported");
-  });
-
-  const clr = $("#btnClearTrades");
-  if (clr) clr.addEventListener("click", () => {
-    if (!confirm("Delete all stored trade history? This cannot be undone.")) return;
-    State.trades = [];
-    persistTrades();
-    UI.renderTrades();
-    Perf.render();
-    UI.renderSettingsStats();
-    UI.toast("warn", "Trade history cleared");
-  });
-
-  const rr = $("#btnResetRisk");
-  if (rr) rr.addEventListener("click", () => {
-    Risk.reset();
-    if (State.bot === "RISK_LOCKED") Bot.setState("ANALYZING");
-  });
-
-  // backtest source toggles
-  const btSrc = $("#btSource");
-  if (btSrc) btSrc.addEventListener("change", () => {
-    $("#btCsvField").style.display = btSrc.value === "csv" ? "flex" : "none";
-    $("#btSynthField").style.display = btSrc.value === "synthetic" ? "flex" : "none";
-  });
-
-  const btRun = $("#btnRunBacktest");
-  if (btRun) btRun.addEventListener("click", () => Backtest.run());
+function logout() {
+  state.user = null;
+  updateAuthButton();
+  renderAccount();
+  toast('Signed out.');
 }
 
-/* ---------- 14. ROUTING & INIT ---------- */
-const App = {
-  showLanding() {
-    $("#screen-landing").classList.add("active");
-    $("#screen-app").classList.remove("active");
-    window.scrollTo(0, 0);
-  },
+/* =========================================================
+   EVENT WIRING
+   ========================================================= */
+document.addEventListener('click', e => {
+  const el = e.target.closest('[data-add],[data-inc],[data-dec],[data-remove],[data-checkout],[data-open-auth],[data-logout],[data-view],[data-tab]');
+  if (!el) return;
+  const d = el.dataset;
 
-  showApp() {
-    $("#screen-landing").classList.remove("active");
-    $("#screen-app").classList.add("active");
-    window.scrollTo(0, 0);
-    if (!Deriv.ws) Deriv.connect();
-    setTimeout(() => {
-      UI.renderAll();
-      Perf.render();
-      UI.renderTrades();
-      Risk.render();
-    }, 60);
-  },
+  if ('add' in d)          addToCart(+d.add);
+  else if ('inc' in d)     changeQty(+d.inc, 1);
+  else if ('dec' in d)     changeQty(+d.dec, -1);
+  else if ('remove' in d)  removeFromCart(+d.remove);
+  else if ('checkout' in d) checkout();
+  else if ('openAuth' in d || 'open-auth' in d) openAuth('login');
+  else if ('logout' in d)  logout();
+  else if ('view' in d)    switchView(d.view);
+  else if ('tab' in d)     setAuthMode(d.tab);
+});
 
-  go(page) {
-    $$("#sbNav a").forEach(a => a.classList.toggle("active", a.dataset.page === page));
-    $$(".page").forEach(p => p.classList.toggle("active", p.id === "page-" + page));
-    $("#sidebar").classList.remove("open");
+$('#cartBtn').addEventListener('click', openCart);
+$('#closeCart').addEventListener('click', closeCart);
+$('#backdrop').addEventListener('click', closeCart);
+$('#closeAuth').addEventListener('click', closeAuth);
+$('#authForm').addEventListener('submit', handleAuthSubmit);
 
-    if (page === "performance") { Perf.render(); }
-    if (page === "trades") { UI.renderTrades(); }
-    if (page === "settings") { UI.renderSettingsStats(); Risk.render(); }
-    if (page === "dashboard") {
-      requestAnimationFrame(() => {
-        UI.renderDistChart();
-        UI.renderMultiChart();
-        UI.renderDigitBoard(State.analysis);
-      });
-    }
-    if (page === "backtest") { UI.renderSettingsStats(); }
-  },
+$('#authModal').addEventListener('click', e => {
+  if (e.target === $('#authModal')) closeAuth();
+});
 
-  toggleTheme() {
-    const cur = document.documentElement.getAttribute("data-theme");
-    const next = cur === "dark" ? "light" : "dark";
-    document.documentElement.setAttribute("data-theme", next);
-    Store.save(CFG.LS_THEME, next);
-    // redraw charts with new palette
-    setTimeout(() => {
-      UI.renderDistChart();
-      UI.renderMultiChart();
-      Perf.render();
-    }, 40);
-  },
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') { closeCart(); closeAuth(); }
+});
 
-  init() {
-    // theme
-    const savedTheme = Store.load(CFG.LS_THEME, "dark");
-    document.documentElement.setAttribute("data-theme", savedTheme);
-
-    loadPersisted();
-    Risk.init();
-
-    // symbol label
-    $("#curSymbolLabel").textContent = State.symbol;
-
-    // populate selectors with fallback immediately
-    State.symbols = CFG.SYMBOL_FALLBACK.slice();
-    UI.populateSymbolSelectors();
-
-    // weight inputs
-    buildWeightFields();
-    bindSettingsInputs();
-
-    // nav
-    $$("#sbNav a").forEach(a => a.addEventListener("click", () => App.go(a.dataset.page)));
-
-    // mobile menu
-    $("#menuBtn").addEventListener("click", () => $("#sidebar").classList.toggle("open"));
-    $("#navToggle").addEventListener("click", () => $("#navLinks").classList.toggle("open"));
-
-    // theme
-    $("#themeBtn").addEventListener("click", () => App.toggleTheme());
-
-    // bot controls
-    $("#btnStart").addEventListener("click", () => Bot.start());
-    $("#btnPause").addEventListener("click", () => Bot.pause());
-    $("#btnStop").addEventListener("click", () => Bot.stop());
-
-    // mode controls
-    $("#btnModePaper").addEventListener("click", () => {
-      UI.setMode("PAPER");
-      UI.toast("info", "Paper mode — contracts are simulated against real ticks");
-    });
-    $("#btnModeDemo").addEventListener("click", () => {
-      UI.setMode("DEMO");
-      UI.toast("info", "Demo (read-only) — analysis only, no contracts are placed");
-    });
-    $("#btnModeReal").addEventListener("click", () => {
-      $("#modalReal").classList.remove("hidden");
-      $("#realToken").value = "";
-      $("#realToken").focus();
-    });
-
-    // real trading modal
-    $("#realCancel").addEventListener("click", () => {
-      $("#modalReal").classList.add("hidden");
-    });
-    $("#realConfirm").addEventListener("click", async () => {
-      const token = $("#realToken").value.trim();
-      if (!token) {
-        UI.toast("err", "A Deriv API token is required for real mode");
-        return;
-      }
-      $("#modalReal").classList.add("hidden");
-      try {
-        UI.toast("info", "Authorizing with Deriv…");
-        await Deriv.authorize(token);
-        UI.setMode("REAL");
-        UI.toast("ok", "REAL TRADING ENABLED — losses are possible");
-        UI.log("MODE", "REAL enabled");
-      } catch (e) {
-        UI.toast("err", "Authorization failed: " + e.message);
-        UI.log("AUTH", "failed");
-      } finally {
-        // token is never stored, never logged, and is cleared from the DOM
-        $("#realToken").value = "";
-      }
-    });
-
-    // distribution window switcher
-    $("#distWindow").addEventListener("change", () => UI.renderDistChart());
-
-    // trade filters
-    $$("#tradeFilters .chip").forEach(chip => {
-      chip.addEventListener("click", () => {
-        $$("#tradeFilters .chip").forEach(c => c.classList.remove("active"));
-        chip.classList.add("active");
-        State.tradeFilter = chip.dataset.range;
-        UI.renderTrades();
-      });
-    });
-
-    // redraw charts on resize
-    let rz;
-    window.addEventListener("resize", () => {
-      clearTimeout(rz);
-      rz = setTimeout(() => {
-        UI.renderDistChart();
-        UI.renderMultiChart();
-        if ($("#page-performance").classList.contains("active")) Perf.render();
-      }, 180);
-    });
-
-    // initial state
-    UI.setMode("PAPER");
-    Bot.setState("STOPPED");
-    UI.setDerivStatus("DISCONNECTED");
-    UI.renderCandidate(null, null);
-    UI.renderReasoning(null);
-    UI.renderDigitBoard(null);
-    UI.renderTrades();
-    Perf.render();
-    Risk.render();
-    UI.renderSettingsStats();
-
-    // start connection
-    Deriv.connect();
-
-    // periodic housekeeping
-    setInterval(() => {
-      Risk.rollDayIfNeeded();
-      // connection watchdog
-      if (!State.connected && !Deriv.reconnectTimer) Deriv.connect();
-    }, 5000);
-
-    console.log(
-      "%cPURE MATCHES AI%c  Experimental digit analysis engine\n" +
-      "Intelligent Digit Analysis. Controlled Execution.\n\n" +
-      "Trading involves financial risk. Past performance does not guarantee future results.",
-      "font-size:15px;font-weight:700;color:#60a5fa",
-      "color:#9aa6bd"
-    );
-  }
-};
-
-/* Reconnection hook — applied when the socket reopens */
-const _origConnect = Deriv.connect.bind(Deriv);
-Deriv.connect = function () {
-  const wasConnected = State.connected;
-  _origConnect();
-  // After a successful reopen we rebuild subscriptions (handled in onopen),
-  // verify the symbol, and apply a protective cooldown.
-  const check = setInterval(() => {
-    if (State.connected) {
-      clearInterval(check);
-      if (wasConnected === false && State.tickCount > 0) Bot.onReconnect();
-      if (State.pending && State.pending.real) {
-        UI.toast("warn", "Open real contract detected after reconnect — monitoring resumed");
-        Deriv.subscribeContract(State.pending.id).catch(() => {});
-      }
-    }
-  }, 400);
-  setTimeout(() => clearInterval(check), 20000);
-};
-
-document.addEventListener("DOMContentLoaded", App.init);
-</scrip>
+/* =========================================================
+   INIT
+   ========================================================= */
+renderShop();
+renderCart();
+updateCartBadge();
+updateAuthButton();
+renderAccount();
+</script>
 </body>
 </html>
