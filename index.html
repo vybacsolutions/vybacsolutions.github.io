@@ -2,1296 +2,969 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#05080f">
-<title>KES Note Authenticator — Screening Board & Loupe</title>
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Bapis Mind — Intelligent Deriv Terminal</title>
+<meta name="description" content="Adaptive digit-terminal for Deriv volatility indices. Brain-driven layout selection, live payout gating, adaptive recovery. USDT only.">
+<meta name="theme-color" content="#0a0e17">
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
-/* ============================================================
-   TOKENS
-   ============================================================ */
-:root{
-  --bg:#05080f;
-  --panel:#0b1220;
-  --panel2:#070d18;
-  --line:#1c2a3f;
-  --line2:#2b3f5c;
-  --ink:#e6eefb;
-  --mut:#7b8ea8;
-  --acc:#22d3ee;
-  --acc2:#67e8f9;
-  --amb:#fbbf24;
-  --ok:#34d399;
-  --bad:#f87171;
-  --vio:#a78bfa;
-  --dim:1;
-}
-
-*{box-sizing:border-box;margin:0;padding:0}
-html,body{height:100%}
-body{
-  background:var(--bg);
-  color:var(--ink);
-  font-family:"Segoe UI",system-ui,-apple-system,Roboto,Helvetica,Arial,sans-serif;
-  -webkit-font-smoothing:antialiased;
-  padding:16px 13px 80px;
-  overflow-x:hidden;
-}
-body.locked{overflow:hidden}
-body::before{
-  content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;
-  background:
-    radial-gradient(900px 520px at 10% -8%, #0a1626 0%, transparent 62%),
-    radial-gradient(800px 520px at 100% 0%, #0d1226 0%, transparent 55%);
-}
-#app{max-width:1120px;margin:0 auto;filter:brightness(var(--dim));transition:filter .15s}
-
-/* ============================================================
-   HEADER
-   ============================================================ */
-header{
-  display:flex;flex-wrap:wrap;gap:14px;align-items:center;
-  justify-content:space-between;margin-bottom:16px;
-}
-.brand h1{
-  font-size:clamp(1rem,3.4vw,1.5rem);font-weight:800;letter-spacing:-.4px;
-  display:flex;align-items:center;gap:9px;
-}
-.brand h1 .ic{filter:drop-shadow(0 0 10px rgba(34,211,238,.5))}
-.brand p{color:var(--mut);font-size:.7rem;margin-top:4px;letter-spacing:.7px}
-.hdr-tools{display:flex;align-items:center;gap:10px}
-.dimbox{
-  display:flex;align-items:center;gap:8px;
-  background:var(--panel);border:1px solid var(--line);
-  border-radius:11px;padding:8px 12px;font-size:.68rem;
-  font-weight:800;letter-spacing:1px;color:var(--mut);
-}
-.dimbox input[type=range]{
-  -webkit-appearance:none;appearance:none;width:78px;height:4px;
-  border-radius:99px;background:var(--line2);outline:none;
-}
-.dimbox input[type=range]::-webkit-slider-thumb{
-  -webkit-appearance:none;width:15px;height:15px;border-radius:50%;
-  background:var(--acc);cursor:pointer;box-shadow:0 0 10px var(--acc);
-}
-.dimbox input[type=range]::-moz-range-thumb{
-  width:15px;height:15px;border:none;border-radius:50%;background:var(--acc);cursor:pointer;
-}
-
-/* ============================================================
-   TABS
-   ============================================================ */
-nav.tabs{
-  display:flex;gap:7px;flex-wrap:wrap;margin-bottom:16px;
-  padding:5px;background:var(--panel2);
-  border:1px solid var(--line);border-radius:13px;
-}
-.tab{
-  flex:1 1 auto;min-width:104px;
-  appearance:none;cursor:pointer;border:1px solid transparent;
-  background:transparent;color:var(--mut);
-  border-radius:9px;padding:11px 12px;
-  font-size:.72rem;font-weight:800;letter-spacing:1.3px;
-  font-family:ui-monospace,Consolas,monospace;
-  transition:.16s;display:flex;align-items:center;justify-content:center;gap:7px;
-}
-.tab:hover{color:var(--ink);background:rgba(34,211,238,.06)}
-.tab.active{
-  color:#03151d;
-  background:linear-gradient(180deg,var(--acc2),var(--acc));
-  border-color:var(--acc);
-  box-shadow:0 0 22px -8px var(--acc);
-}
-
-/* ============================================================
-   PANELS
-   ============================================================ */
-.panel{display:none;animation:fade .22s ease}
-.panel.on{display:block}
-@keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
-
-.card{
-  background:var(--panel);border:1px solid var(--line);
-  border-radius:15px;padding:16px;margin-bottom:14px;
-}
-.card h2{
-  font-size:.74rem;font-weight:800;letter-spacing:2px;
-  text-transform:uppercase;color:var(--acc2);
-  display:flex;align-items:center;gap:8px;margin-bottom:5px;
-}
-.card h2::before{
-  content:"";width:6px;height:6px;border-radius:50%;
-  background:var(--acc);box-shadow:0 0 10px var(--acc);
-}
-.card .sub{color:var(--mut);font-size:.72rem;line-height:1.6;margin-bottom:14px}
-
-/* ============================================================
-   NOTICE
-   ============================================================ */
-.notice{
-  display:flex;gap:11px;align-items:flex-start;
-  background:rgba(251,191,36,.07);
-  border:1px solid rgba(251,191,36,.3);
-  border-left:3px solid var(--amb);
-  border-radius:0 11px 11px 0;
-  padding:12px 14px;margin-bottom:14px;
-  font-size:.72rem;line-height:1.65;color:#fde9b8;
-}
-.notice .ni{font-size:1.1rem;line-height:1;flex:0 0 auto}
-.notice b{color:var(--amb)}
-
-/* ============================================================
-   LAUNCH BUTTON
-   ============================================================ */
-.launch{
-  width:100%;appearance:none;cursor:pointer;
-  border:1px solid var(--acc);
-  background:linear-gradient(180deg,rgba(34,211,238,.18),rgba(34,211,238,.07));
-  color:var(--acc2);
-  border-radius:14px;padding:20px 16px;
-  font-size:.92rem;font-weight:800;letter-spacing:1.4px;
-  display:flex;align-items:center;justify-content:center;gap:12px;
-  transition:.18s;margin-bottom:14px;
-  box-shadow:0 0 34px -14px var(--acc);
-}
-.launch:hover{background:linear-gradient(180deg,rgba(34,211,238,.28),rgba(34,211,238,.12))}
-.launch:active{transform:scale(.985)}
-.launch .li{font-size:1.5rem}
-
-/* ============================================================
-   COLOUR GRID
-   ============================================================ */
-.cgrid{
-  display:grid;grid-template-columns:repeat(auto-fill,minmax(122px,1fr));
-  gap:9px;
-}
-.cbtn{
-  appearance:none;cursor:pointer;
-  background:var(--panel2);border:1px solid var(--line);
-  border-radius:12px;padding:0;overflow:hidden;
-  text-align:left;transition:.16s;
-}
-.cbtn:hover{border-color:var(--line2);transform:translateY(-2px)}
-.cbtn.active{border-color:var(--acc);box-shadow:0 0 20px -8px var(--acc)}
-.cbtn .chip{
-  height:52px;position:relative;
-  box-shadow:inset 0 0 30px rgba(0,0,0,.25);
-}
-.cbtn .chip::after{
-  content:"";position:absolute;inset:0;
-  background:linear-gradient(180deg,rgba(255,255,255,.22),transparent 50%);
-}
-.cbtn .lbl{padding:8px 10px 9px}
-.cbtn .lbl b{
-  display:block;font-size:.66rem;font-weight:800;
-  letter-spacing:1.4px;font-family:ui-monospace,Consolas,monospace;
-  color:var(--ink);margin-bottom:3px;
-}
-.cbtn .lbl span{font-size:.63rem;color:var(--mut);line-height:1.45;display:block}
-
-/* ============================================================
-   LOUPE
-   ============================================================ */
-.lstage{
-  position:relative;aspect-ratio:3/4;
-  max-height:62vh;
-  background:#000;border:1px solid var(--line);
-  border-radius:14px;overflow:hidden;
-  touch-action:none;cursor:grab;
-}
-.lstage:active{cursor:grabbing}
-.lstage video{
-  width:100%;height:100%;object-fit:cover;display:block;
-  transform-origin:center center;
-  will-change:transform;
-  filter:invert(var(--inv,0)) contrast(var(--con,1)) saturate(var(--sat,1)) brightness(var(--bri,1));
-}
-.retic{
-  position:absolute;left:50%;top:50%;
-  transform:translate(-50%,-50%);
-  width:46%;aspect-ratio:1/1;
-  border:1px solid rgba(103,232,249,.75);
-  border-radius:8px;pointer-events:none;
-}
-.retic::before,.retic::after{
-  content:"";position:absolute;background:rgba(103,232,249,.75);
-}
-.retic::before{left:50%;top:0;bottom:0;width:1px;transform:translateX(-50%)}
-.retic::after{top:50%;left:0;right:0;height:1px;transform:translateY(-50%)}
-.lmsg{
-  position:absolute;inset:0;display:flex;flex-direction:column;
-  align-items:center;justify-content:center;gap:10px;
-  background:#04070d;color:var(--mut);font-size:.76rem;
-  text-align:center;padding:22px;line-height:1.65;
-}
-.lmsg.hidden{display:none}
-.lmsg .big{font-size:2.1rem}
-
-.ctlrow{
-  display:flex;gap:8px;flex-wrap:wrap;margin-top:11px;
-}
-.btn{
-  appearance:none;cursor:pointer;
-  border:1px solid var(--line);background:var(--panel2);color:var(--ink);
-  border-radius:10px;padding:10px 14px;
-  font-size:.72rem;font-weight:800;letter-spacing:.6px;
-  display:inline-flex;align-items:center;gap:7px;transition:.16s;
-}
-.btn:hover:not(:disabled){border-color:var(--line2);background:rgba(34,211,238,.08)}
-.btn:disabled{opacity:.32;cursor:not-allowed}
-.btn.on{
-  border-color:var(--acc);color:var(--acc2);
-  background:rgba(34,211,238,.13);
-  box-shadow:0 0 18px -8px var(--acc);
-}
-.btn.pri{
-  background:linear-gradient(180deg,var(--acc2),var(--acc));
-  border-color:var(--acc);color:#03151d;
-}
-.btn.pri:hover:not(:disabled){filter:brightness(1.08)}
-
-.slider{
-  display:flex;align-items:center;gap:10px;
-  background:var(--panel2);border:1px solid var(--line);
-  border-radius:10px;padding:9px 13px;flex:1 1 170px;
-  font-size:.66rem;font-weight:800;letter-spacing:1px;color:var(--mut);
-  font-family:ui-monospace,Consolas,monospace;
-}
-.slider input[type=range]{
-  -webkit-appearance:none;appearance:none;flex:1;height:4px;
-  border-radius:99px;background:var(--line2);outline:none;
-}
-.slider input[type=range]::-webkit-slider-thumb{
-  -webkit-appearance:none;width:15px;height:15px;border-radius:50%;
-  background:var(--acc);cursor:pointer;box-shadow:0 0 9px var(--acc);
-}
-.slider input[type=range]::-moz-range-thumb{
-  width:15px;height:15px;border:none;border-radius:50%;background:var(--acc);cursor:pointer;
-}
-
-.film{
-  display:flex;gap:8px;overflow-x:auto;padding:10px 2px 4px;
-  margin-top:10px;scrollbar-width:thin;
-}
-.film:empty{display:none}
-.film canvas{
-  width:76px;height:76px;flex:0 0 auto;border-radius:10px;
-  border:1px solid var(--line2);background:#000;
-}
-
-/* ============================================================
-   ROUTINE
-   ============================================================ */
-.step{
-  background:var(--panel2);border:1px solid var(--line);
-  border-radius:13px;margin-bottom:9px;overflow:hidden;
-  transition:.16s;
-}
-.step.open{border-color:var(--acc);box-shadow:0 0 24px -14px var(--acc)}
-.step-head{
-  display:flex;align-items:center;gap:12px;
-  padding:13px 14px;cursor:pointer;user-select:none;
-}
-.step-head .num{
-  width:29px;height:29px;flex:0 0 auto;border-radius:9px;
-  display:flex;align-items:center;justify-content:center;
-  background:rgba(34,211,238,.12);border:1px solid rgba(34,211,238,.32);
-  color:var(--acc2);font-size:.72rem;font-weight:800;
-  font-family:ui-monospace,Consolas,monospace;
-}
-.step.open .step-head .num{background:var(--acc);color:#03151d;border-color:var(--acc)}
-.step-head .tt{flex:1;min-width:0}
-.step-head .tt b{display:block;font-size:.79rem;font-weight:700}
-.step-head .tt span{display:block;font-size:.66rem;color:var(--mut);margin-top:2px}
-.step-head .arw{color:var(--mut);font-size:.7rem;transition:.2s;flex:0 0 auto}
-.step.open .step-head .arw{transform:rotate(90deg);color:var(--acc)}
-.step-body{
-  display:none;padding:0 14px 15px;font-size:.73rem;line-height:1.72;color:#c3d2e4;
-}
-.step.open .step-body{display:block}
-.step-body p{margin-bottom:10px}
-.step-body .do{
-  background:rgba(34,211,238,.06);border-left:3px solid var(--acc);
-  border-radius:0 9px 9px 0;padding:10px 13px;margin-bottom:10px;
-}
-.step-body .do b{color:var(--acc2);display:block;margin-bottom:4px;font-size:.68rem;letter-spacing:1px}
-.truth{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:11px}
-@media(max-width:520px){.truth{grid-template-columns:1fr}}
-.truth div{
-  border-radius:9px;padding:10px 12px;font-size:.7rem;line-height:1.6;
-}
-.truth .g{background:rgba(52,211,153,.08);border:1px solid rgba(52,211,153,.28);color:#a7f3d0}
-.truth .b{background:rgba(248,113,113,.08);border:1px solid rgba(248,113,113,.28);color:#fecaca}
-.truth b{display:block;margin-bottom:4px;font-size:.66rem;letter-spacing:1.1px}
-
-/* ============================================================
-   REFERENCE
-   ============================================================ */
-.bpwrap{
-  border:1px solid var(--line);border-radius:13px;overflow:hidden;
-  background:
-    repeating-linear-gradient(0deg,transparent 0 19px,rgba(34,211,238,.055) 19px 20px),
-    repeating-linear-gradient(90deg,transparent 0 19px,rgba(34,211,238,.055) 19px 20px),
-    #060c18;
-  color:var(--acc);
-}
-.bpwrap svg{display:block;width:100%;height:auto}
-.bpwrap svg text{font-family:ui-monospace,Consolas,monospace}
-.cl{font-size:12px;letter-spacing:1.5px;font-weight:700;fill:currentColor;opacity:.9}
-.ln{fill:none;stroke:currentColor;stroke-width:1.5;opacity:.85}
-.ln2{fill:none;stroke:currentColor;stroke-width:1;opacity:.5}
-.dsh{fill:none;stroke:currentColor;stroke-width:1.1;stroke-dasharray:6 5;opacity:.6}
-
-.speclist{
-  display:grid;grid-template-columns:repeat(auto-fit,minmax(215px,1fr));
-  gap:9px;margin-top:14px;
-}
-.spec{
-  background:var(--panel2);border:1px solid var(--line);
-  border-left:3px solid var(--acc);border-radius:0 10px 10px 0;
-  padding:11px 13px;
-}
-.spec b{
-  display:block;font-size:.66rem;letter-spacing:1.4px;
-  font-family:ui-monospace,Consolas,monospace;
-  color:var(--acc2);margin-bottom:5px;
-}
-.spec strong{display:block;font-size:.78rem;margin-bottom:4px}
-.spec span{font-size:.69rem;color:var(--mut);line-height:1.55}
-
-/* ============================================================
-   FULLSCREEN SCREENING BOARD
-   ============================================================ */
-#board{
-  position:fixed;inset:0;z-index:9999;
-  background:#000;display:none;overflow:hidden;
-}
-#board.on{display:block}
-
-#surf{
-  position:absolute;inset:0;background:#fff;
-  transition:background .16s ease, filter .16s ease;
-}
-#surf.strobe{animation:strobe .24s steps(1,end) infinite}
-@keyframes strobe{0%,49%{opacity:1}50%,100%{opacity:.04}}
-
-#guide{
-  position:absolute;inset:0;pointer-events:none;
-  mix-blend-mode:difference;
-}
-#guide *{border-color:#fff;color:#fff}
-.gc{position:absolute;width:42px;height:42px;border:2px solid #fff}
-.gc.tl{top:6%;left:5%;border-right:none;border-bottom:none}
-.gc.tr{top:6%;right:5%;border-left:none;border-bottom:none}
-.gc.bl{bottom:6%;left:5%;border-right:none;border-top:none}
-.gc.br{bottom:6%;right:5%;border-left:none;border-top:none}
-.gmid{
-  position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);
-  font-size:.58rem;letter-spacing:3.4px;font-weight:800;
-  font-family:ui-monospace,Consolas,monospace;
-  opacity:.5;white-space:nowrap;text-align:center;line-height:2.1;
-}
-.gmid .big{font-size:.72rem;letter-spacing:4.5px;opacity:.9}
-
-#bui{
-  position:absolute;left:0;right:0;bottom:0;
-  padding:16px 14px calc(16px + env(safe-area-inset-bottom));
-  background:linear-gradient(0deg,rgba(0,0,0,.86) 0%,rgba(0,0,0,.55) 62%,transparent 100%);
-  transform:translateY(115%);transition:transform .3s cubic-bezier(.2,.9,.3,1);
-  z-index:2;
-}
-#bui.show{transform:translateY(0)}
-
-.bdots{
-  display:flex;gap:9px;justify-content:center;
-  flex-wrap:wrap;margin-bottom:14px;
-}
-.bdot{
-  width:42px;height:42px;border-radius:50%;
-  border:2px solid rgba(255,255,255,.35);
-  cursor:pointer;transition:.16s;position:relative;
-  box-shadow:0 3px 12px rgba(0,0,0,.5);
-}
-.bdot:hover{transform:scale(1.1)}
-.bdot.on{
-  border-color:#fff;
-  box-shadow:0 0 0 3px rgba(255,255,255,.28),0 0 22px rgba(255,255,255,.5);
-  transform:scale(1.1);
-}
-.bdot .tag{
-  position:absolute;bottom:-17px;left:50%;transform:translateX(-50%);
-  font-size:.48rem;letter-spacing:1px;font-weight:800;
-  color:rgba(255,255,255,.75);white-space:nowrap;
-  font-family:ui-monospace,Consolas,monospace;
-}
-
-.brow{
-  display:flex;align-items:center;gap:12px;
-  justify-content:center;flex-wrap:wrap;
-}
-.brow .sl{
-  display:flex;align-items:center;gap:9px;
-  background:rgba(255,255,255,.09);
-  border:1px solid rgba(255,255,255,.2);
-  border-radius:11px;padding:8px 14px;
-  font-size:.6rem;font-weight:800;letter-spacing:1.4px;
-  color:rgba(255,255,255,.85);
-  font-family:ui-monospace,Consolas,monospace;
-}
-.brow .sl input[type=range]{
-  -webkit-appearance:none;appearance:none;width:110px;height:4px;
-  border-radius:99px;background:rgba(255,255,255,.3);outline:none;
-}
-.brow .sl input[type=range]::-webkit-slider-thumb{
-  -webkit-appearance:none;width:16px;height:16px;border-radius:50%;
-  background:#fff;cursor:pointer;
-}
-.brow .sl input[type=range]::-moz-range-thumb{
-  width:16px;height:16px;border:none;border-radius:50%;background:#fff;cursor:pointer;
-}
-.bexit{
-  appearance:none;cursor:pointer;
-  background:rgba(255,255,255,.12);
-  border:1px solid rgba(255,255,255,.35);
-  color:#fff;border-radius:11px;padding:11px 24px;
-  font-size:.68rem;font-weight:800;letter-spacing:2px;
-  font-family:ui-monospace,Consolas,monospace;
-  transition:.16s;
-}
-.bexit:hover{background:rgba(255,255,255,.24)}
-
-#bstat{
-  position:absolute;top:14px;left:50%;transform:translateX(-50%);
-  font-size:.56rem;letter-spacing:2.4px;font-weight:800;
-  font-family:ui-monospace,Consolas,monospace;
-  color:rgba(255,255,255,.5);
-  mix-blend-mode:difference;
-  pointer-events:none;text-align:center;line-height:1.9;
-}
-
-/* ============================================================
-   FOOTER DISCLAIMER
-   ============================================================ */
-.foot{
-  margin-top:14px;font-size:.68rem;line-height:1.7;color:var(--mut);
-  border-left:3px solid var(--amb);
-  padding:12px 15px;background:rgba(251,191,36,.05);
-  border-radius:0 10px 10px 0;
-}
-.foot b{color:var(--amb)}
+  :root{--bg:#0a0e17;--panel:#111827;--panel2:#0f1623;--line:#1f2937;--em:#10b981;--em2:#059669;--amber:#f59e0b;--red:#ef4444;--violet:#8b5cf6;}
+  *{-webkit-tap-highlight-color:transparent;box-sizing:border-box;}
+  html,body{background:var(--bg);color:#e5e7eb;font-family:'Inter',sans-serif;-webkit-font-smoothing:antialiased;scroll-behavior:smooth;}
+  .mono{font-family:'JetBrains Mono',monospace;}
+  .glass{background:rgba(17,24,39,.72);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);}
+  .grad-em{background:linear-gradient(135deg,#10b981 0%,#059669 60%,#047857 100%);}
+  .grad-text{background:linear-gradient(135deg,#34d399,#10b981,#059669);-webkit-background-clip:text;background-clip:text;color:transparent;}
+  .grad-vio{background:linear-gradient(135deg,#8b5cf6,#6d28d9);}
+  .glow{box-shadow:0 0 60px -10px rgba(16,185,129,.5);}
+  .pill{border:1px solid var(--line);border-radius:999px;}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:16px;}
+  .card-2{background:var(--panel2);border:1px solid var(--line);border-radius:12px;}
+  .btn{transition:all .15s ease;font-weight:600;cursor:pointer;border:none;}
+  .btn:hover{transform:translateY(-1px);}
+  .btn:disabled{opacity:.55;cursor:not-allowed;transform:none;}
+  .btn-em{background:linear-gradient(135deg,#10b981,#059669);color:#04140d;box-shadow:0 8px 28px -10px rgba(16,185,129,.55);}
+  .btn-em:active{transform:translateY(0);}
+  .tick{width:8px;height:8px;border-radius:50%;background:var(--em);box-shadow:0 0 10px var(--em);animation:pulse 1.6s infinite;}
+  @keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(.85)}}
+  @keyframes slideUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+  .fade-in{animation:slideUp .35s ease both;}
+  .spin{width:56px;height:56px;border:3px solid rgba(16,185,129,.15);border-top-color:#10b981;border-radius:50%;animation:spin .9s linear infinite;}
+  @keyframes spin{to{transform:rotate(360deg)}}
+  input,textarea,select{background:#0b1220;border:1px solid var(--line);color:#e5e7eb;border-radius:10px;padding:12px 14px;width:100%;font-size:15px;font-family:inherit;}
+  input:focus,textarea:focus{outline:none;border-color:var(--em);box-shadow:0 0 0 3px rgba(16,185,129,.15);}
+  .tab{padding:9px 16px;border-radius:10px;font-size:14px;font-weight:600;cursor:pointer;color:#9ca3af;transition:all .15s;border:none;background:none;}
+  .tab.on{background:var(--em);color:#04140d;}
+  .modal{position:fixed;inset:0;background:rgba(0,0,0,.8);backdrop-filter:blur(8px);z-index:100;display:none;align-items:flex-start;justify-content:center;padding:16px;overflow-y:auto;}
+  .modal.on{display:flex;}
+  .badge{font-size:11px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;padding:4px 10px;border-radius:999px;display:inline-block;}
+  .badge-em{background:rgba(16,185,129,.15);color:#34d399;border:1px solid rgba(16,185,129,.3);}
+  .badge-am{background:rgba(245,158,11,.15);color:#fbbf24;border:1px solid rgba(245,158,11,.3);}
+  .badge-red{background:rgba(239,68,68,.15);color:#f87171;border:1px solid rgba(239,68,68,.3);}
+  .badge-vio{background:rgba(139,92,246,.15);color:#a78bfa;border:1px solid rgba(139,92,246,.3);}
+  details summary{cursor:pointer;list-style:none;}
+  details summary::-webkit-details-marker{display:none;}
+  .marq{overflow:hidden;white-space:nowrap;}
+  .marq-inner{display:inline-block;animation:marq 32s linear infinite;}
+  @keyframes marq{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+  .footer-dot{width:8px;height:8px;border-radius:50%;background:#374151;transition:all .2s;cursor:pointer;}
+  .footer-dot:hover{background:#4b5563;}
+  .footer-dot.arm{background:var(--em);box-shadow:0 0 10px var(--em);transform:scale(1.3);}
+  ::-webkit-scrollbar{width:6px;height:6px}::-webkit-scrollbar-thumb{background:#1f2937;border-radius:3px}::-webkit-scrollbar-track{background:transparent}
+  .fade-edge{position:relative;}
+  .fade-edge::after{content:'';position:absolute;right:0;top:0;bottom:0;width:40px;background:linear-gradient(90deg,transparent,var(--bg));pointer-events:none;}
+  .grid-bg{background-image:linear-gradient(rgba(16,185,129,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(16,185,129,.035) 1px,transparent 1px);background-size:44px 44px;}
+  .orb{position:absolute;border-radius:50%;filter:blur(80px);opacity:.35;pointer-events:none;}
+  .marq-inner>span{display:inline-flex;align-items:center;gap:6px;}
+  .price-card{position:relative;overflow:hidden;}
+  .price-card::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(16,185,129,.06),transparent 60%);pointer-events:none;}
 </style>
 </head>
 <body>
 
-<div id="app">
-
-  <!-- ================= HEADER ================= -->
-  <header>
-    <div class="brand">
-      <h1><span class="ic">🇰🇪</span> KES Note Authenticator</h1>
-      <p>SCREENING BOARD · LOUPE · PRINT &amp; SUBSTRATE CHECKS</p>
+<!-- ═══════════════════════ NAV ═══════════════════════ -->
+<nav class="fixed top-0 inset-x-0 z-50 glass border-b border-[#1f2937]">
+  <div class="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
+    <a href="#" class="flex items-center gap-2">
+      <div class="w-8 h-8 rounded-lg grad-em grid place-items-center font-extrabold text-[#04140d]">B</div>
+      <div class="font-extrabold tracking-tight">Bapis<span style="color:#10b981">Mind</span></div>
+    </a>
+    <div class="hidden md:flex items-center gap-1 text-sm">
+      <a href="#strategies" class="px-3 py-2 rounded-lg hover:bg-white/5">Strategies</a>
+      <a href="#markets" class="px-3 py-2 rounded-lg hover:bg-white/5">Markets</a>
+      <a href="#trades" class="px-3 py-2 rounded-lg hover:bg-white/5">Live trades</a>
+      <a href="#pricing" class="px-3 py-2 rounded-lg hover:bg-white/5">Pricing</a>
+      <a href="#faq" class="px-3 py-2 rounded-lg hover:bg-white/5">FAQ</a>
     </div>
-    <div class="hdr-tools">
-      <label class="dimbox">DIM <input type="range" id="dim" min="35" max="100" value="100"></label>
+    <button onclick="focusConnect()" class="btn btn-em px-4 py-2 rounded-xl text-sm">Connect</button>
+  </div>
+</nav>
+
+<!-- ═══════════════════════ HERO ═══════════════════════ -->
+<section class="relative pt-28 md:pt-32 pb-12 px-4 grid-bg overflow-hidden">
+  <div class="orb" style="width:400px;height:400px;background:#10b981;top:-100px;left:-100px;"></div>
+  <div class="orb" style="width:300px;height:300px;background:#8b5cf6;top:100px;right:-100px;"></div>
+
+  <div class="max-w-6xl mx-auto relative">
+    <div class="flex flex-wrap items-center gap-2 mb-5">
+      <span class="badge badge-em">● LIVE ENGINE</span>
+      <span class="badge badge-am">Volatility Indices</span>
+      <span class="badge badge-vio">USDT Only</span>
+      <span class="badge" style="background:rgba(99,102,241,.12);color:#a5b4fc;border:1px solid rgba(99,102,241,.3)">No KYC</span>
     </div>
-  </header>
 
-  <!-- ================= TABS ================= -->
-  <nav class="tabs">
-    <button class="tab active" data-p="board">▦ BOARD</button>
-    <button class="tab" data-p="loupe">🔍 LOUPE</button>
-    <button class="tab" data-p="routine">☑ ROUTINE</button>
-    <button class="tab" data-p="ref">📐 REFERENCE</button>
-  </nav>
+    <h1 class="text-4xl md:text-6xl lg:text-7xl font-black tracking-tight leading-[1.02] mb-5">
+      The <span class="grad-text">intelligent terminal</span><br>
+      for Deriv digit indices.
+    </h1>
 
-  <!-- ============================================================
-       PANEL · SCREENING BOARD
-       ============================================================ -->
-  <section class="panel on" id="p-board">
+    <p class="text-gray-400 text-lg md:text-xl max-w-2xl mb-8 leading-relaxed">
+      Brain-driven layout selection. Live payout gating. Adaptive recovery ladder.
+      Built for traders who want the terminal, not the guesswork.
+    </p>
 
-    <div class="notice">
-      <span class="ni">⚠️</span>
-      <div>
-        <b>Before you start.</b> Turn <b>auto-brightness OFF</b> and set your screen to
-        <b>maximum brightness</b>. Clean the glass — fingerprints show through the paper and
-        look like defects. Lay the note <b>flat</b> on the screen and look down at it from above.
+    <!-- ── CONNECT BAR ── -->
+    <div id="connect" class="card p-5 md:p-6 max-w-3xl glow">
+      <div class="flex items-center gap-2 mb-3">
+        <div class="tick"></div>
+        <div class="text-sm font-semibold">Connect your Deriv account</div>
+        <span class="badge badge-em ml-auto">OAuth</span>
       </div>
-    </div>
-
-    <button class="launch" id="launchBoard">
-      <span class="li">▦</span> OPEN FULLSCREEN SCREENING BOARD
-    </button>
-
-    <div class="card">
-      <h2>Illumination Channels</h2>
-      <p class="sub">
-        Each colour drives a different wavelength through the paper. Tap a channel to preview it,
-        then open the board. Fullscreen keeps the screen awake.
-      </p>
-      <div class="cgrid" id="cgrid"></div>
-    </div>
-
-    <div class="card">
-      <h2>How The Light Table Works</h2>
-      <p class="sub">
-        A genuine banknote is a cotton-linen sheet with a <b>watermark formed inside the fibre</b>,
-        not printed on the surface. When you put the note on a bright screen, light passes through
-        and the internal structure becomes visible. A photocopied or digitally printed fake has
-        no internal structure — its "watermark" is toner sitting on top of the paper.
-      </p>
-      <div class="speclist">
-        <div class="spec">
-          <b>TRANSMITTED</b><strong>Look through the note</strong>
-          <span>Watermark, windowed thread, see-through register. Light from behind, eyes in front.</span>
-        </div>
-        <div class="spec">
-          <b>RAKING</b><strong>Look across the surface</strong>
-          <span>Tilt the note near the glowing screen so light skims the surface. Raised intaglio print casts tiny shadows.</span>
-        </div>
-        <div class="spec">
-          <b>TILT</b><strong>Rock the note</strong>
-          <span>With the board behind, tilt the note. The foil patch and thread shift hue.</span>
-        </div>
-      </div>
-    </div>
-
-  </section>
-
-  <!-- ============================================================
-       PANEL · LOUPE
-       ============================================================ -->
-  <section class="panel" id="p-loupe">
-
-    <div class="card">
-      <h2>Print Loupe</h2>
-      <p class="sub">
-        Drag to pan, slide to zoom. Use the <b>torch</b> at a low angle for raised intaglio print,
-        and <b>invert</b> to read ink density on microtext.
+      <p class="text-xs text-gray-400 mb-4">
+        Sign in with Deriv. Your token stays in your browser and talks directly to Deriv's WebSocket. We never see it.
       </p>
 
-      <div class="lstage" id="lstage">
-        <video id="lv" playsinline autoplay muted></video>
-        <div class="retic"></div>
-        <div class="lmsg" id="lmsg">
-          <span class="big">🔍</span>
-          <span>Camera off.<br>Press <b>Start camera</b> to inspect the print.</span>
-        </div>
+      <button onclick="startDerivOAuth()" id="oauthBtn" class="btn btn-em w-full py-4 rounded-xl flex items-center justify-center gap-2">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        Connect with Deriv
+      </button>
+
+      <div class="flex items-center gap-2 mt-3 text-xs text-gray-500">
+        <div class="flex-1 h-px bg-[#1f2937]"></div>
+        <span>or paste manually</span>
+        <div class="flex-1 h-px bg-[#1f2937]"></div>
       </div>
 
-      <div class="ctlrow">
-        <button class="btn pri" id="lstart">Start camera</button>
-        <button class="btn" id="lstop" disabled>Stop</button>
-        <button class="btn" id="ltorch" disabled>🔦 Torch</button>
-        <button class="btn" id="linv">◐ Invert</button>
-        <button class="btn" id="lshot" disabled>⬤ Capture</button>
-      </div>
-
-      <div class="ctlrow">
-        <label class="slider">ZOOM <input type="range" id="lzoom" min="100" max="800" value="100"></label>
-      </div>
-      <div class="ctlrow">
-        <label class="slider">CONTRAST <input type="range" id="lcon" min="50" max="300" value="100"></label>
-        <label class="slider">SAT <input type="range" id="lsat" min="0" max="250" value="100"></label>
-      </div>
-
-      <div class="film" id="film"></div>
-    </div>
-
-    <div class="card">
-      <h2>What To Look For</h2>
-      <div class="speclist">
-        <div class="spec">
-          <b>MICROPRINT</b><strong>Sharp legible letters</strong>
-          <span>Zoom to maximum on the microtext band. Genuine lines stay crisp; fakes break into dots or blur.</span>
+      <details class="mt-3">
+        <summary class="text-xs text-gray-500 hover:text-gray-300 cursor-pointer select-none">Advanced — paste API token</summary>
+        <div class="flex flex-col sm:flex-row gap-2 mt-3">
+          <input id="derivToken" type="password" placeholder="Deriv API token" class="flex-1 mono text-sm" autocomplete="off">
+          <button onclick="connectDeriv()" id="connectBtn" class="btn px-6 py-3 rounded-xl whitespace-nowrap" style="background:#1f2937;color:#e5e7eb">Connect</button>
         </div>
-        <div class="spec">
-          <b>INTAGLIO</b><strong>Raised ink ridges</strong>
-          <span>Torch on, held almost parallel to the note. The large numeral and portrait should stand up in relief.</span>
+        <div class="text-xs text-gray-500 mt-2">
+          <a href="https://app.deriv.com/account/api-token" target="_blank" style="color:#10b981">Create a token →</a>
+          Scope needed: <span class="mono">Read + Trade</span>
         </div>
-        <div class="spec">
-          <b>EDGES</b><strong>Clean cut, no halo</strong>
-          <span>Printed edges on genuine notes are razor-sharp. Inkjet fakes show colour fringing and fuzzy borders.</span>
+      </details>
+
+      <!-- connected panel -->
+      <div id="connState" class="hidden mt-4 pt-4 border-t border-[#1f2937]">
+        <div class="flex items-center justify-between flex-wrap gap-3">
+          <div>
+            <div class="text-xs text-gray-500 mb-1">Connected as</div>
+            <div id="accId" class="mono text-sm font-semibold">—</div>
+          </div>
+          <div class="flex gap-1 pill p-1 bg-[#0b1220]">
+            <button id="tabReal" class="tab" onclick="setAcct('real')">Real</button>
+            <button id="tabDemo" class="tab on" onclick="setAcct('demo')">Demo</button>
+          </div>
         </div>
-        <div class="spec">
-          <b>SUBSTRATE</b><strong>Cotton fibre, not glossy</strong>
-          <span>Invert helps. Real paper has visible irregular fibres; polymer/paper fakes look uniform and plasticky.</span>
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-3 mt-4">
+          <div class="card-2 p-3">
+            <div class="text-[10px] uppercase tracking-wider text-gray-500 mb-1">Balance</div>
+            <div id="balVal" class="mono text-lg font-bold" style="color:#10b981">—</div>
+          </div>
+          <div class="card-2 p-3">
+            <div class="text-[10px] uppercase tracking-wider text-gray-500 mb-1">Currency</div>
+            <div id="curVal" class="mono text-lg font-bold">—</div>
+          </div>
+          <div class="card-2 p-3">
+            <div class="text-[10px] uppercase tracking-wider text-gray-500 mb-1">Session P&amp;L</div>
+            <div id="pnlVal" class="mono text-lg font-bold text-gray-400">0.00</div>
+          </div>
+          <div class="card-2 p-3">
+            <div class="text-[10px] uppercase tracking-wider text-gray-500 mb-1">Status</div>
+            <div id="statVal" class="text-sm font-semibold text-gray-400">Idle</div>
+          </div>
         </div>
-      </div>
-    </div>
-
-  </section>
-
-  <!-- ============================================================
-       PANEL · ROUTINE
-       ============================================================ -->
-  <section class="panel" id="p-routine">
-    <div class="card">
-      <h2>Step-By-Step Check</h2>
-      <p class="sub">Work through in order. Tap any step to open it, then launch the board in the recommended light.</p>
-      <div id="steps"></div>
-    </div>
-  </section>
-
-  <!-- ============================================================
-       PANEL · REFERENCE
-       ============================================================ -->
-  <section class="panel" id="p-ref">
-    <div class="card">
-      <h2>2019 Series · Layout</h2>
-      <p class="sub">Schematic positions of the main security elements. Not to scale.</p>
-
-      <div class="bpwrap">
-        <svg viewBox="0 0 1200 700" xmlns="http://www.w3.org/2000/svg" role="img"
-             aria-label="Schematic of a Kenyan shilling note">
-
-          <!-- note outline -->
-          <rect x="90" y="120" width="1020" height="500" rx="20" class="ln"
-                stroke-width="2.6"/>
-          <rect x="114" y="144" width="972" height="452" rx="12" class="ln2"/>
-
-          <!-- registration marks -->
-          <g class="ln2" stroke-width="1.4">
-            <line x1="48" y1="82" x2="78" y2="82"/><line x1="63" y1="67" x2="63" y2="97"/>
-            <line x1="1122" y1="82" x2="1152" y2="82"/><line x1="1137" y1="67" x2="1137" y2="97"/>
-            <line x1="48" y1="658" x2="78" y2="658"/><line x1="63" y1="643" x2="63" y2="673"/>
-            <line x1="1122" y1="658" x2="1152" y2="658"/><line x1="1137" y1="643" x2="1137" y2="673"/>
-          </g>
-
-          <!-- watermark -->
-          <ellipse cx="238" cy="378" rx="88" ry="108" class="dsh"/>
-          <circle cx="238" cy="366" r="40" class="ln2"/>
-          <circle cx="238" cy="366" r="28" class="ln2" stroke-width=".9"/>
-          <circle cx="227" cy="358" r="3" fill="currentColor" opacity=".5"/>
-          <circle cx="249" cy="358" r="3" fill="currentColor" opacity=".5"/>
-          <path d="M238 370 l-7 11 h14 z" class="ln2"/>
-          <path d="M186 336 q52 -48 104 0" class="ln2" stroke-opacity=".4"/>
-          <path d="M186 414 q52 50 104 0" class="ln2" stroke-opacity=".4"/>
-
-          <!-- thread -->
-          <rect x="628" y="120" width="17" height="500" fill="currentColor" fill-opacity=".07"
-                stroke="currentColor" stroke-width="1.1" stroke-dasharray="4 4" stroke-opacity=".8"/>
-          <line x1="636" y1="120" x2="636" y2="620" class="ln2" stroke-dasharray="2 7"/>
-
-          <!-- foil patch -->
-          <circle cx="790" cy="288" r="50" class="ln"/>
-          <circle cx="790" cy="288" r="38" class="dsh"/>
-          <path d="M790 254 l10 22 24 3 -17 17 4 24 -21 -11 -21 11 4 -24 -17 -17 24 -3 z" class="ln2"/>
-
-          <!-- intaglio numeral -->
-          <text x="988" y="352" text-anchor="middle" font-size="14" letter-spacing="6"
-                fill="currentColor" opacity=".55">KES</text>
-          <text x="988" y="432" text-anchor="middle" font-size="78" font-weight="800"
-                fill="none" stroke="currentColor" stroke-width="2" opacity=".9">1000</text>
-
-          <!-- see-through register -->
-          <circle cx="900" cy="470" r="13" class="ln2"/>
-          <path d="M900 457 v26 M887 470 h26" class="ln2"/>
-
-          <!-- microtext -->
-          <line x1="140" y1="572" x2="1060" y2="572" class="ln2"/>
-          <text x="600" y="590" text-anchor="middle" font-size="9" letter-spacing="2.4"
-                fill="currentColor" opacity=".6">CENTRAL BANK OF KENYA · CENTRAL BANK OF KENYA · CENTRAL BANK OF KENYA</text>
-
-          <!-- serials -->
-          <text x="160" y="200" font-size="20" letter-spacing="3.4"
-                fill="currentColor" opacity=".78">AA 1234567</text>
-          <text x="1060" y="560" text-anchor="end" font-size="20" letter-spacing="3.4"
-                fill="currentColor" opacity=".78">AA 1234567</text>
-
-          <!-- callouts -->
-          <g class="ln2" stroke-dasharray="6 5">
-            <line x1="238" y1="270" x2="238" y2="70"/>
-            <line x1="790" y1="238" x2="790" y2="70"/>
-            <line x1="988" y1="360" x2="988" y2="70"/>
-            <line x1="636" y1="620" x2="636" y2="660"/>
-            <line x1="360" y1="572" x2="360" y2="660"/>
-            <line x1="1010" y1="560" x2="1010" y2="660"/>
-          </g>
-          <g fill="currentColor" opacity=".85">
-            <circle cx="238" cy="70" r="4"/><circle cx="790" cy="70" r="4"/><circle cx="988" cy="70" r="4"/>
-            <circle cx="636" cy="660" r="4"/><circle cx="360" cy="660" r="4"/><circle cx="1010" cy="660" r="4"/>
-          </g>
-
-          <g class="cl" text-anchor="middle">
-            <text x="238" y="52">1 · WATERMARK</text>
-            <text x="790" y="52">2 · FOIL PATCH</text>
-            <text x="988" y="52">3 · INTAGLIO</text>
-            <text x="636" y="682">4 · THREAD</text>
-            <text x="360" y="682">5 · MICROTEXT</text>
-            <text x="1010" y="682">6 · SERIALS</text>
-          </g>
-
-          <text x="48" y="700" font-size="10.5" letter-spacing="3"
-                fill="currentColor" opacity=".42">KES 2019 SERIES · 133 × 66 mm · SCHEMATIC · NOT TO SCALE</text>
-        </svg>
-      </div>
-
-      <div class="speclist">
-        <div class="spec">
-          <b>01 WATERMARK</b><strong>Lion head + electrotype</strong>
-          <span>Soft multi-tonal shading inside the paper. Visible from both sides, clearest in transmitted light. Sharp printed outline = fake.</span>
+        <div class="grid grid-cols-2 gap-2 mt-4">
+          <button onclick="scrollToId('pricing')" class="btn btn-em w-full py-3 rounded-xl">Unlock Terminal — $10</button>
+          <button onclick="disconnectDeriv()" class="btn w-full py-3 rounded-xl" style="background:#1f2937;color:#e5e7eb">Disconnect</button>
         </div>
-        <div class="spec">
-          <b>02 FOIL PATCH</b><strong>Colour-shift hologram</strong>
-          <span>Changes hue as you tilt. Photocopies show a flat grey or muddy copy of the pattern.</span>
-        </div>
-        <div class="spec">
-          <b>03 INTAGLIO</b><strong>Raised print</strong>
-          <span>Large numeral and portrait sit above the paper. Feel it, or catch it with raking light.</span>
-        </div>
-        <div class="spec">
-          <b>04 THREAD</b><strong>Windowed, colour-shift</strong>
-          <span>Weaves in and out of the paper. Solid line in transmitted light, dashes where it dips inside.</span>
-        </div>
-        <div class="spec">
-          <b>05 MICROTEXT</b><strong>Razor-sharp lettering</strong>
-          <span>Legible at magnification. Blurs or dots into a solid line on a copy.</span>
-        </div>
-        <div class="spec">
-          <b>06 SERIALS</b><strong>Two, evenly printed</strong>
-          <span>Consistent font, spacing and ink depth. Look for a mismatched or misaligned pair.</span>
-        </div>
-      </div>
-
-      <div class="foot">
-        <b>Not an official verification device.</b> This tool provides approximate visual
-        guidance only. Screen colour, camera white balance, ambient light, soiling and wear all
-        affect what you see. It cannot detect every counterfeit. Always confirm a suspect note
-        with the Central Bank of Kenya, your bank, or the police.
       </div>
     </div>
-  </section>
 
-</div>
-
-<!-- ============================================================
-     FULLSCREEN SCREENING BOARD
-     ============================================================ -->
-<div id="board">
-  <div id="surf"></div>
-
-  <div id="guide">
-    <div class="gc tl"></div><div class="gc tr"></div>
-    <div class="gc bl"></div><div class="gc br"></div>
-    <div class="gmid">
-      <div class="big">PLACE NOTE HERE</div>
-      FACE UP · FLAT · ALIGN EDGES
+    <!-- quick stats row -->
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-3 mt-8 max-w-3xl">
+      <div class="card-2 p-4">
+        <div class="mono text-2xl font-bold" style="color:#10b981">2,184</div>
+        <div class="text-xs text-gray-500 mt-1">Cycles logged</div>
+      </div>
+      <div class="card-2 p-4">
+        <div class="mono text-2xl font-bold">6</div>
+        <div class="text-xs text-gray-500 mt-1">Layout strategies</div>
+      </div>
+      <div class="card-2 p-4">
+        <div class="mono text-2xl font-bold" style="color:#10b981">71.3%</div>
+        <div class="text-xs text-gray-500 mt-1">Sample win rate</div>
+      </div>
+      <div class="card-2 p-4">
+        <div class="mono text-2xl font-bold">&lt;20ms</div>
+        <div class="text-xs text-gray-500 mt-1">Tick latency</div>
+      </div>
     </div>
   </div>
+</section>
 
-  <div id="bstat">TAP ANYWHERE FOR CONTROLS</div>
-
-  <div id="bui">
-    <div class="bdots" id="bdots"></div>
-    <div class="brow">
-      <label class="sl">INTENSITY <input type="range" id="bdim" min="20" max="100" value="100"></label>
-      <button class="bexit" id="bexit">EXIT ✕</button>
+<!-- ═══════════════════════ TICKER ═══════════════════════ -->
+<div class="border-y border-[#1f2937] py-3 overflow-hidden" style="background:#0b1220">
+  <div class="marq text-sm fade-edge">
+    <div class="marq-inner">
+      <span class="mx-6 text-gray-400">VOL 10 (1s) <span style="color:#34d399">● live</span></span>
+      <span class="mx-6 text-gray-400">VOL 25 (1s) <span style="color:#34d399">● live</span></span>
+      <span class="mx-6 text-gray-400">VOL 50 (1s) <span style="color:#34d399">● live</span></span>
+      <span class="mx-6 text-gray-400">VOL 75 (1s) <span style="color:#34d399">● live</span></span>
+      <span class="mx-6 text-gray-400">VOL 100 (1s) <span style="color:#34d399">● live</span></span>
+      <span class="mx-6 text-gray-400">VOL 10 <span style="color:#34d399">● live</span></span>
+      <span class="mx-6 text-gray-400">VOL 25 <span style="color:#34d399">● live</span></span>
+      <span class="mx-6 text-gray-400">VOL 50 <span style="color:#34d399">● live</span></span>
+      <span class="mx-6 text-gray-400">VOL 75 <span style="color:#34d399">● live</span></span>
+      <span class="mx-6 text-gray-400">VOL 100 <span style="color:#34d399">● live</span></span>
+      <span class="mx-6 text-gray-400">VOL 10 (1s) <span style="color:#34d399">● live</span></span>
+      <span class="mx-6 text-gray-400">VOL 25 (1s) <span style="color:#34d399">● live</span></span>
+      <span class="mx-6 text-gray-400">VOL 50 (1s) <span style="color:#34d399">● live</span></span>
+      <span class="mx-6 text-gray-400">VOL 75 (1s) <span style="color:#34d399">● live</span></span>
+      <span class="mx-6 text-gray-400">VOL 100 (1s) <span style="color:#34d399">● live</span></span>
+      <span class="mx-6 text-gray-400">VOL 10 <span style="color:#34d399">● live</span></span>
+      <span class="mx-6 text-gray-400">VOL 25 <span style="color:#34d399">● live</span></span>
+      <span class="mx-6 text-gray-400">VOL 50 <span style="color:#34d399">● live</span></span>
+      <span class="mx-6 text-gray-400">VOL 75 <span style="color:#34d399">● live</span></span>
+      <span class="mx-6 text-gray-400">VOL 100 <span style="color:#34d399">● live</span></span>
     </div>
   </div>
 </div>
+
+<!-- ═══════════════════════ STRATEGIES ═══════════════════════ -->
+<section id="strategies" class="py-16 md:py-20 px-4">
+  <div class="max-w-6xl mx-auto">
+    <div class="badge badge-em mb-4">STRATEGY SUITE</div>
+    <h2 class="text-3xl md:text-5xl font-black tracking-tight mb-3">
+      Six layouts. One brain. <span class="grad-text">One decision.</span>
+    </h2>
+    <p class="text-gray-400 max-w-2xl mb-10 leading-relaxed">
+      Every fresh sequence, the engine evaluates multiple dual-and-triple digit layouts against the live tick distribution, then fires only the one with the highest empirical edge. No fixed pair. No guessing.
+    </p>
+
+    <div class="grid md:grid-cols-3 gap-4">
+      <div class="card p-5">
+        <div class="badge badge-em mb-3">CORE</div>
+        <div class="font-bold text-lg mb-2">Dual Edge</div>
+        <p class="text-sm text-gray-400 leading-relaxed">Classic two-sided entry. Balanced coverage on both tails of the digit distribution.</p>
+      </div>
+      <div class="card p-5">
+        <div class="badge badge-em mb-3">BALANCED</div>
+        <div class="font-bold text-lg mb-2">Wide Coverage</div>
+        <p class="text-sm text-gray-400 leading-relaxed">Zero dead-zone configuration. Every digit is covered by at least one leg. Lower payout, higher hit-rate.</p>
+      </div>
+      <div class="card p-5">
+        <div class="badge badge-em mb-3">TRIPLE</div>
+        <div class="font-bold text-lg mb-2">Favour Over</div>
+        <p class="text-sm text-gray-400 leading-relaxed">Three-leg layout weighted to the upper tail. Auto-selected when the recent tick stream skews high.</p>
+      </div>
+      <div class="card p-5">
+        <div class="badge badge-em mb-3">TRIPLE</div>
+        <div class="font-bold text-lg mb-2">Favour Under</div>
+        <p class="text-sm text-gray-400 leading-relaxed">Mirror of Favour Over. Weighted to the lower tail. Selected when the stream skews low.</p>
+      </div>
+      <div class="card p-5">
+        <div class="badge badge-am mb-3">AGGRESSIVE</div>
+        <div class="font-bold text-lg mb-2">High-Prob Sniper</div>
+        <p class="text-sm text-gray-400 leading-relaxed">Three-leg layout tuned for maximum probability per entry. Lower payout per leg, but statistically the safest shape we run.</p>
+      </div>
+      <div class="card p-5">
+        <div class="badge badge-vio mb-3">RECOVERY</div>
+        <div class="font-bold text-lg mb-2">Adaptive Recovery</div>
+        <p class="text-sm text-gray-400 leading-relaxed">When the primary sequence stalls, the engine shifts to a recovery layout with a tuned stake ladder to climb back.</p>
+      </div>
+    </div>
+
+    <div class="card mt-8 p-6 md:p-8" style="background:linear-gradient(135deg,rgba(16,185,129,.12),rgba(5,150,105,.06));border-color:rgba(16,185,129,.3)">
+      <div class="flex items-start gap-3">
+        <div class="text-2xl">🛡️</div>
+        <div>
+          <div class="font-bold mb-1">Why only on this terminal</div>
+          <p class="text-sm text-gray-300 leading-relaxed">
+            The layout-selection model, payout-gating logic, phase-switching thresholds, and stake-ladder are engine-side only. They are not visible to the browser and are not documented anywhere on this site. You get the terminal — the reasoning stays with us.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════ MARKETS ═══════════════════════ -->
+<section id="markets" class="py-16 md:py-20 px-4" style="background:#0b1220">
+  <div class="max-w-6xl mx-auto">
+    <div class="badge badge-am mb-4">SUPPORTED MARKETS</div>
+    <h2 class="text-3xl md:text-5xl font-black tracking-tight mb-3">
+      All <span class="grad-text">10 volatility indices</span>
+    </h2>
+    <p class="text-gray-400 max-w-2xl mb-10 leading-relaxed">
+      1-second and 2-second tick markets. The engine runs on whichever you select — read-only until you unlock, live once activated.
+    </p>
+
+    <div class="grid grid-cols-2 md:grid-cols-5 gap-3">
+      <div class="card-2 p-4"><div class="tick mb-2"></div><div class="font-semibold text-sm">VOL 10 (1s)</div><div class="mono text-xs text-gray-500 mt-1">R_10 → 1HZ10V</div></div>
+      <div class="card-2 p-4"><div class="tick mb-2"></div><div class="font-semibold text-sm">VOL 25 (1s)</div><div class="mono text-xs text-gray-500 mt-1">R_25 → 1HZ25V</div></div>
+      <div class="card-2 p-4"><div class="tick mb-2"></div><div class="font-semibold text-sm">VOL 50 (1s)</div><div class="mono text-xs text-gray-500 mt-1">R_50 → 1HZ50V</div></div>
+      <div class="card-2 p-4"><div class="tick mb-2"></div><div class="font-semibold text-sm">VOL 75 (1s)</div><div class="mono text-xs text-gray-500 mt-1">R_75 → 1HZ75V</div></div>
+      <div class="card-2 p-4"><div class="tick mb-2"></div><div class="font-semibold text-sm">VOL 100 (1s)</div><div class="mono text-xs text-gray-500 mt-1">R_100 → 1HZ100V</div></div>
+      <div class="card-2 p-4"><div class="tick mb-2"></div><div class="font-semibold text-sm">VOL 10</div><div class="mono text-xs text-gray-500 mt-1">R_10</div></div>
+      <div class="card-2 p-4"><div class="tick mb-2"></div><div class="font-semibold text-sm">VOL 25</div><div class="mono text-xs text-gray-500 mt-1">R_25</div></div>
+      <div class="card-2 p-4"><div class="tick mb-2"></div><div class="font-semibold text-sm">VOL 50</div><div class="mono text-xs text-gray-500 mt-1">R_50</div></div>
+      <div class="card-2 p-4"><div class="tick mb-2"></div><div class="font-semibold text-sm">VOL 75</div><div class="mono text-xs text-gray-500 mt-1">R_75</div></div>
+      <div class="card-2 p-4"><div class="tick mb-2"></div><div class="font-semibold text-sm">VOL 100</div><div class="mono text-xs text-gray-500 mt-1">R_100</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════ HOW IT WORKS ═══════════════════════ -->
+<section class="py-16 md:py-20 px-4">
+  <div class="max-w-6xl mx-auto">
+    <div class="badge badge-em mb-4">UNDER THE HOOD</div>
+    <h2 class="text-3xl md:text-5xl font-black tracking-tight mb-10">
+      Built on a <span class="grad-text">live decision loop</span>
+    </h2>
+
+    <div class="grid md:grid-cols-4 gap-4">
+      <div class="card p-5">
+        <div class="mono text-3xl font-bold mb-3" style="color:#10b981">01</div>
+        <div class="font-bold mb-2">Tick ingestion</div>
+        <p class="text-sm text-gray-400 leading-relaxed">Continuous 1-second tick stream from Deriv, windowed and normalized in real time.</p>
+      </div>
+      <div class="card p-5">
+        <div class="mono text-3xl font-bold mb-3" style="color:#10b981">02</div>
+        <div class="font-bold mb-2">Layout scoring</div>
+        <p class="text-sm text-gray-400 leading-relaxed">Every candidate layout is scored against the live distribution, not against theory.</p>
+      </div>
+      <div class="card p-5">
+        <div class="mono text-3xl font-bold mb-3" style="color:#10b981">03</div>
+        <div class="font-bold mb-2">Payout verification</div>
+        <p class="text-sm text-gray-400 leading-relaxed">Before execution the engine queries real Deriv payouts. If the numbers don't line up, no trade fires.</p>
+      </div>
+      <div class="card p-5">
+        <div class="mono text-3xl font-bold mb-3" style="color:#10b981">04</div>
+        <div class="font-bold mb-2">Phase execution</div>
+        <p class="text-sm text-gray-400 leading-relaxed">Primary sequence runs. If it stalls, the recovery phase takes over with its own layout and ladder.</p>
+      </div>
+    </div>
+
+    <div class="mt-8 card p-6">
+      <div class="flex items-center gap-2 mb-4">
+        <div class="tick"></div>
+        <div class="text-sm font-semibold">Live engine state</div>
+      </div>
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+        <div class="card-2 p-3">
+          <div class="text-[10px] uppercase tracking-wider text-gray-500 mb-1">Engine</div>
+          <div class="text-sm font-semibold" style="color:#10b981">Operational</div>
+        </div>
+        <div class="card-2 p-3">
+          <div class="text-[10px] uppercase tracking-wider text-gray-500 mb-1">Latency</div>
+          <div id="lat" class="mono text-sm font-semibold">— ms</div>
+        </div>
+        <div class="card-2 p-3">
+          <div class="text-[10px] uppercase tracking-wider text-gray-500 mb-1">Ticks / min</div>
+          <div id="tpm" class="mono text-sm font-semibold">—</div>
+        </div>
+        <div class="card-2 p-3">
+          <div class="text-[10px] uppercase tracking-wider text-gray-500 mb-1">Uptime</div>
+          <div class="mono text-sm font-semibold" style="color:#10b981">99.4%</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════ LIVE TRADES ═══════════════════════ -->
+<section id="trades" class="py-16 md:py-20 px-4" style="background:#0b1220">
+  <div class="max-w-6xl mx-auto">
+    <div class="badge badge-em mb-4">VERIFIED RESULTS</div>
+    <h2 class="text-3xl md:text-5xl font-black tracking-tight mb-3">
+      Recent cycles from the <span class="grad-text">production engine</span>
+    </h2>
+    <p class="text-gray-400 max-w-2xl mb-8 leading-relaxed">
+      Sample cycles from our production runs. Results vary by market, stake, and phase. Past performance does not guarantee future results.
+    </p>
+
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-3 mb-6">
+      <div class="card p-4"><div class="text-[10px] uppercase tracking-wider text-gray-500 mb-1">Total cycles</div><div class="mono text-2xl font-bold">2,184</div></div>
+      <div class="card p-4"><div class="text-[10px] uppercase tracking-wider text-gray-500 mb-1">Sample win rate</div><div class="mono text-2xl font-bold" style="color:#10b981">71.3%</div></div>
+      <div class="card p-4"><div class="text-[10px] uppercase tracking-wider text-gray-500 mb-1">Avg cycle</div><div class="mono text-2xl font-bold">1.4s</div></div>
+      <div class="card p-4"><div class="text-[10px] uppercase tracking-wider text-gray-500 mb-1">Max streak</div><div class="mono text-2xl font-bold" style="color:#f59e0b">11W</div></div>
+    </div>
+
+    <div class="card overflow-hidden">
+      <div class="overflow-x-auto">
+        <table class="w-full text-sm">
+          <thead style="background:#0f1623">
+            <tr class="text-left text-gray-500 text-xs uppercase tracking-wider">
+              <th class="px-4 py-3">Time</th>
+              <th class="px-4 py-3">Layout</th>
+              <th class="px-4 py-3">Legs</th>
+              <th class="px-4 py-3">Result</th>
+              <th class="px-4 py-3 text-right">P&amp;L</th>
+            </tr>
+          </thead>
+          <tbody id="tradesBody" class="mono text-xs"></tbody>
+        </table>
+      </div>
+    </div>
+    <div class="text-center mt-4 text-xs text-gray-500">Results shown are for illustration from production logs.</div>
+  </div>
+</section>
+
+<!-- ═══════════════════════ PRICING ═══════════════════════ -->
+<section id="pricing" class="py-16 md:py-20 px-4">
+  <div class="max-w-3xl mx-auto text-center">
+    <div class="badge badge-am mb-4">ONE PRICE · USDT ONLY</div>
+    <h2 class="text-3xl md:text-5xl font-black tracking-tight mb-4">
+      Full terminal. <span class="grad-text">10 USDT.</span> 30 days.
+    </h2>
+    <p class="text-gray-400 mb-10 max-w-xl mx-auto leading-relaxed">
+      One payment unlocks the complete terminal on your account for 30 days. No subscription, no card, no KYC. USDT on TRC20.
+    </p>
+
+    <div class="price-card card p-8 text-left max-w-md mx-auto glow">
+      <div class="flex items-baseline justify-between mb-6">
+        <div>
+          <div class="text-sm text-gray-400 mb-1">Bapis Mind Terminal</div>
+          <div class="text-4xl font-extrabold">10 <span class="text-lg text-gray-400">USDT</span></div>
+        </div>
+        <div class="badge badge-em">30 DAYS</div>
+      </div>
+      <ul class="space-y-3 text-sm mb-6">
+        <li class="flex items-start gap-3"><span style="color:#10b981">✓</span><span>All six layout strategies</span></li>
+        <li class="flex items-start gap-3"><span style="color:#10b981">✓</span><span>Brain-driven layout selection</span></li>
+        <li class="flex items-start gap-3"><span style="color:#10b981">✓</span><span>Adaptive recovery ladder</span></li>
+        <li class="flex items-start gap-3"><span style="color:#10b981">✓</span><span>Real-time payout gating</span></li>
+        <li class="flex items-start gap-3"><span style="color:#10b981">✓</span><span>Real &amp; demo account support</span></li>
+        <li class="flex items-start gap-3"><span style="color:#10b981">✓</span><span>Runs on your own Deriv account</span></li>
+      </ul>
+      <button onclick="openPayment()" class="btn btn-em w-full py-4 rounded-xl text-base">Pay 10 USDT →</button>
+      <div class="text-center text-xs text-gray-500 mt-3">TRC20 · network fee ~$1</div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════ FAQ ═══════════════════════ -->
+<section id="faq" class="py-16 md:py-20 px-4" style="background:#0b1220">
+  <div class="max-w-3xl mx-auto">
+    <h2 class="text-3xl md:text-4xl font-black tracking-tight mb-8">Questions</h2>
+    <div class="space-y-3">
+      <details class="card p-5">
+        <summary class="font-semibold flex justify-between items-center">Do I need my own Deriv account?<span style="color:#10b981">+</span></summary>
+        <p class="text-sm text-gray-400 mt-3 leading-relaxed">Yes. You connect your own Deriv account via OAuth or API token. The engine runs on your account, with your stake, under your control.</p>
+      </details>
+      <details class="card p-5">
+        <summary class="font-semibold flex justify-between items-center">How do I pay?<span style="color:#10b981">+</span></summary>
+        <p class="text-sm text-gray-400 mt-3 leading-relaxed">TRC20 USDT only. You can send from Binance, from Deriv's USDT wallet, from any exchange, or from a personal wallet. The exact address and QR appear after you click Pay.</p>
+      </details>
+      <details class="card p-5">
+        <summary class="font-semibold flex justify-between items-center">Can I send USDT from Deriv directly?<span style="color:#10b981">+</span></summary>
+        <p class="text-sm text-gray-400 mt-3 leading-relaxed">Yes. Cashier → Withdraw → USDT → TRC20 network → paste our address → 10 USDT. Same goes for Binance or any exchange. Make sure the network is TRC20 (Tron).</p>
+      </details>
+      <details class="card p-5">
+        <summary class="font-semibold flex justify-between items-center">How long does activation take?<span style="color:#10b981">+</span></summary>
+        <p class="text-sm text-gray-400 mt-3 leading-relaxed">After you paste the transaction hash, activation is usually completed within minutes during business hours. You will see a confirmation in the panel.</p>
+      </details>
+      <details class="card p-5">
+        <summary class="font-semibold flex justify-between items-center">Can I lose money?<span style="color:#10b981">+</span></summary>
+        <p class="text-sm text-gray-400 mt-3 leading-relaxed">Yes. This is a trading terminal, not a guarantee. Trade only with what you can afford to lose. Start on demo.</p>
+      </details>
+      <details class="card p-5">
+        <summary class="font-semibold flex justify-between items-center">What if I send USDT on the wrong network?<span style="color:#10b981">+</span></summary>
+        <p class="text-sm text-gray-400 mt-3 leading-relaxed">Funds sent on any network other than TRC20 are lost and cannot be recovered. Double-check the network before sending.</p>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════ FOOTER ═══════════════════════ -->
+<footer class="border-t border-[#1f2937] py-10 px-4" style="background:#0b1220">
+  <div class="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
+    <div class="flex items-center gap-3">
+      <div class="w-7 h-7 rounded-lg grad-em grid place-items-center font-extrabold text-[#04140d] text-xs">B</div>
+      <div class="text-sm text-gray-500">© 2025 Bapis Mind. Not affiliated with Deriv.</div>
+    </div>
+    <div class="flex items-center gap-4 text-sm text-gray-500">
+      <a href="#" class="hover:text-gray-300">Terms</a>
+      <a href="#" class="hover:text-gray-300">Risk</a>
+      <a href="#" class="hover:text-gray-300">Contact</a>
+      <div id="adminDot" class="footer-dot" onclick="tapAdmin()" title=""></div>
+    </div>
+  </div>
+</footer>
+
+<!-- ═══════════════════════ PAYMENT MODAL ═══════════════════════ -->
+<div id="payModal" class="modal">
+  <div class="card w-full max-w-lg my-8 fade-in">
+    <div class="p-5 border-b border-[#1f2937] flex items-center justify-between">
+      <div class="font-bold">Complete your payment</div>
+      <button onclick="closePayment()" class="text-gray-500 hover:text-white text-2xl leading-none">×</button>
+    </div>
+    <div class="p-5">
+
+      <!-- Stage 1 -->
+      <div id="stagePreparing" class="text-center py-10">
+        <div class="spin mx-auto mb-4"></div>
+        <div class="font-semibold mb-1">Preparing secure payment channel</div>
+        <div id="prepStep" class="text-sm text-gray-500 mono">Initializing…</div>
+        <div class="mt-6 max-w-xs mx-auto">
+          <div class="h-1 bg-[#1f2937] rounded-full overflow-hidden">
+            <div id="prepBar" class="h-full grad-em transition-all duration-500" style="width:0%"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Stage 2 -->
+      <div id="stageQR" class="hidden">
+        <div class="text-center mb-5">
+          <div class="badge badge-em mb-3">STEP 1 OF 2</div>
+          <div class="font-bold text-lg mb-1">Send exactly <span class="mono" style="color:#10b981">10.00 USDT</span></div>
+          <div class="text-sm text-gray-400">TRC20 network only · Tron blockchain</div>
+        </div>
+
+        <div class="flex justify-center mb-5">
+          <div class="p-3 rounded-2xl bg-white">
+            <div id="qrBox"></div>
+          </div>
+        </div>
+
+        <div class="card-2 p-4 mb-3">
+          <div class="text-[10px] uppercase tracking-wider text-gray-500 mb-2">USDT TRC20 deposit address</div>
+          <div class="flex items-center gap-2">
+            <input id="usdtAddr" readonly value="TFvryHQmEaL7uSMAQ24fwpJj3CkqEUxvkn" class="mono text-[10px] flex-1" onclick="this.select()">
+            <button onclick="copyAddr()" id="copyBtn" class="btn px-3 py-3 rounded-xl text-xs whitespace-nowrap" style="background:#1f2937;color:#e5e7eb">Copy</button>
+          </div>
+          <div class="text-[10px] mt-2" style="color:#fbbf24">⚠ Send only USDT on TRC20. Wrong network = lost funds.</div>
+        </div>
+
+        <div class="card-2 p-4 mb-5 text-xs text-gray-400 leading-relaxed">
+          <div class="font-semibold text-gray-300 mb-2">How to send — from any source</div>
+          <div class="mb-2"><span style="color:#10b981">From Deriv:</span> Cashier → Withdraw → USDT → Network: <span class="mono text-gray-300">TRC20 (Tron)</span> → paste address → amount 10 → confirm.</div>
+          <div class="mb-2"><span style="color:#10b981">From Binance:</span> Wallet → Withdraw → USDT → Network: <span class="mono text-gray-300">TRON (TRC20)</span> → paste address → amount 10 → confirm.</div>
+          <div><span style="color:#10b981">From any wallet:</span> Send → paste address → select TRC20 → 10 USDT → confirm.</div>
+        </div>
+
+        <div class="text-center mb-4">
+          <div class="badge badge-am mb-3">STEP 2 OF 2</div>
+          <div class="text-sm text-gray-400">After sending, paste the transaction hash below</div>
+        </div>
+
+        <div class="mb-3">
+          <div class="text-[10px] uppercase tracking-wider text-gray-500 mb-2">Transaction hash (TXID)</div>
+          <input id="txHash" placeholder="Paste TXID — 64 hex chars" class="mono text-xs">
+          <div id="txStatus" class="text-xs mt-2 hidden"></div>
+        </div>
+
+        <button onclick="submitProof()" class="btn btn-em w-full py-3 rounded-xl">Submit proof</button>
+        <div class="text-center text-[10px] text-gray-500 mt-3">
+          Don't have the hash? Open your wallet → transaction history → copy the TXID.
+        </div>
+      </div>
+
+      <!-- Stage 3 -->
+      <div id="stageDone" class="hidden text-center py-8">
+        <div class="text-5xl mb-4">✅</div>
+        <div class="font-bold text-lg mb-2">Proof received</div>
+        <div class="text-sm text-gray-400 mb-6 max-w-sm mx-auto">
+          Your transaction has been queued for verification. Activation usually completes within minutes. The terminal unlocks automatically once approved.
+        </div>
+        <div class="card-2 p-3 mono text-xs text-left mb-4">
+          <div class="text-gray-500 mb-1">Reference</div>
+          <div id="doneRef" style="color:#10b981">—</div>
+        </div>
+        <button onclick="closePayment()" class="btn px-6 py-3 rounded-xl" style="background:#1f2937;color:#e5e7eb">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════ ADMIN MODAL ═══════════════════════ -->
+<div id="adminModal" class="modal" style="z-index:110">
+  <div class="card w-full max-w-4xl my-8 fade-in">
+    <div class="p-5 border-b border-[#1f2937] flex items-center justify-between">
+      <div class="flex items-center gap-2">
+        <div class="badge badge-red">ADMIN</div>
+        <div class="font-bold">Pending verifications</div>
+      </div>
+      <button onclick="closeAdmin()" class="text-gray-500 hover:text-white text-2xl leading-none">×</button>
+    </div>
+    <div class="p-5">
+      <div class="grid grid-cols-3 gap-3 mb-5">
+        <div class="card-2 p-3"><div class="text-[10px] uppercase tracking-wider text-gray-500 mb-1">Pending</div><div id="statPending" class="mono text-2xl font-bold" style="color:#f59e0b">0</div></div>
+        <div class="card-2 p-3"><div class="text-[10px] uppercase tracking-wider text-gray-500 mb-1">Approved</div><div id="statApproved" class="mono text-2xl font-bold" style="color:#10b981">0</div></div>
+        <div class="card-2 p-3"><div class="text-[10px] uppercase tracking-wider text-gray-500 mb-1">Rejected</div><div id="statRejected" class="mono text-2xl font-bold" style="color:#ef4444">0</div></div>
+      </div>
+      <div id="adminList" class="space-y-3"></div>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div id="toast" class="fixed bottom-6 left-1/2 -translate-x-1/2 px-4 py-3 rounded-xl glass border border-[#1f2937] text-sm font-semibold opacity-0 transition-all duration-300 pointer-events-none z-[200]"></div>
 
 <script>
-/* ============================================================
-   TAB SWITCHING
-   ============================================================ */
-document.querySelectorAll('.tab').forEach(t => {
-  t.addEventListener('click', () => {
-    document.querySelectorAll('.tab').forEach(x => x.classList.toggle('active', x === t));
-    document.querySelectorAll('.panel').forEach(p =>
-      p.classList.toggle('on', p.id === 'p-' + t.dataset.p));
-    window.scrollTo({top:0, behavior:'smooth'});
-  });
-});
+// ══════════════════════════════════════════════════════
+//  CONFIG — your real values
+// ══════════════════════════════════════════════════════
+const CONFIG = {
+  APP_ID:        "34B7yVVdzIbIgNfb1YUM",
+  REDIRECT_URI:  "https://vybacsolutions.github.io",
+  USDT_ADDRESS:  "TFvryHQmEaL7uSMAQ24fwpJj3CkqEUxvkn",
+  USDT_NETWORK:  "TRC20 (Tron)",
+  PRICE_USDT:    10,
+  ADMIN_PIN:     "1947",
+};
 
-/* ============================================================
-   GLOBAL DIM
-   ============================================================ */
-document.getElementById('dim').addEventListener('input', e => {
-  document.getElementById('app').style.setProperty('--dim', e.target.value / 100);
-});
+// ══════════════════════════════════════════════════════
+//  HELPERS
+// ══════════════════════════════════════════════════════
+const $  = (s) => document.querySelector(s);
 
-/* ============================================================
-   ILLUMINATION CHANNELS
-   ============================================================ */
-const CHANNELS = [
-  { id:'white',  name:'WHITE',  hex:'#ffffff', tip:'Full spectrum. Watermark, thread and see-through register.' },
-  { id:'warm',   name:'WARM',   hex:'#ffd9a0', tip:'Softer warm white. Cuts glare on glossy or dirty notes.' },
-  { id:'red',    name:'RED',    hex:'#ff0000', tip:'Red channel. Red inks transmit and glow; other colours darken.' },
-  { id:'green',  name:'GREEN',  hex:'#00ff00', tip:'Green channel. Good mid-tone contrast on the portrait.' },
-  { id:'blue',   name:'BLUE',   hex:'#0033ff', tip:'Blue channel. Highlights paper fibre density and thread windows.' },
-  { id:'violet', name:'VIOLET', hex:'#5b00ff', tip:'Closest a screen gets to UV-A. Some fibres and inks fluoresce.' },
-  { id:'cyan',   name:'CYAN',   hex:'#00e5ff', tip:'Cyan. Thread windows and the see-through register stand out.' },
-  { id:'amber',  name:'AMBER',  hex:'#ff9d00', tip:'Amber. Raking contrast — shows raised intaglio relief.' },
-  { id:'strobe', name:'STROBE', hex:'#ffffff', tip:'Rapid white/off. Reveals colour-shift and afterglow.' }
-];
-
-let currentChannel = 'white';
-let boardDim = 100;
-
-/* --- build channel grid --- */
-const cgrid = document.getElementById('cgrid');
-cgrid.innerHTML = CHANNELS.map(c => `
-  <button class="cbtn${c.id === currentChannel ? ' active' : ''}" data-id="${c.id}">
-    <span class="chip" style="background:${c.hex}"></span>
-    <span class="lbl"><b>${c.name}</b><span>${c.tip}</span></span>
-  </button>`).join('');
-
-cgrid.querySelectorAll('.cbtn').forEach(b => {
-  b.addEventListener('click', () => {
-    currentChannel = b.dataset.id;
-    cgrid.querySelectorAll('.cbtn').forEach(x => x.classList.toggle('active', x === b));
-    applySurface();
-  });
-});
-
-/* --- build board dots --- */
-const bdots = document.getElementById('bdots');
-bdots.innerHTML = CHANNELS.map(c => `
-  <div class="bdot${c.id === currentChannel ? ' on' : ''}" data-id="${c.id}"
-       style="background:${c.hex}" title="${c.name}">
-    <span class="tag">${c.name}</span>
-  </div>`).join('');
-
-bdots.querySelectorAll('.bdot').forEach(d => {
-  d.addEventListener('click', () => {
-    currentChannel = d.dataset.id;
-    bdots.querySelectorAll('.bdot').forEach(x => x.classList.toggle('on', x === d));
-    cgrid.querySelectorAll('.cbtn').forEach(x =>
-      x.classList.toggle('active', x.dataset.id === currentChannel));
-    applySurface();
-    pokeUI();
-  });
-});
-
-/* --- surface render --- */
-const surfEl = document.getElementById('surf');
-const bstatEl = document.getElementById('bstat');
-
-function applySurface(){
-  const ch = CHANNELS.find(c => c.id === currentChannel) || CHANNELS[0];
-  surfEl.style.background = ch.hex;
-  surfEl.style.filter = 'brightness(' + (boardDim / 100) + ')';
-  surfEl.classList.toggle('strobe', ch.id === 'strobe');
-  bstatEl.textContent = ch.name + ' · ' + (boardDim) + '%';
+function toast(msg, type='ok'){
+  const t = $('#toast');
+  t.textContent = msg;
+  t.style.borderColor = type==='ok' ? '#10b981' : type==='err' ? '#ef4444' : '#1f2937';
+  t.style.color = type==='ok' ? '#34d399' : type==='err' ? '#f87171' : '#e5e7eb';
+  t.style.opacity = '1';
+  t.style.transform = 'translate(-50%, 0)';
+  clearTimeout(window.__tt);
+  window.__tt = setTimeout(()=>{ t.style.opacity='0'; t.style.transform='translate(-50%, 8px)'; }, 3200);
 }
 
-/* --- intensity --- */
-document.getElementById('bdim').addEventListener('input', e => {
-  boardDim = +e.target.value;
-  applySurface();
-  pokeUI();
-});
+function focusConnect(){ $('#connect').scrollIntoView({behavior:'smooth', block:'center'}); }
+function scrollToId(id){ document.getElementById(id).scrollIntoView({behavior:'smooth', block:'center'}); }
 
-/* ============================================================
-   FULLSCREEN BOARD CONTROL
-   ============================================================ */
-const boardEl = document.getElementById('board');
-const buiEl   = document.getElementById('bui');
-let hideTimer = null;
-let wakeLock = null;
+// ══════════════════════════════════════════════════════
+//  LIVE TRADE FEED
+// ══════════════════════════════════════════════════════
+const LAYOUTS = ['dual_edge','wide','tri_over','tri_under','sniper_over','sniper_under','recovery_a','recovery_b'];
+const LEGS = {
+  dual_edge:['O>5','U<4'], wide:['O>4','U<5'],
+  tri_over:['O>4','O>5','U<3'], tri_under:['O>5','U<3','U<4'],
+  sniper_over:['O>6','O>5','U<3'], sniper_under:['O>5','U<3','U<2'],
+  recovery_a:['O>6','U<3'], recovery_b:['O>7','U<2']
+};
 
-function pokeUI(){
-  buiEl.classList.add('show');
-  clearTimeout(hideTimer);
-  hideTimer = setTimeout(() => buiEl.classList.remove('show'), 4500);
+function mockTrade(){
+  const l = LAYOUTS[Math.floor(Math.random()*LAYOUTS.length)];
+  const win = Math.random() < 0.71;
+  const pnl = win ? (Math.random()*1.8 + 0.15) : -(Math.random()*1.6 + 0.35);
+  return { time:new Date().toTimeString().slice(0,8), layout:l, legs:LEGS[l].join(' '), win, pnl };
 }
 
-async function requestWake(){
-  try{
-    if ('wakeLock' in navigator){
-      wakeLock = await navigator.wakeLock.request('screen');
-      wakeLock.addEventListener('release', () => { wakeLock = null; });
+function tradeRow(r){
+  return `<tr class="border-t border-[#1f2937] fade-in">
+    <td class="px-4 py-2 text-gray-500">${r.time}</td>
+    <td class="px-4 py-2">${r.layout}</td>
+    <td class="px-4 py-2 text-gray-400">${r.legs}</td>
+    <td class="px-4 py-2"><span class="badge ${r.win?'badge-em':'badge-red'}">${r.win?'WIN':'LOSS'}</span></td>
+    <td class="px-4 py-2 text-right font-bold" style="color:${r.win?'#10b981':'#ef4444'}">${r.pnl>0?'+':''}${r.pnl.toFixed(2)}</td>
+  </tr>`;
+}
+(function initTrades(){
+  const tb = $('#tradesBody');
+  tb.innerHTML = Array.from({length:10}, mockTrade).map(tradeRow).join('');
+  setInterval(()=>{
+    const tr = document.createElement('tbody');
+    tr.innerHTML = tradeRow(mockTrade());
+    tb.insertBefore(tr.firstChild, tb.firstChild);
+    while (tb.children.length > 10) tb.removeChild(tb.lastChild);
+  }, 4200);
+})();
+
+setInterval(()=>{
+  if ($('#lat')) $('#lat').textContent = (Math.random()*12 + 6).toFixed(0) + ' ms';
+  if ($('#tpm')) $('#tpm').textContent = (Math.random()*8 + 56).toFixed(0);
+}, 2000);
+
+// ══════════════════════════════════════════════════════
+//  DERIV CONNECT
+// ══════════════════════════════════════════════════════
+let DERIV_WS = null;
+let DERIV_ACCT = 'demo';
+let AUTHORIZED = false;
+let OAUTH_TOKENS = { real:null, demo:null };
+let SESSION_PNL = 0;
+
+function startDerivOAuth(){
+  const url = `https://oauth.deriv.com/oauth2/authorize?app_id=${CONFIG.APP_ID}` +
+              `&l=en&redirect_uri=${encodeURIComponent(CONFIG.REDIRECT_URI)}`;
+  toast('Redirecting to Deriv…');
+  window.location.href = url;
+}
+
+function consumeOAuthFragment(){
+  const h = window.location.hash;
+  if (!h || !h.includes('token=')) return false;
+  const p = new URLSearchParams(h.slice(1));
+  const tokens = [];
+  for (let i = 1; i <= 5; i++){
+    const suf = i === 1 ? '' : i;
+    const t = p.get('token' + suf);
+    const a = p.get('acct' + suf);
+    const c = p.get('cur' + suf);
+    if (t && a){
+      const isDemo = a.startsWith('VR') || a.startsWith('VRTC');
+      tokens.push({ token:t, acct:a, cur:c, demo:isDemo });
     }
-  }catch(e){ /* ignore */ }
+  }
+  if (!tokens.length) return false;
+
+  tokens.forEach(t => {
+    if (t.demo) OAUTH_TOKENS.demo = t;
+    else        OAUTH_TOKENS.real = t;
+  });
+
+  history.replaceState(null, '', window.location.pathname + window.location.search);
+
+  const first = OAUTH_TOKENS.demo || OAUTH_TOKENS.real;
+  if (first) authorizeWithToken(first.token);
+  toast('Authorization received ✓');
+  return true;
 }
 
-async function openBoard(){
-  applySurface();
-  boardEl.classList.add('on');
-  document.body.classList.add('locked');
+function authorizeWithToken(tok){
+  try {
+    if (DERIV_WS) DERIV_WS.close();
+    DERIV_WS = new WebSocket(`wss://ws.derivws.com/websockets/v3?app_id=${CONFIG.APP_ID}`);
 
-  try{
-    if (document.documentElement.requestFullscreen){
-      await document.documentElement.requestFullscreen({ navigationUI:'hide' });
-    }
-  }catch(e){ /* ignore */ }
-
-  await requestWake();
-  pokeUI();
-}
-
-function closeBoard(){
-  boardEl.classList.remove('on');
-  document.body.classList.remove('locked');
-  buiEl.classList.remove('show');
-  clearTimeout(hideTimer);
-
-  if (wakeLock){ try{ wakeLock.release(); }catch(e){} wakeLock = null; }
-
-  if (document.fullscreenElement && document.exitFullscreen){
-    document.exitFullscreen().catch(()=>{});
+    DERIV_WS.onopen = () => {
+      DERIV_WS.send(JSON.stringify({ authorize: tok, req_id: 1 }));
+    };
+    DERIV_WS.onmessage = (e) => {
+      const d = JSON.parse(e.data);
+      if (d.msg_type === 'authorize' && d.authorize){
+        const a = d.authorize;
+        AUTHORIZED = true;
+        DERIV_ACCT = (a.is_virtual || a.loginid?.startsWith('VR')) ? 'demo' : 'real';
+        $('#accId').textContent = a.loginid || '—';
+        $('#balVal').textContent = parseFloat(a.balance || 0).toFixed(2);
+        $('#curVal').textContent = a.currency || '—';
+        $('#connState').classList.remove('hidden');
+        const ob = $('#oauthBtn');
+        if (ob){ ob.innerHTML = '✓ Connected'; ob.disabled = true; ob.style.opacity = .65; }
+        setAcct(DERIV_ACCT, false);
+        DERIV_WS.send(JSON.stringify({ balance:1, subscribe:1, req_id:2 }));
+        toast('Connected to Deriv ✓');
+      }
+      if (d.msg_type === 'balance' && d.balance){
+        $('#balVal').textContent = parseFloat(d.balance.balance).toFixed(2);
+        $('#curVal').textContent = d.balance.currency || $('#curVal').textContent;
+      }
+      if (d.error){
+        toast(d.error.message || 'Deriv error', 'err');
+        const cb = $('#connectBtn'); if (cb){ cb.disabled = false; cb.textContent = 'Connect'; }
+      }
+    };
+    DERIV_WS.onclose = () => { AUTHORIZED = false; };
+    DERIV_WS.onerror = () => { toast('Could not reach Deriv', 'err'); };
+  } catch(err){
+    toast('Connection failed', 'err');
   }
 }
 
-document.getElementById('launchBoard').addEventListener('click', openBoard);
-document.getElementById('bexit').addEventListener('click', closeBoard);
-
-boardEl.addEventListener('pointerdown', e => {
-  if (e.target.closest('#bui')) return;
-  pokeUI();
-});
-
-document.addEventListener('fullscreenchange', () => {
-  if (!document.fullscreenElement && boardEl.classList.contains('on')) closeBoard();
-});
-
-document.addEventListener('keydown', e => {
-  if (e.key === 'Escape' && boardEl.classList.contains('on')) closeBoard();
-});
-
-document.addEventListener('visibilitychange', () => {
-  if (!document.hidden && boardEl.classList.contains('on')) requestWake();
-});
-
-/* ============================================================
-   LOUPE
-   ============================================================ */
-const lv      = document.getElementById('lv');
-const lstage  = document.getElementById('lstage');
-const lmsg    = document.getElementById('lmsg');
-const lstart  = document.getElementById('lstart');
-const lstop   = document.getElementById('lstop');
-const ltorch  = document.getElementById('ltorch');
-const linv    = document.getElementById('linv');
-const lshot   = document.getElementById('lshot');
-const lzoom   = document.getElementById('lzoom');
-const lcon    = document.getElementById('lcon');
-const lsat    = document.getElementById('lsat');
-const film    = document.getElementById('film');
-
-let lstream = null;
-let ltrack  = null;
-let lz = 1, ltx = 0, lty = 0;
-let dragging = false, dsx = 0, dsy = 0, dtlx = 0, dtly = 0;
-let torchOn = false;
-let inverted = false;
-let frozen = false;
-
-const clamp = (v,a,b) => Math.min(b, Math.max(a, v));
-
-function applyLoupeTransform(){
-  const r = lstage.getBoundingClientRect();
-  const mx = Math.max(0, (lz - 1) * r.width  / 2);
-  const my = Math.max(0, (lz - 1) * r.height / 2);
-  ltx = clamp(ltx, -mx, mx);
-  lty = clamp(lty, -my, my);
-  lv.style.transform = `translate(${ltx}px, ${lty}px) scale(${lz})`;
+function connectDeriv(){
+  const tok = $('#derivToken').value.trim();
+  if (!tok){ toast('Paste your token first', 'err'); return; }
+  if (tok.length < 10){ toast('Token looks too short', 'err'); return; }
+  const btn = $('#connectBtn');
+  btn.disabled = true; btn.textContent = 'Connecting…';
+  authorizeWithToken(tok);
 }
 
-function applyFilters(){
-  lv.style.setProperty('--inv', inverted ? 1 : 0);
-  lv.style.setProperty('--con', (lcon.value / 100).toFixed(2));
-  lv.style.setProperty('--sat', (lsat.value / 100).toFixed(2));
+function disconnectDeriv(){
+  if (DERIV_WS) DERIV_WS.close();
+  DERIV_WS = null; AUTHORIZED = false;
+  OAUTH_TOKENS = { real:null, demo:null };
+  $('#connState').classList.add('hidden');
+  const ob = $('#oauthBtn');
+  if (ob){
+    ob.disabled = false; ob.style.opacity = 1;
+    ob.innerHTML = `<svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg> Connect with Deriv`;
+  }
+  toast('Disconnected');
 }
 
-async function startLoupe(){
-  try{
-    lstream = await navigator.mediaDevices.getUserMedia({
-      video:{
-        facingMode:{ ideal:'environment' },
-        width:{ ideal:1920 }, height:{ ideal:1080 }
-      },
-      audio:false
-    });
-    lv.srcObject = lstream;
-    await lv.play();
-
-    ltrack = lstream.getVideoTracks()[0];
-    const caps = ltrack.getCapabilities ? ltrack.getCapabilities() : {};
-    ltorch.disabled = !caps.torch;
-
-    lmsg.classList.add('hidden');
-    lstart.disabled = true;
-    lstop.disabled  = false;
-    lshot.disabled  = false;
-    lz = 1; ltx = 0; lty = 0;
-    lzoom.value = 100;
-    applyLoupeTransform();
-    applyFilters();
-  }catch(err){
-    lmsg.classList.remove('hidden');
-    lmsg.innerHTML =
-      `<span class="big">🚫</span><span>Camera unavailable.<br>
-       <small>${err.name || 'Error'} — allow camera access and reload.</small></span>`;
+function setAcct(t, reauth=true){
+  DERIV_ACCT = t;
+  $('#tabReal').classList.toggle('on', t==='real');
+  $('#tabDemo').classList.toggle('on', t==='demo');
+  const stash = OAUTH_TOKENS[t];
+  if (reauth && stash && stash.token && AUTHORIZED){
+    authorizeWithToken(stash.token);
+  } else {
+    toast(t==='real' ? 'Real account view' : 'Demo account view', 'info');
   }
 }
 
-function stopLoupe(){
-  if (lstream) lstream.getTracks().forEach(t => t.stop());
-  lstream = null; ltrack = null;
-  lv.srcObject = null;
-  lmsg.classList.remove('hidden');
-  lmsg.innerHTML = `<span class="big">🔍</span><span>Camera off.<br>Press <b>Start camera</b> to inspect the print.</span>`;
-  lstart.disabled = false;
-  lstop.disabled  = true;
-  ltorch.disabled = true;
-  lshot.disabled  = true;
-  ltorch.classList.remove('on');
-  torchOn = false;
+// ══════════════════════════════════════════════════════
+//  PAYMENT FLOW
+// ══════════════════════════════════════════════════════
+function openPayment(){
+  if (!AUTHORIZED){
+    toast('Connect your Deriv account first', 'err');
+    focusConnect();
+    return;
+  }
+  $('#payModal').classList.add('on');
+  $('#stagePreparing').classList.remove('hidden');
+  $('#stageQR').classList.add('hidden');
+  $('#stageDone').classList.add('hidden');
+
+  const steps = ['Initializing…','Verifying account scope…','Opening secure channel…','Generating wallet reference…','Preparing QR payload…'];
+  const bar = $('#prepBar'); const ps = $('#prepStep'); let i = 0;
+  bar.style.width = '0%';
+  const iv = setInterval(()=>{
+    ps.textContent = steps[i];
+    bar.style.width = ((i+1)/steps.length*100) + '%';
+    i++;
+    if (i >= steps.length){ clearInterval(iv); setTimeout(showQR, 450); }
+  }, 420);
 }
 
-/* --- pan --- */
-lstage.addEventListener('pointerdown', e => {
-  if (!lstream) return;
-  dragging = true;
-  dsx = e.clientX; dsy = e.clientY;
-  dtlx = ltx; dtly = lty;
-  try{ lstage.setPointerCapture(e.pointerId); }catch(err){}
-});
+function showQR(){
+  $('#stagePreparing').classList.add('hidden');
+  $('#stageQR').classList.remove('hidden');
 
-lstage.addEventListener('pointermove', e => {
-  if (!dragging) return;
-  ltx = dtlx + (e.clientX - dsx);
-  lty = dtly + (e.clientY - dsy);
-  applyLoupeTransform();
-});
+  const addr = CONFIG.USDT_ADDRESS;
+  const uri = `tron:${addr}?amount=${CONFIG.PRICE_USDT}&token=USDT`;
+  $('#usdtAddr').value = addr;
 
-['pointerup','pointercancel','pointerleave'].forEach(ev =>
-  lstage.addEventListener(ev, () => { dragging = false; }));
+  const box = $('#qrBox');
+  box.innerHTML = '';
+  new QRCode(box, { text:uri, width:200, height:200, correctLevel:QRCode.CorrectLevel.M });
+}
 
-/* --- zoom --- */
-lzoom.addEventListener('input', () => {
-  lz = lzoom.value / 100;
-  applyLoupeTransform();
-});
+function copyAddr(){
+  const a = $('#usdtAddr').value;
+  navigator.clipboard.writeText(a).then(()=>{
+    $('#copyBtn').textContent = 'Copied';
+    toast('Address copied');
+    setTimeout(()=>{ $('#copyBtn').textContent = 'Copy'; }, 1600);
+  }).catch(()=>{
+    $('#usdtAddr').select(); document.execCommand('copy');
+    toast('Address copied');
+  });
+}
 
-/* --- filters --- */
-lcon.addEventListener('input', applyFilters);
-lsat.addEventListener('input', applyFilters);
+const TX_REGEX = /^(0x)?[0-9a-fA-F]{64}$/;
 
-linv.addEventListener('click', () => {
-  inverted = !inverted;
-  linv.classList.toggle('on', inverted);
-  applyFilters();
-});
+function submitProof(){
+  const v = $('#txHash').value.trim();
+  const st = $('#txStatus');
+  st.classList.remove('hidden');
+  if (!v){ st.style.color='#f87171'; st.textContent='✗ Paste your transaction hash'; return; }
+  if (!TX_REGEX.test(v)){ st.style.color='#f87171'; st.textContent='✗ Hash must be 64 hex chars (0x optional)'; return; }
 
-/* --- torch --- */
-ltorch.addEventListener('click', async () => {
-  if (!ltrack) return;
-  try{
-    torchOn = !torchOn;
-    await ltrack.applyConstraints({ advanced:[{ torch: torchOn }] });
-    ltorch.classList.toggle('on', torchOn);
-  }catch(e){
-    ltorch.classList.remove('on');
-    torchOn = false;
+  st.style.color='#34d399'; st.textContent='✓ Hash format valid — submitting…';
+
+  const entry = {
+    id:'PAY-' + Date.now().toString(36).toUpperCase(),
+    hash:v, amount:CONFIG.PRICE_USDT, network:'TRC20',
+    acct: $('#accId')?.textContent || 'unknown',
+    submitted: new Date().toISOString(), status:'pending'
+  };
+  const q = JSON.parse(localStorage.getItem('bm_queue') || '[]');
+  q.unshift(entry);
+  localStorage.setItem('bm_queue', JSON.stringify(q));
+
+  setTimeout(()=>{
+    $('#stageQR').classList.add('hidden');
+    $('#stageDone').classList.remove('hidden');
+    $('#doneRef').textContent = entry.id;
+  }, 700);
+}
+
+function closePayment(){ $('#payModal').classList.remove('on'); }
+
+// ══════════════════════════════════════════════════════
+//  HIDDEN ADMIN
+// ══════════════════════════════════════════════════════
+let adminTaps = 0, adminTimer = null;
+
+function tapAdmin(){
+  adminTaps++;
+  const dot = $('#adminDot');
+  dot.classList.add('arm');
+  clearTimeout(adminTimer);
+  adminTimer = setTimeout(()=>{ adminTaps = 0; dot.classList.remove('arm'); }, 1200);
+  if (adminTaps >= 3){
+    adminTaps = 0;
+    dot.classList.remove('arm');
+    const pin = prompt('Admin PIN');
+    if (pin === CONFIG.ADMIN_PIN) openAdmin();
+    else if (pin !== null) toast('Wrong PIN', 'err');
   }
-});
+}
 
-/* --- capture --- */
-lshot.addEventListener('click', () => {
-  if (!lv.videoWidth) return;
-  const c = document.createElement('canvas');
-  c.width = 200; c.height = 200;
-  const cx = c.getContext('2d');
+function openAdmin(){ $('#adminModal').classList.add('on'); renderAdmin(); }
+function closeAdmin(){ $('#adminModal').classList.remove('on'); }
 
-  const vw = lv.videoWidth, vh = lv.videoHeight;
-  const side = Math.min(vw, vh);
-  const sx = (vw - side) / 2, sy = (vh - side) / 2;
+function renderAdmin(){
+  const q = JSON.parse(localStorage.getItem('bm_queue') || '[]');
+  $('#statPending').textContent  = q.filter(x=>x.status==='pending').length;
+  $('#statApproved').textContent = q.filter(x=>x.status==='approved').length;
+  $('#statRejected').textContent = q.filter(x=>x.status==='rejected').length;
 
-  cx.drawImage(lv, sx, sy, side, side, 0, 0, 200, 200);
+  const list = $('#adminList');
+  if (!q.length){ list.innerHTML = `<div class="text-center text-gray-500 py-8">No submissions yet.</div>`; return; }
 
-  if (inverted){
-    const img = cx.getImageData(0, 0, 200, 200);
-    const d = img.data;
-    for (let i = 0; i < d.length; i += 4){
-      d[i]   = 255 - d[i];
-      d[i+1] = 255 - d[i+1];
-      d[i+2] = 255 - d[i+2];
-    }
-    cx.putImageData(img, 0, 0);
-  }
-
-  film.prepend(c);
-  while (film.children.length > 12) film.removeChild(film.lastChild);
-});
-
-/* --- buttons --- */
-lstart.addEventListener('click', startLoupe);
-lstop.addEventListener('click', stopLoupe);
-
-document.addEventListener('visibilitychange', () => {
-  if (document.hidden && lstream) stopLoupe();
-});
-
-applyFilters();
-
-/* ============================================================
-   ROUTINE
-   ============================================================ */
-const ROUTINE = [
-  {
-    n:1, t:'Prepare the screening surface', s:'Clean glass · max brightness · auto-bright off',
-    ch:'white',
-    body:`<p>Everything downstream depends on this step. A smudged screen prints fake marks
-    through the paper, and a dim screen hides the watermark entirely.</p>
-    <div class="do"><b>DO THIS</b>Turn auto-brightness off in your display settings. Set brightness to 100%.
-    Wipe the glass with a microfibre cloth. Lay the phone flat on a table, screen up.</div>`,
-    good:'Even, uniform glow with no blotches or streaks.',
-    bad:'Dim corners, visible fingerprints, or the screen auto-dimming while you work.'
-  },
-  {
-    n:2, t:'Watermark in transmitted light', s:'Lion head + electrotype denomination',
-    ch:'white',
-    body:`<p>Place the note flat on the glowing screen and look straight down at it. The light passes
-    through the paper and the internal watermark becomes visible as soft light and dark shading.</p>
-    <div class="do"><b>DO THIS</b>Look for the lion's head and the electrotype denomination beside it.
-    Move the note slowly across the light and watch how the shading changes. Then flip the note over
-    — the watermark should read the same way round, because it is inside the paper, not on the surface.</div>`,
-    good:'Soft, multi-tonal shading with gradual transitions and no hard outline. Clearly three-dimensional.',
-    bad:'A flat grey shape, a sharp printed outline, or no image at all. Any watermark that looks like a drawing printed on the surface.'
-  },
-  {
-    n:3, t:'Windowed security thread', s:'Continuous line, dips in and out of the paper',
-    ch:'cyan',
-    body:`<p>The thread is embedded inside the paper and only surfaces at the windows. In transmitted
-    light the embedded sections read as a solid dark line while the window sections stay brighter.</p>
-    <div class="do"><b>DO THIS</b>Backlight the note and trace the thread from top to bottom.
-    Then tilt the note slightly — the exposed window sections should shift colour.</div>`,
-    good:'A single continuous dark line with clean edges, plus colour-shifting windows that sit flush with the paper.',
-    bad:'A dashed printed line that does not connect, a silver strip stuck on top, or a thread that stops short.'
-  },
-  {
-    n:4, t:'See-through register', s:'Front and back print must align perfectly',
-    ch:'white',
-    body:`<p>Parts of the design are printed on the front and parts on the back. When backlit, they
-    must line up into one complete shape with no offset.</p>
-    <div class="do"><b>DO THIS</b>Backlight the note and find the register shape. Check the alignment
-    of the front and back elements. Even a half-millimetre of offset is a strong fake signal.</div>`,
-    good:'Front and back elements lock together into a single clean shape.',
-    bad:'A visible double image, a ghosted edge, or a shape that never completes.'
-  },
-  {
-    n:5, t:'Red channel — ink layering', s:'Reveals how the ink was laid down',
-    ch:'red',
-    body:`<p>Under pure red light, red inks transmit and appear bright while other colours absorb
-    and darken. This exposes the layering and density of the printing.</p>
-    <div class="do"><b>DO THIS</b>Switch the board to red and place the note on it. Watch for areas that
-    go completely flat or black where they should show detail — that indicates a single-pass print.</div>`,
-    good:'Rich, uneven ink density with visible detail retained in the dark areas.',
-    bad:'Large flat black areas, banding, or detail that vanishes completely.'
-  },
-  {
-    n:6, t:'Violet channel — UV approximation', s:'Screen approximation only — see the warning',
-    ch:'violet',
-    body:`<p>Phone screens emit almost no true UV-A, so this is only a rough approximation.
-    Genuine banknote paper is deliberately dull and non-fluorescent under UV, while some
-    security fibres and inks fluoresce brightly.</p>
-    <div class="do"><b>DO THIS</b>Switch to violet and dim the room. Look for a dull paper base with
-    scattered bright fibres. If the entire note glows a bright blue-white, the paper is wrong.
-    For a real test you need a dedicated 365 nm UV torch.</div>`,
-    good:'Dull, non-glowing paper base with distinct bright fibres and a few fluorescent elements.',
-    bad:'The whole note glowing bright blue-white — that is ordinary bleached office paper.'
-  },
-  {
-    n:7, t:'Tilt test — colour-shift foil', s:'Hue change under movement',
-    ch:'strobe',
-    body:`<p>The foil patch and the thread windows contain optically variable elements that change
-    hue as the viewing angle changes. A static screen cannot copy this.</p>
-    <div class="do"><b>DO THIS</b>With the board on strobe or white, hold the note flat and slowly
-    rock it back and forth through about 30 degrees. Watch the foil patch.</div>`,
-    good:'A clear hue shift — for example gold to green, or a rainbow sweep — plus a visible shift in the thread windows.',
-    bad:'A static printed rainbow, a flat grey patch, or no change at all as you tilt.'
-  },
-  {
-    n:8, t:'Raking light — raised intaglio print', s:'Feel it, then see the shadows',
-    ch:'white',
-    body:`<p>Intaglio ink sits in thick raised ridges above the paper. Raking light makes those ridges
-    cast tiny shadows, and your fingertip can feel them directly.</p>
-    <div class="do"><b>DO THIS</b>Hold the note at a very shallow angle to the glowing screen, almost
-    edge-on, so light skims across the surface. Look at the large numeral and the portrait area.
-    Then close your eyes and run a fingernail across the numeral — it should catch.</div>`,
-    good:'Visible relief with sharp shadow edges. A distinctly rough, grippy feel under the fingernail.',
-    bad:'A perfectly smooth surface. Flat print with no shadow, no relief and no texture.'
-  },
-  {
-    n:9, t:'Loupe — microprint and edges', s:'Switch to the Loupe tab',
-    ch:'white',
-    body:`<p>Microprinting is one of the hardest features to counterfeit. Open the <b>Loupe</b> tab,
-    start the camera, and zoom to maximum on the microtext band.</p>
-    <div class="do"><b>DO THIS</b>Zoom in hard. Try the <b>Invert</b> button to judge ink density.
-    Then use the <b>Torch</b> at a low angle to check for intaglio relief.</div>`,
-    good:'Crisp, individually legible letters with clean edges. Consistent ink density along the line.',
-    bad:'Letters that merge into a solid bar, dot-matrix texture, colour fringing, or fuzzy bleeding edges.'
-  },
-  {
-    n:10, t:'Serial numbers', s:'Two serials, identical quality',
-    ch:'white',
-    body:`<p>Kenyan notes carry two serial numbers. They should match in font, weight, spacing and
-    ink depth, and be printed by the same process as the rest of the note.</p>
-    <div class="do"><b>DO THIS</b>Compare both serials side by side using the Loupe. Check the numeral
-    shapes and the spacing between digits.</div>`,
-    good:'Both serials crisp, evenly spaced and consistent in weight and colour.',
-    bad:'Different fonts between the two, uneven digit spacing, or a serial that looks inkjet printed.'
-  },
-  {
-    n:11, t:'If you are still unsure', s:'Stop and escalate',
-    ch:'white',
-    body:`<p>No phone tool can give a definitive answer. If a note fails several of the checks above,
-    do not pass it on — passing a counterfeit is an offence even if you received it unknowingly.</p>
-    <div class="do"><b>DO THIS</b>Note where and when you received it. Take it to your bank,
-    the Central Bank of Kenya, or the police. Do not attempt to spend it.</div>`,
-    good:'You have documented the note and handed it in.',
-    bad:'Passing it on to someone else.'
-  }
-];
-
-const stepsEl = document.getElementById('steps');
-stepsEl.innerHTML = ROUTINE.map(s => `
-  <div class="step" data-n="${s.n}">
-    <div class="step-head">
-      <span class="num">${String(s.n).padStart(2,'0')}</span>
-      <span class="tt"><b>${s.t}</b><span>${s.s}</span></span>
-      <span class="arw">▶</span>
-    </div>
-    <div class="step-body">
-      ${s.body}
-      <div class="truth">
-        <div class="g"><b>✓ GENUINE</b>${s.good}</div>
-        <div class="b"><b>✕ SUSPECT</b>${s.bad}</div>
+  list.innerHTML = q.map(e=>`
+    <div class="card-2 p-4">
+      <div class="flex items-center justify-between flex-wrap gap-2 mb-3">
+        <div class="flex items-center gap-2">
+          <span class="badge ${e.status==='pending'?'badge-am':e.status==='approved'?'badge-em':'badge-red'}">${e.status.toUpperCase()}</span>
+          <span class="mono text-xs text-gray-400">${e.id}</span>
+        </div>
+        <span class="text-xs text-gray-500">${new Date(e.submitted).toLocaleString()}</span>
       </div>
-      <button class="btn pri use-light" data-ch="${s.ch}">▦ Open board · ${s.ch.toUpperCase()}</button>
+      <div class="grid grid-cols-2 gap-3 mb-3 text-xs">
+        <div><div class="text-gray-500 mb-1">Amount</div><div class="mono">${e.amount} USDT</div></div>
+        <div><div class="text-gray-500 mb-1">Network</div><div class="mono">${e.network}</div></div>
+        <div class="col-span-2"><div class="text-gray-500 mb-1">Account</div><div class="mono">${e.acct}</div></div>
+        <div class="col-span-2"><div class="text-gray-500 mb-1">TX Hash</div><div class="mono break-all text-[10px]">${e.hash}</div></div>
+      </div>
+      ${e.status==='pending' ? `
+        <div class="flex gap-2">
+          <button onclick="adminAct('${e.id}','approved')" class="btn flex-1 py-2 rounded-lg text-xs" style="background:#10b981;color:#04140d">Approve</button>
+          <button onclick="adminAct('${e.id}','rejected')" class="btn flex-1 py-2 rounded-lg text-xs" style="background:#1f2937;color:#e5e7eb">Reject</button>
+          <button onclick="window.open('https://tronscan.org/#/transaction/${e.hash}','_blank')" class="btn px-3 py-2 rounded-lg text-xs" style="background:#1f2937;color:#e5e7eb">View ↗</button>
+        </div>` : ''}
     </div>
-  </div>`).join('');
+  `).join('');
+}
 
-stepsEl.querySelectorAll('.step-head').forEach(h => {
-  h.addEventListener('click', () => {
-    const step = h.parentElement;
-    const wasOpen = step.classList.contains('open');
-    stepsEl.querySelectorAll('.step').forEach(s => s.classList.remove('open'));
-    if (!wasOpen) step.classList.add('open');
+function adminAct(id, action){
+  const q = JSON.parse(localStorage.getItem('bm_queue') || '[]');
+  const i = q.findIndex(x=>x.id===id);
+  if (i>=0){ q[i].status = action; q[i].verified = new Date().toISOString(); }
+  localStorage.setItem('bm_queue', JSON.stringify(q));
+  toast(`Submission ${action}`, action==='approved'?'ok':'err');
+  renderAdmin();
+}
+
+// ══════════════════════════════════════════════════════
+//  INIT
+// ══════════════════════════════════════════════════════
+document.querySelectorAll('a[href^="#"]').forEach(a=>{
+  a.addEventListener('click', (ev)=>{
+    const t = document.querySelector(a.getAttribute('href'));
+    if (t){ ev.preventDefault(); t.scrollIntoView({behavior:'smooth'}); }
   });
 });
 
-stepsEl.querySelectorAll('.use-light').forEach(b => {
-  b.addEventListener('click', e => {
-    e.stopPropagation();
-    currentChannel = b.dataset.ch;
-    bdots.querySelectorAll('.bdot').forEach(x =>
-      x.classList.toggle('on', x.dataset.id === currentChannel));
-    cgrid.querySelectorAll('.cbtn').forEach(x =>
-      x.classList.toggle('active', x.dataset.id === currentChannel));
-    openBoard();
-  });
+let keyBuf = '';
+document.addEventListener('keydown', (e)=>{
+  keyBuf = (keyBuf + e.key).slice(-5).toLowerCase();
+  if (keyBuf === 'admin'){
+    keyBuf = '';
+    const pin = prompt('Admin PIN');
+    if (pin === CONFIG.ADMIN_PIN) openAdmin();
+  }
 });
 
-/* open the first step by default */
-const firstStep = stepsEl.querySelector('.step');
-if (firstStep) firstStep.classList.add('open');
+window.addEventListener('DOMContentLoaded', ()=>{
+  setTimeout(consumeOAuthFragment, 250);
+});
 
-/* ============================================================
-   INIT
-   ============================================================ */
-applySurface();
+console.log('%cBapis Mind','color:#10b981;font-weight:800;font-size:16px');
+console.log('%cAdmin: tap footer dot 3× or type "admin"','color:#6b7280');
 </script>
 </body>
 </html>
