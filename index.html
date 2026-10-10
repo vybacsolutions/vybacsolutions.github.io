@@ -676,8 +676,9 @@ setInterval(()=>{
 // ══════════════════════════════════════════════════════
 //  DERIV CONNECT
 // ══════════════════════════════════════════════════════
+
 // ══════════════════════════════════════════════════════
-//  DERIV OAUTH 2.0 + PKCE (NEW SYSTEM)
+//  DERIV OAUTH (LEGACY — matches your registered app)
 // ══════════════════════════════════════════════════════
 let DERIV_WS = null;
 let DERIV_ACCT = 'demo';
@@ -685,43 +686,10 @@ let AUTHORIZED = false;
 let OAUTH_TOKENS = { real: null, demo: null };
 let SESSION_PNL = 0;
 
-// Generate PKCE parameters
-async function generatePKCE() {
-  const array = crypto.getRandomValues(new Uint8Array(64));
-  const codeVerifier = Array.from(array)
-    .map(v => 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-._~'[v % 66])
-    .join('');
-  const hash = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(codeVerifier));
-  const codeChallenge = btoa(String.fromCharCode(...new Uint8Array(hash)))
-    .replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
-  const state = crypto.getRandomValues(new Uint8Array(16))
-    .reduce((s, b) => s + b.toString(16).padStart(2, '0'), '');
-  sessionStorage.setItem('pkce_code_verifier', codeVerifier);
-  sessionStorage.setItem('oauth_state', state);
-  return { codeVerifier, codeChallenge, state };
-}
-
-async function startDerivOAuth() {
-  try {
-    const { codeChallenge, state } = await generatePKCE();
-    const scope = 'trade account_manage application_read';
-    
-    const url = `https://auth.deriv.com/oauth2/auth?` +
-      `response_type=code` +
-      `&client_id=${CONFIG.APP_ID}` +
-      `&redirect_uri=${encodeURIComponent(CONFIG.REDIRECT_URI)}` +
-      `&scope=${encodeURIComponent(scope)}` +
-      `&state=${state}` +
-      `&code_challenge=${codeChallenge}` +
-      `&code_challenge_method=S256` +
-      `&app_id=${CONFIG.APP_ID}`;  // legacy app_id for compatibility
-    
-    toast('Redirecting to Deriv…');
-    window.location.href = url;
-  } catch (err) {
-    toast('OAuth init failed', 'err');
-    console.error(err);
-  }
+function startDerivOAuth(){
+  const url = `https://oauth.deriv.com/oauth2/authorize?app_id=${CONFIG.APP_ID}`;
+  toast('Redirecting to Deriv…');
+  window.location.href = url;
 }
 
 function consumeOAuthFragment(){
@@ -736,23 +704,22 @@ function consumeOAuthFragment(){
     const c = p.get('cur' + suf);
     if (t && a){
       const isDemo = a.startsWith('VR') || a.startsWith('VRTC');
-      tokens.push({ token:t, acct:a, cur:c, demo:isDemo });
+      tokens.push({ token: t, acct: a, cur: c, demo: isDemo });
     }
   }
   if (!tokens.length) return false;
-
   tokens.forEach(t => {
     if (t.demo) OAUTH_TOKENS.demo = t;
     else        OAUTH_TOKENS.real = t;
   });
-
   history.replaceState(null, '', window.location.pathname + window.location.search);
-
   const first = OAUTH_TOKENS.demo || OAUTH_TOKENS.real;
   if (first) authorizeWithToken(first.token);
   toast('Authorization received ✓');
   return true;
 }
+  
+                                          // ══════════════════════════════════════════════════════
 
 function authorizeWithToken(tok){
   try {
